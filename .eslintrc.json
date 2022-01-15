@@ -5,8 +5,7 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:prettier/recommended"
+        "plugin:@typescript-eslint/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -14,19 +13,9 @@
         "sourceType": "module"
     },
     "plugins": [
-        "@typescript-eslint",
-        "prefer-arrow"
+        "@typescript-eslint"
     ],
     "rules": {
-        "@typescript-eslint/no-explicit-any": 0,
-        "prefer-arrow/prefer-arrow-functions": [
-            "warn",
-            {
-                "disallowPrototype": true,
-                "singleReturnOnly": false,
-                "classPropertiesAllowed": false
-            }
-        ]
-    },
-    "ignorePatterns": [ "jest.config.js", "@types/*"]
+        "@typescript-eslint/no-explicit-any": 0
+    }
 }
