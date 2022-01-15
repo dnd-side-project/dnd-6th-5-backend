@@ -1,0 +1,32 @@
+{
+    "name": "dnd-6th-5-backend",
+    "version": "1.0.0",
+    "description": "### member - 이광수, 최예원",
+    "main": "index.js",
+    "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnd-side-project/dnd-6th-5-backend.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+    "url": "https://github.com/dnd-side-project/dnd-6th-5-backend/issues"
+    },
+    "homepage": "https://github.com/dnd-side-project/dnd-6th-5-backend#readme",
+    "dependencies": {
+        "@types/express": "^4.17.11",
+        "express": "^4.17.1"
+    },
+    "devDependencies": {
+        "@types/jest": "^26.0.23",
+        "@typescript-eslint/eslint-plugin": "^4.23.0",
+        "@typescript-eslint/parser": "^4.23.0",
+        "dotenv": "^9.0.2",
+        "eslint": "^7.26.0",
+        "jest": "^26.6.3"
+    }
+}
