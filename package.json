@@ -4,17 +4,18 @@
   "description": "### member - 이광수, 최예원",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec ts-node ./srcs/app.ts"
+    "start": "nodemon --exec ts-node ./srcs/app.ts",
+    "test": "jest"
   },
   "repository": {
-  "type": "git",
-  "url": "git+https://github.com/dnd-side-project/dnd-6th-5-backend.git"
+    "type": "git",
+    "url": "git+https://github.com/dnd-side-project/dnd-6th-5-backend.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-  "url": "https://github.com/dnd-side-project/dnd-6th-5-backend/issues"
+    "url": "https://github.com/dnd-side-project/dnd-6th-5-backend/issues"
   },
   "homepage": "https://github.com/dnd-side-project/dnd-6th-5-backend#readme",
   "dependencies": {
@@ -22,7 +23,7 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^26.0.24",
     "@typescript-eslint/eslint-plugin": "^4.23.0",
     "@typescript-eslint/parser": "^4.23.0",
     "dotenv": "^9.0.2",
