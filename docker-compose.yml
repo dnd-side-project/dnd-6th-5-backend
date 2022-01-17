@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+    app:
+        container_name: app
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        env_file:
+            - .env # .env.prod 내용을 secrets에 복사해줍니다.
+        expose:
+            - '3000'
+        volumes:
+            - ./:/app/
+
+    nginx:
+        image: nginx:latest
+        container_name: nginx
+        volumes:
+            - ./proxy/nginx.conf:/etc/nginx/nginx.conf
+        ports:
+            - '80:80'
+        restart: 'always'
