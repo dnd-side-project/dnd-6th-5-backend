@@ -20,9 +20,12 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
 
-            - name: npm install, build, and test
+            - name: npm install, run lint
               run: |
                   npm ci
                   npm run lint
               env:
                   CI: true
+
+            - name: Run Tests
+              run: npm test
