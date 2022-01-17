@@ -4,7 +4,7 @@ FROM node:16-alpine3.11
 WORKDIR /app
 
 # Copy package.json file to work directory
-COPY package.json .
+COPY ./package*.json ./
 RUN npm install
 
 # Copy project

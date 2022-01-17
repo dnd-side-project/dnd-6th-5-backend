@@ -27,5 +27,6 @@
                 "classPropertiesAllowed": false
             }
         ]
-    }
+    },
+    "root":true
 }
