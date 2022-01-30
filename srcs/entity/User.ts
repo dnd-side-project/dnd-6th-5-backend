@@ -22,22 +22,22 @@ export class User extends BaseEntity {
     @Column('varchar', { name: 'address', length: 50, nullable: false })
     address!: string;
 
-    @Column({ type: 'enum', name: 'company_scale', nullable: false })
+    @Column({ type: 'enum', name: 'company_scale', nullable: false, enum: CompanyScale })
     companyScale!: CompanyScale;
 
-    @Column({ type: 'enum', name: 'work_period', nullable: false })
+    @Column({ type: 'enum', name: 'work_period', nullable: false, enum: WorkPeriod })
     workPeriod!: WorkPeriod;
 
-    @Column({ type: 'enum', name: 'income' })
+    @Column({ type: 'enum', name: 'income', enum: Income })
     income!: Income;
 
-    @Column({ type: 'enum', name: 'asset' })
+    @Column({ type: 'enum', name: 'asset', enum: Asset })
     asset!: Asset;
 
-    @Column({ type: 'enum', name: 'has_house' })
+    @Column({ type: 'enum', name: 'has_house', enum: HasHouse })
     hasHouse!: HasHouse;
 
-    @Column({ type: 'enum', name: 'is_householder' })
+    @Column({ type: 'enum', name: 'is_householder', enum: IsHouseholder })
     isHouseholder!: IsHouseholder;
 
     @CreateDateColumn({
