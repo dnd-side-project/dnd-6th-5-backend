@@ -45,8 +45,13 @@ export enum HasHouse {
     PRIVATE = '미공개',
 }
 
-export enum IsHouseholder {
+export enum IsHouseOwner {
     HOST = '세대주',
     MEMBER = '세대구성원',
     PRIVATE = '미공개',
+}
+
+export enum SocialType {
+    KAKAO = 'kakao',
+    NAVER = 'naver',
 }

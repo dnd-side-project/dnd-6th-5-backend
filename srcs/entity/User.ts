@@ -6,7 +6,15 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { CompanyScale, WorkPeriod, Income, Asset, HasHouse, IsHouseholder } from './common/Enums';
+import {
+    CompanyScale,
+    WorkPeriod,
+    Income,
+    Asset,
+    HasHouse,
+    IsHouseOwner,
+    SocialType,
+} from './common/Enums';
 
 @Entity()
 export class User extends BaseEntity {
@@ -37,8 +45,11 @@ export class User extends BaseEntity {
     @Column({ type: 'enum', name: 'has_house', enum: HasHouse })
     hasHouse!: HasHouse;
 
-    @Column({ type: 'enum', name: 'is_householder', enum: IsHouseholder })
-    isHouseholder!: IsHouseholder;
+    @Column({ type: 'enum', name: 'is_house_owner', enum: IsHouseOwner })
+    isHouseOwner!: IsHouseOwner;
+
+    @Column({ type: 'enum', name: 'social_type', enum: SocialType })
+    socialType!: SocialType;
 
     @CreateDateColumn({
         type: 'timestamp',
