@@ -7,12 +7,14 @@ import {
     UpdateDateColumn,
 } from 'typeorm';
 import {
+    WorkStatus,
     CompanyScale,
-    WorkPeriod,
-    Income,
+    MedianIncome,
+    AnnualIncome,
     Asset,
     HasHouse,
     IsHouseOwner,
+    MaritalStatus,
     SocialType,
 } from './common/Enums';
 
@@ -27,26 +29,29 @@ export class User extends BaseEntity {
     @Column({ type: 'int', nullable: false })
     age!: number;
 
-    @Column('varchar', { name: 'address', length: 50, nullable: false })
-    address!: string;
+    @Column({ type: 'enum', name: 'work_status', nullable: true, enum: WorkStatus })
+    workStatus!: WorkStatus;
 
-    @Column({ type: 'enum', name: 'company_scale', nullable: false, enum: CompanyScale })
+    @Column({ type: 'enum', name: 'company_scale', nullable: true, enum: CompanyScale })
     companyScale!: CompanyScale;
 
-    @Column({ type: 'enum', name: 'work_period', nullable: false, enum: WorkPeriod })
-    workPeriod!: WorkPeriod;
+    @Column({ type: 'enum', name: 'median_income', nullable: true, enum: MedianIncome })
+    medianIncome!: MedianIncome;
 
-    @Column({ type: 'enum', name: 'income', enum: Income })
-    income!: Income;
+    @Column({ type: 'enum', name: 'annual_income', nullable: true, enum: AnnualIncome })
+    annualIncome!: AnnualIncome;
 
-    @Column({ type: 'enum', name: 'asset', enum: Asset })
+    @Column({ type: 'enum', name: 'asset', nullable: true, enum: Asset })
     asset!: Asset;
 
-    @Column({ type: 'enum', name: 'has_house', enum: HasHouse })
+    @Column({ type: 'enum', name: 'has_house', nullable: true, enum: HasHouse })
     hasHouse!: HasHouse;
 
-    @Column({ type: 'enum', name: 'is_house_owner', enum: IsHouseOwner })
+    @Column({ type: 'enum', name: 'is_house_owner', nullable: true, enum: IsHouseOwner })
     isHouseOwner!: IsHouseOwner;
+
+    @Column({ type: 'enum', name: 'marital_status', nullable: true, enum: MaritalStatus })
+    maritalStatus!: MaritalStatus;
 
     @Column({ type: 'enum', name: 'social_type', enum: SocialType })
     socialType!: SocialType;
