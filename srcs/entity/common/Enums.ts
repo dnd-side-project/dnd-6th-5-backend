@@ -1,10 +1,7 @@
 // 재직여부
 export enum WorkStatus {
-    MS = '중소기업',
-    MEDIUM = '중견기업',
-    SELF = '자영업자',
-    FOUNDER = '(예비)창업자',
-    ETC = '해당없음',
+    EMPLOYED = '재직자',
+    UNEMPLOYED = '미취업자',
 }
 
 // 회사규모
