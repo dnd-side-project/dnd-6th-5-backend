@@ -1,4 +1,4 @@
 export declare type tDummy = {
-    name: string
-    age: string
-}
+    name: string;
+    age: string;
+};
