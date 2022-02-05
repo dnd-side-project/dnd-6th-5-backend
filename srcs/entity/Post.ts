@@ -4,6 +4,7 @@ import {
     PrimaryGeneratedColumn,
     BaseEntity,
     CreateDateColumn,
+    UpdateDateColumn,
     JoinColumn,
     ManyToOne,
 } from 'typeorm';
@@ -31,7 +32,8 @@ export class Post extends BaseEntity {
     })
     createdAt!: Date;
 
-    @Column({
+    @UpdateDateColumn({
+        type: 'timestamp',
         name: 'updated_at',
         nullable: false,
     })
