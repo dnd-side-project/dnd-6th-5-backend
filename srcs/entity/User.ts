@@ -23,6 +23,7 @@ import Question from './Question';
 import { Token } from './Token';
 import { Post } from './Post';
 import { Notice } from './Notice';
+import { Comment } from './Comment';
 
 @Entity()
 export class User extends BaseEntity {
@@ -79,6 +80,9 @@ export class User extends BaseEntity {
 
     @OneToMany(() => Post, (post) => post.user)
     post!: Post[];
+
+    @OneToMany(() => Comment, (comment) => comment.user)
+    comment!: Comment[];
 
     @OneToMany(() => Notice, (notice) => notice.user)
     notice!: Notice[];
