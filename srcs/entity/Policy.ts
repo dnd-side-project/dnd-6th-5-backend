@@ -14,7 +14,7 @@ import {
 @Entity()
 export class Policy extends BaseEntity {
     @PrimaryGeneratedColumn()
-    policy_id!: number;
+    id!: number;
 
     @Column('varchar', { name: 'name', nullable: true, length: 100 })
     name!: string;
@@ -103,10 +103,10 @@ export class Policy extends BaseEntity {
     @Column('varchar', { name: 'operating_institute', nullable: true, length: 50 })
     operating_institute!: string;
 
-    @Column('varchar', { name: 'reference_site1', nullable: true, length: 2048 })
+    @Column('varchar', { name: 'reference_site1', nullable: true, length: 2084 })
     reference_site1!: string;
 
-    @Column('varchar', { name: 'reference_site2', nullable: true, length: 2048 })
+    @Column('varchar', { name: 'reference_site2', nullable: true, length: 2084 })
     reference_site2!: string;
 }
 

@@ -4,18 +4,19 @@ import {
     PrimaryGeneratedColumn,
     BaseEntity,
     CreateDateColumn,
-    OneToOne,
+    UpdateDateColumn,
     JoinColumn,
+    ManyToOne,
 } from 'typeorm';
 import { User } from './User';
 
 @Entity()
-export class Token extends BaseEntity {
+export class Notice extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ type: 'longtext', name: 'token', nullable: false })
-    token!: string;
+    @Column({ type: 'longtext', name: 'content', nullable: false })
+    content!: string;
 
     @CreateDateColumn({
         type: 'timestamp',
@@ -24,15 +25,16 @@ export class Token extends BaseEntity {
     })
     createdAt!: Date;
 
-    @Column({
-        name: 'expires_at',
+    @UpdateDateColumn({
+        type: 'timestamp',
+        name: 'updated_at',
         nullable: false,
     })
-    expiresAt!: Date;
+    updatedAt!: Date;
 
-    @OneToOne(() => User, (user) => user.token, { onDelete: 'CASCADE' })
+    @ManyToOne(() => User, (user) => user.notice, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'user_id' })
     user!: User;
 }
 
-export default Token;
+export default Notice;

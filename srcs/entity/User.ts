@@ -21,6 +21,8 @@ import {
 } from './common/Enums';
 import Question from './Question';
 import { Token } from './Token';
+import { Post } from './Post';
+import { Notice } from './Notice';
 
 @Entity()
 export class User extends BaseEntity {
@@ -72,8 +74,14 @@ export class User extends BaseEntity {
     })
     updatedAt!: Date;
 
-    @OneToOne(() => Token, (token) => token.user, { onDelete: 'CASCADE' })
+    @OneToOne(() => Token, (token) => token.user)
     token!: Token;
+
+    @OneToMany(() => Post, (post) => post.user)
+    post!: Post[];
+
+    @OneToMany(() => Notice, (notice) => notice.user)
+    notice!: Notice[];
 
     @OneToMany(() => Question, (question) => question.user)
     question!: Question[];
