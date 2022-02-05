@@ -9,18 +9,11 @@ import {
     ManyToOne,
 } from 'typeorm';
 import { User } from './User';
-import { Category } from './common/Enums';
 
 @Entity()
-export class Post extends BaseEntity {
+export class Notice extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
-
-    @Column({ type: 'enum', name: 'category', nullable: true, enum: Category })
-    category!: Category;
-
-    @Column('varchar', { name: 'title', nullable: false, length: 20 })
-    title!: string;
 
     @Column({ type: 'longtext', name: 'content', nullable: false })
     content!: string;
@@ -39,9 +32,9 @@ export class Post extends BaseEntity {
     })
     updatedAt!: Date;
 
-    @ManyToOne(() => User, (user) => user.post)
+    @ManyToOne(() => User, (user) => user.notice)
     @JoinColumn({ name: 'user_id' })
     user!: User;
 }
 
-export default Post;
+export default Notice;

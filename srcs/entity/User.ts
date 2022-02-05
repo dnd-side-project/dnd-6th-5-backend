@@ -21,6 +21,7 @@ import {
 } from './common/Enums';
 import { Token } from './Token';
 import { Post } from './Post';
+import { Notice } from './Notice';
 
 @Entity()
 export class User extends BaseEntity {
@@ -77,6 +78,9 @@ export class User extends BaseEntity {
 
     @OneToMany(() => Post, (post) => post.user, { onDelete: 'CASCADE' })
     post!: Post[];
+
+    @OneToMany(() => Notice, (post) => post.user, { onDelete: 'CASCADE' })
+    notice!: Notice[];
 }
 
 export default User;
