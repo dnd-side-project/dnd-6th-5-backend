@@ -6,6 +6,7 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     OneToOne,
+    OneToMany,
 } from 'typeorm';
 import {
     WorkStatus,
@@ -18,6 +19,7 @@ import {
     MaritalStatus,
     SocialType,
 } from './common/Enums';
+import Question from './Question';
 import { Token } from './Token';
 
 @Entity()
@@ -62,16 +64,19 @@ export class User extends BaseEntity {
         type: 'timestamp',
         name: 'created_at',
     })
-    createdAt: Date | undefined;
+    createdAt!: Date;
 
     @UpdateDateColumn({
         type: 'timestamp',
         name: 'updated_at',
     })
-    updatedAt: Date | undefined;
+    updatedAt!: Date;
 
     @OneToOne(() => Token, (token) => token.user, { onDelete: 'CASCADE' })
     token!: Token;
+
+    @OneToMany(() => Question, (question) => question.user)
+    question!: Question[];
 }
 
 export default User;
