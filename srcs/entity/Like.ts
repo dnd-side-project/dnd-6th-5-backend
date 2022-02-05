@@ -1,4 +1,4 @@
-import { Entity, Column, BaseEntity, JoinColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, BaseEntity, JoinColumn, ManyToOne, UpdateDateColumn } from 'typeorm';
 import { Policy } from './Policy';
 import { User } from './User';
 
@@ -6,6 +6,13 @@ import { User } from './User';
 export class Like extends BaseEntity {
     @Column({ type: 'boolean', name: 'like_check', nullable: false, default: false })
     like_check!: string;
+
+    @UpdateDateColumn({
+        type: 'timestamp',
+        name: 'updated_at',
+        nullable: false,
+    })
+    updatedAt!: Date;
 
     @ManyToOne(() => User, (user) => user.like, {
         primary: true,
