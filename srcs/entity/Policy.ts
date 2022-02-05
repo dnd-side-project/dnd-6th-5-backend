@@ -14,7 +14,7 @@ import {
 @Entity()
 export class Policy extends BaseEntity {
     @PrimaryGeneratedColumn()
-    policy_id!: number;
+    id!: number;
 
     @Column('varchar', { name: 'name', nullable: true, length: 100 })
     name!: string;

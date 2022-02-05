@@ -6,6 +6,7 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     OneToOne,
+    OneToMany,
 } from 'typeorm';
 import {
     WorkStatus,
@@ -19,6 +20,7 @@ import {
     SocialType,
 } from './common/Enums';
 import { Token } from './Token';
+import { Post } from './Post';
 
 @Entity()
 export class User extends BaseEntity {
@@ -72,6 +74,9 @@ export class User extends BaseEntity {
 
     @OneToOne(() => Token, (token) => token.user, { onDelete: 'CASCADE' })
     token!: Token;
+
+    @OneToMany(() => Post, (post) => post.user, { onDelete: 'CASCADE' })
+    post!: Post[];
 }
 
 export default User;
