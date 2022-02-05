@@ -34,8 +34,8 @@ export class User extends BaseEntity {
     @Column('varchar', { name: 'nickname', unique: true, nullable: false, length: 50 })
     nickname!: string;
 
-    @Column({ type: 'int', nullable: false })
-    age!: number;
+    @Column({ type: 'date', nullable: false })
+    age!: Date;
 
     @Column({ type: 'enum', name: 'work_status', nullable: true, enum: WorkStatus })
     workStatus!: WorkStatus;
