@@ -5,6 +5,7 @@ import {
     BaseEntity,
     CreateDateColumn,
     UpdateDateColumn,
+    OneToOne,
 } from 'typeorm';
 import {
     WorkStatus,
@@ -17,6 +18,7 @@ import {
     MaritalStatus,
     SocialType,
 } from './common/Enums';
+import { Token } from './Token';
 
 @Entity()
 export class User extends BaseEntity {
@@ -67,6 +69,9 @@ export class User extends BaseEntity {
         name: 'updated_at',
     })
     updatedAt: Date | undefined;
+
+    @OneToOne(() => Token, (token) => token.user, { onDelete: 'CASCADE' })
+    token!: Token;
 }
 
 export default User;
