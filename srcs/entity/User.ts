@@ -24,6 +24,7 @@ import { Token } from './Token';
 import { Post } from './Post';
 import { Notice } from './Notice';
 import { Comment } from './Comment';
+import { Like } from './Like';
 
 @Entity()
 export class User extends BaseEntity {
@@ -89,6 +90,9 @@ export class User extends BaseEntity {
 
     @OneToMany(() => Question, (question) => question.user)
     question!: Question[];
+
+    @OneToMany(() => Like, (like) => like.user)
+    like!: Like[];
 }
 
 export default User;

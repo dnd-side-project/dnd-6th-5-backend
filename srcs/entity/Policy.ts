@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany } from 'typeorm';
 import {
     Category,
     WorkStatus,
@@ -10,6 +10,7 @@ import {
     IsHouseOwner,
     MaritalStatus,
 } from './common/Enums';
+import { Like } from './Like';
 
 @Entity()
 export class Policy extends BaseEntity {
@@ -108,6 +109,9 @@ export class Policy extends BaseEntity {
 
     @Column('varchar', { name: 'reference_site2', nullable: true, length: 2084 })
     reference_site2!: string;
+
+    @OneToMany(() => Like, (like) => like.policy)
+    like!: Like[];
 }
 
 export default Policy;
