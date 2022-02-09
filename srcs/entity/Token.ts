@@ -14,8 +14,8 @@ export class Token extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ type: 'longtext', name: 'token', nullable: false })
-    token!: string;
+    @Column({ type: 'longtext', name: 'refresh_token', nullable: false })
+    refreshToken!: string;
 
     @CreateDateColumn({
         type: 'timestamp',
