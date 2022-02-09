@@ -13,7 +13,8 @@ router.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 router.get('/', (req, res) => {
     res.json({ data: 'data' });
 });
-router.use(middleware.isAuth);
 router.get('/login/kakao', controller.signinKakao);
+
+router.use(middleware.isAuth);
 
 export default router;

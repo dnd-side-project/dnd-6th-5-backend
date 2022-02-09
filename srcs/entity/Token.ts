@@ -14,7 +14,7 @@ export class Token extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ type: 'longtext', name: 'refresh_token', nullable: false })
+    @Column({ type: 'longtext', name: 'refresh_token', nullable: true })
     refreshToken!: string;
 
     @CreateDateColumn({
@@ -26,9 +26,9 @@ export class Token extends BaseEntity {
 
     @Column({
         name: 'expires_at',
-        nullable: false,
+        nullable: true,
     })
-    expiresAt!: Date;
+    expiresAt!: string;
 
     @OneToOne(() => User, (user) => user.token, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'user_id' })
