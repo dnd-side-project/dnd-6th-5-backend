@@ -1,13 +1,13 @@
 import { RequestHandler } from 'express';
-import { User, Token } from '../entity/index';
-import { getTokenInfo, getKaKaoUserInfo } from '../lib/index';
+import { getAccessTokenInfo, getKaKaoUserInfo } from '../lib/index';
+import { createUser, createToken } from '../repository/index';
+import { tUser, tToken } from '../../@types/types.d';
 
 const signinKakao: RequestHandler = async (req, res) => {
     try {
         const accessToken = req.headers.access_token;
-
         // getTokenInfo - 토큰 검증 api를 호출하는 함수
-        const tokenInfo = await getTokenInfo(accessToken);
+        const tokenInfo = await getAccessTokenInfo(accessToken);
 
         // 유효한 액세스 토큰이 아닌 모든 경우
         if (tokenInfo.code !== 200) {
@@ -20,22 +20,24 @@ const signinKakao: RequestHandler = async (req, res) => {
             });
         }
 
-        // user 정보 받아오기 api를 사용하여 email을 받아옵니다.
+        // user 정보 받아오기 api를 사용하여 kakao플랫폼에 등록된 user의 정보를 받아옵니다.
         const userInfo = await getKaKaoUserInfo(accessToken);
+        // User테이블에 user create
+        const userObj: tUser = {
+            email: userInfo.data.kakao_account.email,
+        };
+        const newUser = await createUser(userObj);
 
-        // User테이블에 user insert
-        const user = new User();
-        user.email = userInfo.data.kakao_account.email;
-        const userData = await user.save();
-
-        // token insert
-        const token = new Token();
+        // token create
         const refreshToken: string = req.headers.refresh_token as string;
-        const refresh_token_expires_in = req.headers.refresh_token_expires_in as string;
-        token.refreshToken = refreshToken;
-        token.expiresAt = refresh_token_expires_in;
-        token.user = userData;
-        const tokenData = await user.save();
+        const refresh_token_expires_in: string = req.headers.refresh_token_expires_in as string;
+
+        const tokenObj: tToken = {
+            refreshToken: refreshToken,
+            expiresAt: refresh_token_expires_in,
+            user: newUser,
+        };
+        const newToken = await createToken(tokenObj);
 
         // user 데이터를 반환합니다.
         return res
@@ -47,8 +49,8 @@ const signinKakao: RequestHandler = async (req, res) => {
             .json({
                 success: true,
                 data: {
-                    user: userData,
-                    token: tokenData.id,
+                    user: newUser,
+                    token: newToken.id,
                 },
             });
     } catch (error: any) {
