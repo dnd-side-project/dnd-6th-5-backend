@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { tTokenInfo, tTokenResponse } from '../../@types/types.d';
 
-const getTokenInfo: (accessToken?: string | string[]) => Promise<tTokenInfo> = async (
+const getAccessTokenInfo: (accessToken?: string | string[]) => Promise<tTokenInfo> = async (
     accessToken
 ) => {
     const res = await axios({
@@ -23,7 +23,7 @@ const getTokenInfo: (accessToken?: string | string[]) => Promise<tTokenInfo> = a
     return res;
 };
 
-const updateToken: (refreshToken?: string | string[]) => Promise<tTokenResponse> = async (
+const updateAccessToken: (refreshToken?: string | string[]) => Promise<tTokenResponse> = async (
     refreshToken
 ) => {
     const res = await axios({
@@ -94,4 +94,4 @@ const logoutKakao: (accessToken?: string | string[]) => Promise<tTokenResponse> 
     return res;
 };
 
-export { getTokenInfo, updateToken, logoutKakao, getKaKaoUserInfo };
+export { getAccessTokenInfo, updateAccessToken, logoutKakao, getKaKaoUserInfo };
