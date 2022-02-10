@@ -11,9 +11,6 @@ const router = Router();
 */
 
 router.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
-router.get('/', (req, res) => {
-    res.json({ data: 'data' });
-});
 router.get(
     '/login/kakao',
     [
@@ -25,5 +22,8 @@ router.get(
 );
 
 router.use(middleware.isAuth);
+router.get('/', (req, res) => {
+    res.json({ data: 'data' });
+});
 
 export default router;
