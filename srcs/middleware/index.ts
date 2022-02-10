@@ -1,2 +1,2 @@
 export { default as isAuth } from './middleware.isAuth';
-export { default as validatorErrorChecker } from './validator';
+export { default as validator } from './middleware.validator';

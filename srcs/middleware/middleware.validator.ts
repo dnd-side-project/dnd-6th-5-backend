@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { validationResult } from 'express-validator';
 
-const validatorErrorChecker: RequestHandler = async (req, res, next) => {
+const validator: RequestHandler = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -9,4 +9,4 @@ const validatorErrorChecker: RequestHandler = async (req, res, next) => {
     next();
 };
 
-export default validatorErrorChecker;
+export default validator;
