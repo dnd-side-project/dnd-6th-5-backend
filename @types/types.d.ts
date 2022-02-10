@@ -58,7 +58,7 @@ export declare type tUser = {
 
 export declare type tToken = {
     id?: number;
-    refreshToken: string;
+    refreshToken?: string;
     createdAt?: Date;
     expiresAt?: string;
     user: User;
