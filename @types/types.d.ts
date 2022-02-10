@@ -61,5 +61,5 @@ export declare type tToken = {
     refreshToken?: string;
     createdAt?: Date;
     expiresAt?: string;
-    user: User;
+    user?: User;
 };
