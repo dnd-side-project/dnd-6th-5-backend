@@ -20,6 +20,11 @@ router.get(
     ],
     controller.signinKakao
 );
+router.get(
+    '/token',
+    [header('refresh_token').exists({ checkFalsy: true }), middleware.validator],
+    controller.getAccessToken
+);
 
 router.use(middleware.isAuth);
 router.get('/', (req, res) => {
