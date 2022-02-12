@@ -11,7 +11,7 @@ module.exports = {
     database: process.env.DB_NAME,
     synchronize: true,
     logging: false,
-    dropSchema: true,
+    dropSchema: false,
     entities: ['./srcs/entity/*.ts'],
     subscribers: ['srcs/migration/*.ts'],
     migrations: ['srcs/migration/*.ts'],

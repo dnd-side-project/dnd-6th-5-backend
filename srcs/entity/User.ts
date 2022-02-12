@@ -17,8 +17,8 @@ import {
     HasHouse,
     IsHouseOwner,
     MaritalStatus,
-    SocialType,
 } from './common/Enums';
+import { IsEmail } from 'class-validator';
 import Question from './Question';
 import { Token } from './Token';
 import { Post } from './Post';
@@ -31,10 +31,10 @@ export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column('varchar', { name: 'nickname', unique: true, nullable: false, length: 50 })
+    @Column('varchar', { name: 'nickname', unique: true, nullable: true, length: 50 })
     nickname!: string;
 
-    @Column({ type: 'date', nullable: false })
+    @Column({ type: 'date', nullable: true })
     age!: Date;
 
     @Column({ type: 'enum', name: 'work_status', nullable: true, enum: WorkStatus })
@@ -61,8 +61,9 @@ export class User extends BaseEntity {
     @Column({ type: 'enum', name: 'marital_status', nullable: true, enum: MaritalStatus })
     maritalStatus!: MaritalStatus;
 
-    @Column({ type: 'enum', name: 'social_type', enum: SocialType })
-    socialType!: SocialType;
+    @IsEmail()
+    @Column({ type: 'varchar', name: 'email', nullable: false, unique: true })
+    email!: string;
 
     @CreateDateColumn({
         type: 'timestamp',
