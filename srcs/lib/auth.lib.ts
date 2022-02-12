@@ -23,9 +23,9 @@ const getKaKaoAccessTokenInfo: (accessToken?: string | string[]) => Promise<tTok
     return res;
 };
 
-const updateAccessToken: (refreshToken?: string | string[]) => Promise<tTokenResponse> = async (
-    refreshToken
-) => {
+const updateKaKaoAccessToken: (
+    refreshToken?: string | string[]
+) => Promise<tTokenResponse> = async (refreshToken) => {
     const res = await axios({
         method: 'post',
         url: 'https://kauth.kakao.com/oauth/token',
@@ -94,4 +94,32 @@ const logoutKakao: (accessToken?: string | string[]) => Promise<tTokenResponse> 
     return res;
 };
 
-export { getKaKaoAccessTokenInfo, updateAccessToken, logoutKakao, getKaKaoUserInfo };
+const getNaverAccessTokenInfo: (accessToken?: string | string[]) => Promise<any> = async (
+    accessToken
+) => {
+    const res = await axios({
+        method: 'get',
+        url: 'https://openapi.naver.com/v1/nid/me',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+            Authorization: `Bearer ${accessToken}`,
+        },
+    })
+        .then((res) => ({
+            status: res.status,
+            data: res.data,
+        }))
+        .catch((err) => ({
+            status: err.response.status,
+            data: err.response.data,
+        }));
+    return res;
+};
+
+export {
+    getKaKaoAccessTokenInfo,
+    updateKaKaoAccessToken,
+    logoutKakao,
+    getKaKaoUserInfo,
+    getNaverAccessTokenInfo,
+};

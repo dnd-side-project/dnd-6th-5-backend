@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { findOneToken, updateToken } from '../repository/index';
-import { updateAccessToken } from '../lib/index';
+import { updateKaKaoAccessToken } from '../lib/index';
 import { Token } from '../entity/index';
 
 const getAccessToken: RequestHandler = async (req, res) => {
@@ -17,7 +17,7 @@ const getAccessToken: RequestHandler = async (req, res) => {
             });
 
         // 리프래쉬 토큰을 사용하여 액세스토큰 재발급
-        const updatedToken = await updateAccessToken(TokenInfo.refreshToken);
+        const updatedToken = await updateKaKaoAccessToken(TokenInfo.refreshToken);
         if (updatedToken.status !== 200)
             return res.status(401).json({
                 success: false,
