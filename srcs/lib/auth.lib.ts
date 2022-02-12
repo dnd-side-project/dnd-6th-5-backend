@@ -116,10 +116,38 @@ const getNaverAccessTokenInfo: (accessToken?: string | string[]) => Promise<any>
     return res;
 };
 
+const updateNaverAccessToken: (
+    refreshToken?: string | string[]
+) => Promise<tTokenResponse> = async (refreshToken) => {
+    const res = await axios({
+        method: 'post',
+        url: 'https://nid.naver.com/oauth2.0/token?grant_type=refresh_token',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+        },
+        params: {
+            grant_type: 'refresh_token',
+            client_id: process.env.NAVER_CLIENT_ID,
+            client_secret: process.env.CLIENT_SECRET,
+            refresh_token: `${refreshToken}`,
+        },
+    })
+        .then((res) => ({
+            status: res.status,
+            data: res.data,
+        }))
+        .catch((err) => ({
+            status: err.response.status,
+            data: err.response.data,
+        }));
+    return res;
+};
+
 export {
     getKaKaoAccessTokenInfo,
     updateKaKaoAccessToken,
     logoutKakao,
     getKaKaoUserInfo,
     getNaverAccessTokenInfo,
+    updateNaverAccessToken,
 };
