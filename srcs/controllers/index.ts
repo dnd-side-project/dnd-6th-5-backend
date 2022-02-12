@@ -1,2 +1,3 @@
 export { default as signinKakao } from './controller.signinKakao';
 export { default as getAccessToken } from './controller.getAccessToken';
+export { default as signoutKakao } from './controller.signoutKakao';
