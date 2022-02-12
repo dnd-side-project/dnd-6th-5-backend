@@ -18,12 +18,12 @@ const findOneToken: (token: string) => Promise<Token | undefined> = async (token
 
 const updateToken: (
     ogRefresh_token: string,
-    newRefreshToken: string
+    newRefreshToken: string | null
 ) => Promise<UpdateResult> = async (ogRefresh_token, newRefreshToken) => {
     const updatedToken = Token.createQueryBuilder()
         .update()
         .set({
-            refreshToken: newRefreshToken,
+            refreshToken: newRefreshToken as string,
         })
         .where('refreshToken = :refreshToken', { refreshToken: ogRefresh_token })
         .execute();
