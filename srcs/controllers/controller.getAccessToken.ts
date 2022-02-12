@@ -7,7 +7,7 @@ const getAccessToken: RequestHandler = async (req, res) => {
     try {
         // 만료된 토큰일 경우
         const TokenInfo = (await findOneToken(req.headers.refresh_token as string)) as Token;
-        if (typeof TokenInfo === undefined)
+        if (TokenInfo === undefined)
             return res.status(401).json({
                 success: false,
                 error: {
