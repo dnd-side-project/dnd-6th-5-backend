@@ -34,7 +34,7 @@ const updateAccessToken: (refreshToken?: string | string[]) => Promise<tTokenRes
         },
         params: {
             grant_type: 'refresh_token',
-            client_id: process.env.CLIENT_ID,
+            client_id: process.env.KAKAO_CLIENT_ID,
             refresh_token: `${refreshToken}`,
         },
     })

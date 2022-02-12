@@ -24,12 +24,6 @@ export class Token extends BaseEntity {
     })
     createdAt!: Date;
 
-    @Column({
-        name: 'expires_at',
-        nullable: true,
-    })
-    expiresAt!: string;
-
     @OneToOne(() => User, (user) => user.token, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'user_id' })
     user!: User;

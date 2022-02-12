@@ -6,6 +6,9 @@ const createUser: (user: tUser) => Promise<User> = async (user) => {
     newUser.email = user.email;
     await newUser.save();
 
+    newUser.nickname = newUser.id.toString();
+    await newUser.save();
+
     return newUser;
 };
 
@@ -14,7 +17,6 @@ const findOneUserByEmail: (user: tUser) => Promise<User | undefined> = async (us
         .leftJoinAndSelect('user.token', 'token')
         .where('user.email = :email', { email: user.email })
         .getOne();
-    console.log(targetUser);
     return targetUser;
 };
 

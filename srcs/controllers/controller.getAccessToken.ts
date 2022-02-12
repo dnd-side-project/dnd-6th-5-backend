@@ -30,7 +30,7 @@ const getAccessToken: RequestHandler = async (req, res) => {
         // 리프래쉬 토큰이 재발급 되었다면
         // 재발급된 리프래쉬 토큰을 DB에 저장
         if (typeof refreshToken === 'string')
-            await updateToken(TokenInfo.refreshToken, refreshToken, TokenInfo.expiresAt);
+            await updateToken(TokenInfo.refreshToken, refreshToken);
         else refreshToken = null;
 
         // 재발급된 토큰과 플랫폼을 헤더에 넣고 반환한다.
@@ -39,7 +39,6 @@ const getAccessToken: RequestHandler = async (req, res) => {
             .header({ access_token: accessToken, refresh_token: refreshToken, platform: 'kakao' })
             .json({
                 success: true,
-                data: null,
             });
     } catch (error: any) {
         res.status(400).json({

@@ -5,7 +5,6 @@ import { UpdateResult } from 'typeorm';
 const createToken: (token: tToken) => Promise<Token> = async (token) => {
     const newToken = new Token();
     newToken.refreshToken = token.refreshToken as string;
-    newToken.expiresAt = token.expiresAt as string;
     newToken.user = token.user;
     await newToken.save();
 
@@ -19,14 +18,12 @@ const findOneToken: (token: string) => Promise<Token | undefined> = async (token
 
 const updateToken: (
     ogRefresh_token: string,
-    newRefreshToken: string,
-    expiresAt: string
-) => Promise<UpdateResult> = async (ogRefresh_token, newRefreshToken, expiresAt) => {
+    newRefreshToken: string
+) => Promise<UpdateResult> = async (ogRefresh_token, newRefreshToken) => {
     const updatedToken = Token.createQueryBuilder()
         .update()
         .set({
             refreshToken: newRefreshToken,
-            expiresAt: expiresAt,
         })
         .where('refreshToken = :refreshToken', { refreshToken: ogRefresh_token })
         .execute();

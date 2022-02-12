@@ -29,11 +29,9 @@ const signinKakao: RequestHandler = async (req, res) => {
 
         // token create
         const refreshToken: string = req.headers.refresh_token as string;
-        const refresh_token_expires_in: string = req.headers.refresh_token_expires_in as string;
 
         const tokenObj: tToken = {
             refreshToken: refreshToken,
-            expiresAt: refresh_token_expires_in,
             user: newUser,
         };
         const newToken = await createToken(tokenObj);
@@ -43,6 +41,7 @@ const signinKakao: RequestHandler = async (req, res) => {
             .status(200)
             .header({
                 access_token: accessToken,
+                refreshToken: refreshToken,
                 platform: 'kakao',
             })
             .json({
