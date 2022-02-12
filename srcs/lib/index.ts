@@ -1,1 +1,6 @@
-export { getAccessTokenInfo, updateAccessToken, logoutKakao, getKaKaoUserInfo } from './auth.lib';
+export {
+    getKaKaoAccessTokenInfo,
+    updateAccessToken,
+    logoutKakao,
+    getKaKaoUserInfo,
+} from './auth.lib';

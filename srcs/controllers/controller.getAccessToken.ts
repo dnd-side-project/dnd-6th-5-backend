@@ -18,20 +18,20 @@ const getAccessToken: RequestHandler = async (req, res) => {
 
         // 리프래쉬 토큰을 사용하여 액세스토큰 재발급
         const updatedToken = await updateAccessToken(TokenInfo.refreshToken);
-        if (updatedToken.status !== 200) {
+        if (updatedToken.status !== 200)
             return res.status(401).json({
                 success: false,
                 error: updatedToken.data,
             });
-        }
+
         const accessToken = updatedToken.data.access_token;
         let refreshToken = updatedToken.data.refresh_token;
 
         // 리프래쉬 토큰이 재발급 되었다면
-        if (typeof refreshToken === 'string') {
-            // 재발급된 리프래쉬 토큰을 DB에 저장
+        // 재발급된 리프래쉬 토큰을 DB에 저장
+        if (typeof refreshToken === 'string')
             await updateToken(TokenInfo.refreshToken, refreshToken, TokenInfo.expiresAt);
-        } else refreshToken = null;
+        else refreshToken = null;
 
         // 재발급된 토큰과 플랫폼을 헤더에 넣고 반환한다.
         return res
