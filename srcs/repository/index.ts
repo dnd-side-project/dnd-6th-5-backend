@@ -1,2 +1,3 @@
+// export { createUser, findOneUserByEmail } from './repository.user';
 export { createUser, findOneUserByEmail } from './repository.user';
-export { createToken, findOneToken, updateToken } from './repository.token';
+export { createToken, findOneToken, updateToken, updateTokenById } from './repository.token';

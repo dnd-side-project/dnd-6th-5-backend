@@ -21,6 +21,11 @@ router.get(
     controller.signinKakao
 );
 router.get(
+    '/logout/kakao',
+    [header('access_token').exists({ checkFalsy: true }), middleware.validator],
+    controller.signoutKakao
+);
+router.get(
     '/token',
     [header('refresh_token').exists({ checkFalsy: true }), middleware.validator],
     controller.getAccessToken
