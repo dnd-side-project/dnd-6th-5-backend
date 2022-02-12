@@ -29,4 +29,18 @@ const updateToken: (
         .execute();
     return updatedToken;
 };
-export { createToken, findOneToken, updateToken };
+
+const updateTokenById: (id: number, newRefreshToken: string) => Promise<UpdateResult> = async (
+    id,
+    newRefreshToken
+) => {
+    const updatedToken = Token.createQueryBuilder()
+        .update()
+        .set({
+            refreshToken: newRefreshToken,
+        })
+        .where('id = :id', { id: id })
+        .execute();
+    return updatedToken;
+};
+export { createToken, findOneToken, updateToken, updateTokenById };

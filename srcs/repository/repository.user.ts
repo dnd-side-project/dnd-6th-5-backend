@@ -13,7 +13,7 @@ const createUser: (user: tUser) => Promise<User> = async (user) => {
 };
 
 const findOneUserByEmail: (user: tUser) => Promise<User | undefined> = async (user) => {
-    const targetUser = await User.createQueryBuilder()
+    const targetUser = await User.createQueryBuilder('user')
         .leftJoinAndSelect('user.token', 'token')
         .where('user.email = :email', { email: user.email })
         .getOne();
