@@ -79,7 +79,7 @@ async function insertPolicy(connection, results, data) {
                     title,
                 ]
             )
-            .catch((e) => {
+            .catch(() => {
                 return false;
             });
         if (result === false) console.log('results: ', results);
@@ -95,7 +95,7 @@ async function tourData(connection, data) {
     if (data.polyBizTy._cdata !== '중앙부처') return;
     const results = await connection
         .query(`SELECT count(*) FROM policy where name = "${data.polyBizSjnm._cdata}"`)
-        .catch((e) => {
+        .catch(() => {
             return false;
         });
     if (results === false) return;
