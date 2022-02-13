@@ -41,9 +41,10 @@ request.get(requestUrl, (err, res, body) => {
                             // 정책 이름이 같은 데이터가 존재하지 않는다면 데이터 삽입
                             if (results[0]['count(*)'] == 0) {
                                 connection.query(
-                                    `INSERT INTO policy(name, summary, content, limit_age, work_status, specialization, host, application_period, application_process, announcement, application_site) VALUES(?,?,?,?,?,?,?,?,?,?,?)`,
+                                    `INSERT INTO policy(name, number, summary, content, limit_age, work_status, specialization, host, application_period, application_process, announcement, application_site) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,
                                     [
                                         data.polyBizSjnm._cdata,
+                                        data.bizId._text,
                                         data.polyItcnCn._cdata,
                                         data.sporCn._cdata,
                                         data.ageInfo._cdata,
