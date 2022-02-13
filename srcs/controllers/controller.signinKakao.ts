@@ -6,7 +6,6 @@ import { User } from '../entity';
 
 const signinKakao: RequestHandler = async (req, res) => {
     try {
-        console.log('1');
         const accessToken = req.headers.access_token;
         // getTokenInfo - 토큰 검증 api를 호출하는 함수
         const tokenInfo = await getKaKaoAccessTokenInfo(accessToken);
