@@ -52,7 +52,6 @@ const signinNaver: RequestHandler = async (req, res) => {
         const dbUser = await findOneUserByEmail(userObj);
         let refreshToken: string = req.headers.refresh_token as string;
         let newUser: User;
-        console.log(dbUser);
 
         // 새로 가입한 user
         if (dbUser === undefined) {

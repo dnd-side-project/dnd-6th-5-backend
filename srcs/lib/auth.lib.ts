@@ -143,6 +143,31 @@ const updateNaverAccessToken: (
     return res;
 };
 
+const logoutNaver: (accessToken?: string | string[]) => Promise<tTokenResponse> = async (
+    accessToken
+) => {
+    const res = await axios({
+        method: 'get',
+        url: 'https://nid.naver.com/oauth2.0/token',
+        params: {
+            grant_type: 'delete',
+            client_id: process.env.NAVER_CLIENT_ID,
+            client_secret: process.env.CLIENT_SECRET,
+            access_token: accessToken,
+            service_provider: 'NAVER',
+        },
+    })
+        .then((res) => ({
+            status: res.status,
+            data: res.data,
+        }))
+        .catch((err) => ({
+            status: err.response.status,
+            data: err.response.data,
+        }));
+    return res;
+};
+
 export {
     getKaKaoAccessTokenInfo,
     updateKaKaoAccessToken,
@@ -150,4 +175,5 @@ export {
     getKaKaoUserInfo,
     getNaverAccessTokenInfo,
     updateNaverAccessToken,
+    logoutNaver,
 };

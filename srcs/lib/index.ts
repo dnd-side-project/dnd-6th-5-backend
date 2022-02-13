@@ -5,4 +5,5 @@ export {
     getKaKaoUserInfo,
     getNaverAccessTokenInfo,
     updateNaverAccessToken,
+    logoutNaver,
 } from './auth.lib';
