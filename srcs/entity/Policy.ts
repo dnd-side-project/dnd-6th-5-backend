@@ -2,9 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany } from 't
 import {
     Category,
     WorkStatus,
-    CompanyScale,
     MedianIncome,
-    AnnualIncome,
     Asset,
     HasHouse,
     IsHouseOwner,
@@ -20,20 +18,23 @@ export class Policy extends BaseEntity {
     @Column('varchar', { name: 'name', nullable: true, length: 100 })
     name!: string;
 
+    @Column('varchar', { name: 'number', nullable: true, length: 100 })
+    number!: string;
+
     @Column({ type: 'enum', name: 'category', nullable: true, enum: Category })
     category!: Category;
 
     @Column({ type: 'enum', name: 'work_status', nullable: true, enum: WorkStatus })
     workStatus!: WorkStatus;
 
-    @Column({ type: 'enum', name: 'company_scale', nullable: true, enum: CompanyScale })
-    companyScale!: CompanyScale;
+    @Column('varchar', { name: 'company_scale', nullable: true, length: 100 })
+    companyScale!: string;
 
     @Column({ type: 'enum', name: 'median_income', nullable: true, enum: MedianIncome })
     medianIncome!: MedianIncome;
 
-    @Column({ type: 'enum', name: 'annual_income', nullable: true, enum: AnnualIncome })
-    annualIncome!: AnnualIncome;
+    @Column('varchar', { name: 'annual_income', nullable: true, length: 100 })
+    annualIncome!: string;
 
     @Column({ type: 'enum', name: 'asset', nullable: true, enum: Asset })
     asset!: Asset;
