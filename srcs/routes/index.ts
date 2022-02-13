@@ -50,7 +50,6 @@ router.get(
         header('platform').isIn(['naver', 'kakao']),
         middleware.validator,
     ],
-
     controller.getAccessToken
 );
 
