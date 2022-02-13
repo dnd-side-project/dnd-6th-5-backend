@@ -1,6 +1,9 @@
 export {
     getKaKaoAccessTokenInfo,
-    updateAccessToken,
+    updateKaKaoAccessToken,
     logoutKakao,
     getKaKaoUserInfo,
+    getNaverAccessTokenInfo,
+    updateNaverAccessToken,
+    logoutNaver,
 } from './auth.lib';

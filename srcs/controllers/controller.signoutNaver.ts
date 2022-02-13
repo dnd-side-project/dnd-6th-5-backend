@@ -1,34 +1,36 @@
 import { RequestHandler } from 'express';
 import { findOneUserByEmail, updateToken } from '../repository/index';
-import { getKaKaoAccessTokenInfo, getKaKaoUserInfo, logoutKakao } from '../lib/index';
+import { getNaverAccessTokenInfo, logoutNaver } from '../lib/index';
 import { tUser } from '../../@types/types';
 
-const signoutKakao: RequestHandler = async (req, res) => {
+const signoutNaver: RequestHandler = async (req, res) => {
     try {
         const accessToken = req.headers.access_token;
         // getTokenInfo - 토큰 검증 api를 호출하는 함수
-        const tokenInfo = await getKaKaoAccessTokenInfo(accessToken);
+
+        const tokenInfo = await getNaverAccessTokenInfo(accessToken);
 
         // 유효한 액세스 토큰이 아닌 모든 경우
-        if (tokenInfo.code !== 200)
+        if (tokenInfo.status !== 200) {
             return res.status(401).json({
                 success: false,
-                error: {
-                    code: tokenInfo.code,
-                    message: tokenInfo.msg,
+                data: {
+                    code: tokenInfo.data.resultcode,
+                    message: tokenInfo.data.message,
                 },
             });
+        }
 
-        const userInfo = await getKaKaoUserInfo(accessToken);
-        const logoutResponse = await logoutKakao(accessToken);
-        if (logoutResponse.status !== 200)
+        const email = tokenInfo.data.response.email as string;
+        const logoutResponse = await logoutNaver(accessToken);
+        if (logoutResponse.status !== 200) {
             return res.status(401).json({
                 success: false,
                 error: logoutResponse.data,
             });
-
+        }
         const userObj: tUser = {
-            email: userInfo.data.kakao_account.email,
+            email,
         };
         const dbUser = await findOneUserByEmail(userObj);
         await updateToken(dbUser?.token.refreshToken as string, null);
@@ -48,4 +50,4 @@ const signoutKakao: RequestHandler = async (req, res) => {
     }
 };
 
-export default signoutKakao;
+export default signoutNaver;

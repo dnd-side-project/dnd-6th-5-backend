@@ -1,32 +1,56 @@
 import { RequestHandler } from 'express';
-import { getKaKaoAccessTokenInfo, getKaKaoUserInfo, updateKaKaoAccessToken } from '../lib/index';
+import { getNaverAccessTokenInfo, updateNaverAccessToken } from '../lib/index';
 import { createUser, createToken, findOneUserByEmail, updateTokenById } from '../repository/index';
-import { tUser, tToken } from '../../@types/types.d';
-import { User } from '../entity';
+import { tUser, tToken } from '../../@types/types';
+import { User } from '../entity/index';
 
-const signinKakao: RequestHandler = async (req, res) => {
+const toResObj: any = async (user: any) => {
+    const result = {
+        id: user.id,
+        nickname: user.nickname,
+        age: user.age,
+        workStatus: user.workStatus,
+        companyScale: user.companyScale,
+        medianIncome: user.medianIncome,
+        annualIncome: user.annualIncome,
+        asset: user.asset,
+        hasHouse: user.hasHouse,
+        isHouseOwner: user.isHouseOwner,
+        maritalStatus: user.maritalStatus,
+        email: user.email,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+        token: {
+            id: user.token.id,
+            refreshToken: user.token.refreshToken,
+            createdAt: user.token.createdAt,
+        },
+    };
+    return result;
+};
+
+const signinNaver: RequestHandler = async (req, res) => {
     try {
-        const accessToken = req.headers.access_token;
+        let accessToken = req.headers.access_token;
         // getTokenInfo - 토큰 검증 api를 호출하는 함수
-        const tokenInfo = await getKaKaoAccessTokenInfo(accessToken);
-
+        const tokenInfo = await getNaverAccessTokenInfo(accessToken);
         // 유효한 액세스 토큰이 아닌 모든 경우
-        if (tokenInfo.code !== 200)
+        if (tokenInfo.status !== 200)
             return res.status(401).json({
                 success: false,
-                error: {
-                    code: tokenInfo.code,
-                    message: tokenInfo.msg,
+                data: {
+                    code: tokenInfo.data.resultcode,
+                    message: tokenInfo.data.message,
                 },
             });
 
-        // user 정보 받아오기 api를 사용하여 kakao플랫폼에 등록된 user의 정보를 받아옵니다.
-        const userInfo = await getKaKaoUserInfo(accessToken);
+        // User테이블에 user create
+        const email = tokenInfo.data.response.email as string;
         const userObj: tUser = {
-            email: userInfo.data.kakao_account.email,
+            email,
         };
         const dbUser = await findOneUserByEmail(userObj);
-        const refreshToken: string = req.headers.refresh_token as string;
+        let refreshToken: string = req.headers.refresh_token as string;
         let newUser: User;
 
         // 새로 가입한 user
@@ -42,23 +66,25 @@ const signinKakao: RequestHandler = async (req, res) => {
             const newToken = await createToken(tokenObj);
             newUser.token = newToken;
         } else {
-            const updatedToken = await updateKaKaoAccessToken(refreshToken);
+            const updatedToken = await updateNaverAccessToken(refreshToken);
+            accessToken = updatedToken.data.access_token;
+            refreshToken = updatedToken.data.refresh_token;
             if (updatedToken.status !== 200)
                 return res.status(401).json({
                     success: false,
                     error: updatedToken.data,
                 });
-
             await updateTokenById(dbUser.token.id, refreshToken);
             newUser = dbUser;
         }
         // user 데이터를 반환합니다.
+        newUser = await toResObj(newUser);
         return res
             .status(200)
             .header({
                 access_token: accessToken,
                 refresh_token: refreshToken,
-                platform: 'kakao',
+                platform: 'naver',
             })
             .json({
                 success: true,
@@ -77,4 +103,4 @@ const signinKakao: RequestHandler = async (req, res) => {
     }
 };
 
-export default signinKakao;
+export default signinNaver;

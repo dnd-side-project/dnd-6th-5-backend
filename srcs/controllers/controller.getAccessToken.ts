@@ -1,11 +1,11 @@
 import { RequestHandler } from 'express';
 import { findOneToken, updateToken } from '../repository/index';
-import { updateAccessToken } from '../lib/index';
+import { updateKaKaoAccessToken, updateNaverAccessToken } from '../lib/index';
 import { Token } from '../entity/index';
 
 const getAccessToken: RequestHandler = async (req, res) => {
     try {
-        // 만료된 토큰일 경우
+        // DB의 리프래쉬 토큰과 일치하는지 확인
         const TokenInfo = (await findOneToken(req.headers.refresh_token as string)) as Token;
         if (TokenInfo === undefined)
             return res.status(401).json({
@@ -16,22 +16,37 @@ const getAccessToken: RequestHandler = async (req, res) => {
                 },
             });
 
-        // 리프래쉬 토큰을 사용하여 액세스토큰 재발급
-        const updatedToken = await updateAccessToken(TokenInfo.refreshToken);
-        if (updatedToken.status !== 200)
-            return res.status(401).json({
-                success: false,
-                error: updatedToken.data,
-            });
+        let accessToken: string;
+        let refreshToken: string | null;
 
-        const accessToken = updatedToken.data.access_token;
-        let refreshToken = updatedToken.data.refresh_token;
+        if (req.headers.platform === 'kakao') {
+            // 리프래쉬 토큰을 사용하여 액세스토큰 재발급
+            const updatedToken = await updateKaKaoAccessToken(TokenInfo.refreshToken);
+            if (updatedToken.status !== 200)
+                return res.status(401).json({
+                    success: false,
+                    error: updatedToken.data,
+                });
 
-        // 리프래쉬 토큰이 재발급 되었다면
-        // 재발급된 리프래쉬 토큰을 DB에 저장
-        if (typeof refreshToken === 'string')
+            accessToken = updatedToken.data.access_token as string;
+            refreshToken = updatedToken.data.refresh_token;
+
+            if (typeof refreshToken === 'string')
+                await updateToken(TokenInfo.refreshToken, refreshToken);
+            else refreshToken = null;
+        } else {
+            // 리프래쉬 토큰을 사용하여 액세스토큰 재발급
+            const updatedToken = await updateNaverAccessToken(TokenInfo.refreshToken);
+            if (updatedToken.status !== 200)
+                return res.status(401).json({
+                    success: false,
+                    error: updatedToken.data,
+                });
+
+            accessToken = updatedToken.data.access_token as string;
+            refreshToken = updatedToken.data.refresh_token;
             await updateToken(TokenInfo.refreshToken, refreshToken);
-        else refreshToken = null;
+        }
 
         // 재발급된 토큰과 플랫폼을 헤더에 넣고 반환한다.
         return res
