@@ -34,9 +34,11 @@
     "express-validator": "^6.14.0",
     "mysql": "^2.18.1",
     "prettier": "^2.5.1",
+    "request": "^2.88.2",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.3.0",
-    "typeorm": "^0.2.41"
+    "typeorm": "^0.2.41",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",
