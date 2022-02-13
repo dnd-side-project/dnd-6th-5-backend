@@ -12,6 +12,16 @@ const router = Router();
 
 router.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 router.get(
+    '/login/naver',
+    [
+        header('access_token').exists({ checkFalsy: true }),
+        header('refresh_token').exists({ checkFalsy: true }),
+        middleware.validator,
+    ],
+    middleware.validator,
+    controller.signinNaver
+);
+router.get(
     '/login/kakao',
     [
         header('access_token').exists({ checkFalsy: true }),

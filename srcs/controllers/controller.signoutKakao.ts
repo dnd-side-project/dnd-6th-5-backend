@@ -31,8 +31,8 @@ const signoutKakao: RequestHandler = async (req, res) => {
             email: userInfo.data.kakao_account.email,
         };
         const dbUser = await findOneUserByEmail(userObj);
-
         await updateToken(dbUser?.token.refreshToken as string, null);
+
         return res.status(200).json({
             success: true,
             data: dbUser?.id,
