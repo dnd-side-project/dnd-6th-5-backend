@@ -47,6 +47,16 @@ function replaceToUrl(str) {
 }
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+async function getPureTitle(data) {
+    const uri = data.rqutUrla._cdata.replace(/[^0-9a-zA-Z&.,/:_?=-]/g, '');
+    const pureUrl = replaceToUrl(uri);
+    let title = await gotoPage(pureUrl);
+    if (title === false) title = data.rqutUrla._cdata;
+    if (title.includes('본인인증')) return '-';
+    return title;
+}
+
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 async function insertPolicy(connection, results, data) {
     const title = await getPureTitle(data);
     console.log(title);
@@ -77,16 +87,6 @@ async function insertPolicy(connection, results, data) {
         // 정책 이름이 같은 데이터가 존재한다면 넘어감
         console.log('same policy already in db');
     }
-}
-
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-async function getPureTitle(data) {
-    const uri = data.rqutUrla._cdata.replace(/[^0-9a-zA-Z&.,/:_?=-]/g, '');
-    const pureUrl = replaceToUrl(uri);
-    let title = await gotoPage(pureUrl);
-    if (title === false) title = data.rqutUrla._cdata;
-    if (title.includes('본인인증')) return '-';
-    return title;
 }
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
