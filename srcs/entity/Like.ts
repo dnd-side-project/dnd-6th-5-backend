@@ -27,7 +27,7 @@ export class Like extends BaseEntity {
         nullable: false,
         onDelete: 'CASCADE',
     })
-    @JoinColumn({ name: 'post_id' })
+    @JoinColumn({ name: 'policy_id' })
     policy!: Policy;
 }
 
