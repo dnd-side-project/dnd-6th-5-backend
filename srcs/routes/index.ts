@@ -27,6 +27,7 @@ router.get(
     middleware.validator,
     controller.signoutNaver
 );
+
 router.get(
     '/login/kakao',
     [
@@ -41,9 +42,15 @@ router.get(
     [header('access_token').exists({ checkFalsy: true }), middleware.validator],
     controller.signoutKakao
 );
+
 router.get(
     '/token',
-    [header('refresh_token').exists({ checkFalsy: true }), middleware.validator],
+    [
+        header('refresh_token').exists({ checkFalsy: true }),
+        header('platform').isIn(['naver', 'kakao']),
+        middleware.validator,
+    ],
+
     controller.getAccessToken
 );
 
