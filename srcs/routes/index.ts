@@ -53,6 +53,8 @@ router.get(
     controller.getAccessToken
 );
 
+router.get('/policy', controller.getPolicyList);
+
 router.use(middleware.isAuth);
 router.get('/', (req, res) => {
     res.json({ data: 'data' });
