@@ -2,9 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany } from 't
 import {
     Category,
     WorkStatus,
-    CompanyScale,
     MedianIncome,
-    AnnualIncome,
     Asset,
     HasHouse,
     IsHouseOwner,
@@ -20,20 +18,23 @@ export class Policy extends BaseEntity {
     @Column('varchar', { name: 'name', nullable: true, length: 100 })
     name!: string;
 
+    @Column('varchar', { name: 'number', nullable: true, length: 100 })
+    number!: string;
+
     @Column({ type: 'enum', name: 'category', nullable: true, enum: Category })
     category!: Category;
 
     @Column({ type: 'enum', name: 'work_status', nullable: true, enum: WorkStatus })
     workStatus!: WorkStatus;
 
-    @Column({ type: 'enum', name: 'company_scale', nullable: true, enum: CompanyScale })
-    companyScale!: CompanyScale;
+    @Column('varchar', { name: 'company_scale', nullable: true, length: 100 })
+    companyScale!: string;
 
     @Column({ type: 'enum', name: 'median_income', nullable: true, enum: MedianIncome })
     medianIncome!: MedianIncome;
 
-    @Column({ type: 'enum', name: 'annual_income', nullable: true, enum: AnnualIncome })
-    annualIncome!: AnnualIncome;
+    @Column('varchar', { name: 'annual_income', nullable: true, length: 100 })
+    annualIncome!: string;
 
     @Column({ type: 'enum', name: 'asset', nullable: true, enum: Asset })
     asset!: Asset;
@@ -53,23 +54,20 @@ export class Policy extends BaseEntity {
     @Column('varchar', { name: 'host', nullable: true, length: 50 })
     host!: string;
 
-    @Column({ type: 'datetime', name: 'open_date', nullable: true })
-    open_date!: string;
-
     @Column('varchar', { name: 'application_period', nullable: true, length: 100 })
-    application_period!: string;
+    applicationPeriod!: string;
 
     @Column('varchar', { name: 'announcement', nullable: true, length: 100 })
     announcement!: string;
 
     @Column('varchar', { name: 'policy_duration', nullable: true, length: 100 })
-    policy_duration!: string;
+    policyDuration!: string;
 
     @Column('varchar', { name: 'limit_age', nullable: true, length: 100 })
-    limit_age!: string;
+    limitAge!: string;
 
     @Column({ type: 'longtext', name: 'limit_area_asset', nullable: false })
-    limit_area_asset!: string;
+    limitAreaAsset!: string;
 
     @Column('varchar', { name: 'specialization', nullable: true, length: 100 })
     specialization!: string;
@@ -81,34 +79,34 @@ export class Policy extends BaseEntity {
     note!: string;
 
     @Column('varchar', { name: 'limited_target', nullable: true, length: 100 })
-    limited_target!: string;
+    limitedTarget!: string;
 
     @Column('varchar', { name: 'support_scale', nullable: true, length: 100 })
-    support_scale!: string;
+    supportScale!: string;
 
     @Column({ type: 'longtext', name: 'application_process', nullable: false })
-    application_process!: string;
+    applicationProcess!: string;
 
     @Column('varchar', { name: 'application_site', nullable: false, length: 2084 })
-    application_site!: string;
+    applicationSite!: string;
 
     @Column('varchar', { name: 'application_site_name', nullable: true, length: 255 })
-    application_site_name!: string;
+    applicationSiteName!: string;
 
     @Column({ type: 'longtext', name: 'submission', nullable: false })
-    submission_docs!: string;
+    submissionDocs!: string;
 
     @Column({ type: 'longtext', name: 'other_info', nullable: true })
-    other_info!: string;
+    otherInfo!: string;
 
     @Column('varchar', { name: 'operating_institute', nullable: true, length: 50 })
-    operating_institute!: string;
+    operatingInstitute!: string;
 
     @Column('varchar', { name: 'reference_site1', nullable: true, length: 2084 })
-    reference_site1!: string;
+    referenceSite1!: string;
 
     @Column('varchar', { name: 'reference_site2', nullable: true, length: 2084 })
-    reference_site2!: string;
+    referenceSite2!: string;
 
     @OneToMany(() => Like, (like) => like.policy)
     like!: Like[];

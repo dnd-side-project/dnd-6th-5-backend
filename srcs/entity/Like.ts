@@ -5,7 +5,7 @@ import { User } from './User';
 @Entity()
 export class Like extends BaseEntity {
     @Column({ type: 'boolean', name: 'like_check', nullable: false, default: false })
-    like_check!: string;
+    like_check!: boolean;
 
     @UpdateDateColumn({
         type: 'timestamp',
@@ -27,7 +27,7 @@ export class Like extends BaseEntity {
         nullable: false,
         onDelete: 'CASCADE',
     })
-    @JoinColumn({ name: 'post_id' })
+    @JoinColumn({ name: 'policy_id' })
     policy!: Policy;
 }
 
