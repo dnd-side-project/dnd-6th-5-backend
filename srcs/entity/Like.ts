@@ -5,7 +5,7 @@ import { User } from './User';
 @Entity()
 export class Like extends BaseEntity {
     @Column({ type: 'boolean', name: 'like_check', nullable: false, default: false })
-    like_check!: string;
+    like_check!: boolean;
 
     @UpdateDateColumn({
         type: 'timestamp',

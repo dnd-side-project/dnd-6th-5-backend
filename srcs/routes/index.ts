@@ -53,6 +53,10 @@ router.get(
     controller.getAccessToken
 );
 
+router.get('/policy', controller.getPolicyList);
+router.get('/policy/:id', controller.getPolicyDetail);
+router.post('/policy/like', controller.likePolicy);
+
 router.use(middleware.isAuth);
 router.get('/', (req, res) => {
     res.json({ data: 'data' });
