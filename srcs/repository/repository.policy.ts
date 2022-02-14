@@ -4,11 +4,11 @@ import { getConnection } from 'typeorm';
 const findAllPolicy: () => Promise<Policy[]> = async () => {
     const result = await Policy.createQueryBuilder('policy')
         .select([
-            'policy.id',
-            'policy.name',
-            'policy.category',
-            'policy.summary',
-            'policy.applicationPeriod',
+            'id',
+            'name',
+            'category',
+            'summary',
+            'application_period as applicationPeriod',
             'likeCount',
         ])
         .leftJoin(
@@ -22,36 +22,36 @@ const findAllPolicy: () => Promise<Policy[]> = async () => {
             'L',
             'policy.id = L.policy_id'
         )
-        .getMany();
+        .addSelect('IFNULL(likeCount, 0)', 'likeCount')
+        .getRawMany();
     return result;
 };
 
 const findOnePolicyById: (id: string) => Promise<Policy | undefined> = async (id) => {
     const result = await Policy.createQueryBuilder('policy')
         .select([
-            'policy.name',
-            'policy.number',
-            'policy.category',
-            'policy.summary',
-            'policy.host',
-            'policy.announcement',
-            'policy.applicationPeriod',
-            'policy.policyDuration',
-            'policy.limitAge',
-            'policy.limitAreaAsset',
-            'policy.specialization',
-            'policy.content',
-            'policy.note',
-            'policy.limitedTarget',
-            'policy.supportScale',
-            'policy.applicationProcess',
-            'policy.applicationSite',
-            'policy.applicationSiteName',
-            'policy.submissionDocs',
-            'policy.otherInfo',
-            'policy.operatingInstitute',
-            'policy.referenceSite1',
-            'policy.referenceSite2',
+            'name',
+            'number',
+            'category',
+            'summary',
+            'host',
+            'application_period as applicationPeriod',
+            'announcement',
+            'policy_duration as policyDuration',
+            'limit_age as limitAge',
+            'limit_area_asset as limitAreaAsset',
+            'specialization',
+            'content',
+            'note',
+            'limited_target as limitedTarget',
+            'support_scale as supportScale',
+            'application_process as applicationProcess',
+            'application_site as applicationSite',
+            'application_site_name as applicationSiteName',
+            'submission',
+            'other_info as otherInfo',
+            'reference_site1 as referenceSite1',
+            'reference_site2 as referenceSite2',
             'likeCount',
         ])
         .leftJoin(
@@ -65,19 +65,20 @@ const findOnePolicyById: (id: string) => Promise<Policy | undefined> = async (id
             'L',
             'policy.id = L.policy_id'
         )
+        .addSelect('IFNULL(likeCount, 0)', 'likeCount')
         .where('id = :id', { id: id })
-        .getOneOrFail();
+        .getRawOne();
     return result;
 };
 
 const findPolicyByCategory: (category: string) => Promise<Policy[]> = async (category) => {
     const result = await Policy.createQueryBuilder('policy')
         .select([
-            'policy.id',
-            'policy.name',
-            'policy.category',
-            'policy.summary',
-            'policy.applicationPeriod',
+            'id',
+            'name',
+            'category',
+            'summary',
+            'application_period as applicationPeriod',
             'likeCount',
         ])
         .leftJoin(
@@ -91,8 +92,9 @@ const findPolicyByCategory: (category: string) => Promise<Policy[]> = async (cat
             'L',
             'policy.id = L.policy_id'
         )
+        .addSelect('IFNULL(likeCount, 0)', 'likeCount')
         .where('policy.category = :category', { category: category })
-        .getMany();
+        .getRawMany();
     return result;
 };
 

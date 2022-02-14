@@ -5,12 +5,16 @@ const getPolicyDetail: RequestHandler = async (req, res) => {
     const { id } = req.params;
     try {
         const policy = await findOnePolicyById(id);
-        return res.status(200).json({
-            success: true,
-            data: {
-                policy,
-            },
-        });
+        if (policy) {
+            return res.status(200).json({
+                success: true,
+                data: {
+                    policy,
+                },
+            });
+        } else {
+            throw new Error('No matching policy in db');
+        }
     } catch (error: any) {
         res.status(404).json({
             success: false,

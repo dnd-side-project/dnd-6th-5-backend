@@ -9,7 +9,7 @@ const likePolicy: RequestHandler = async (req, res) => {
         await likeOrDislikePolicy(userId, policyId);
         return res.status(200).json({
             success: true,
-            data: { message: 'temp text' },
+            data: { message: '정책 찜하기/취소 완료' },
         });
     } catch (error: any) {
         res.status(404).json({
