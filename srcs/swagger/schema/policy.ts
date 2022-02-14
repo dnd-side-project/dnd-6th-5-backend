@@ -15,7 +15,7 @@
  *                      type: string
  *                  applicationPeriod:
  *                      type: string
- *                  like:
+ *                  likeCount:
  *                      type: number
  */
 

@@ -55,6 +55,7 @@ router.get(
 
 router.get('/policy', controller.getPolicyList);
 router.get('/policy/:id', controller.getPolicyDetail);
+router.post('/policy/like', controller.likePolicy);
 
 router.use(middleware.isAuth);
 router.get('/', (req, res) => {
