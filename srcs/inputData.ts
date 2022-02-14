@@ -29,7 +29,9 @@ async function gotoPage(url) {
         headless: true,
     });
     const page = await browser.newPage();
-    const result = await getTitle(page, url);
+    const result = await getTitle(page, url).catch(() => {
+        return '-';
+    });
     await browser.close();
     return result;
 }
@@ -48,18 +50,18 @@ function replaceToUrl(str) {
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 async function getPureTitle(data) {
+    console.log(data.rqutUrla._cdata);
     const uri = data.rqutUrla._cdata.replace(/[^0-9a-zA-Z&.,/:_?=-]/g, '');
     const pureUrl = replaceToUrl(uri);
-    let title = await gotoPage(pureUrl);
-    if (title === false) title = data.rqutUrla._cdata;
+    const title = await gotoPage(pureUrl);
+    if (title === false) return data.rqutUrla._cdata;
+    if (!title) return '-';
     if (title.includes('본인인증')) return '-';
     return title;
 }
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 async function insertPolicy(connection, results, data) {
-    const title = await getPureTitle(data);
-    console.log(title);
     if (results[0]['count(*)'] == 0) {
         const result = await connection
             .query(
@@ -76,7 +78,7 @@ async function insertPolicy(connection, results, data) {
                     data.rqutPrdCn._cdata,
                     data.rqutProcCn._cdata,
                     data.jdgnPresCn._cdata,
-                    title,
+                    data.rqutUrla._cdata,
                 ]
             )
             .catch(() => {
@@ -87,6 +89,21 @@ async function insertPolicy(connection, results, data) {
         // 정책 이름이 같은 데이터가 존재한다면 넘어감
         console.log('same policy already in db');
     }
+    const title = await getPureTitle(data);
+    await setSiteName(connection, data, title);
+}
+
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+async function setSiteName(connection, data, title) {
+    const result = await connection
+        .query(`UPDATE policy set application_site_name = ? where number = ?`, [
+            title,
+            data.bizId._text,
+        ])
+        .catch(() => {
+            return false;
+        });
+    if (result === false) console.log('updata error: ', data.bizId._text);
 }
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
@@ -100,6 +117,20 @@ async function tourData(connection, data) {
         });
     if (results === false) return;
     await insertPolicy(connection, results, data);
+}
+
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+async function setNullData(connection, results) {
+    for (const result of results[0]) {
+        await connection
+            .query(`UPDATE policy set application_site_name = ? where id = ?`, [
+                result.application_site,
+                result.id,
+            ])
+            .catch(() => {
+                return false;
+            });
+    }
 }
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
@@ -125,6 +156,12 @@ async function main() {
     for (const data of emp) {
         await tourData(connection, data);
     }
+    const results = await connection
+        .query(`SELECT id, application_site FROM policy where application_site_name IS null`)
+        .catch(() => {
+            return false;
+        });
+    await setNullData(connection, results);
     console.log('finish');
 }
 
