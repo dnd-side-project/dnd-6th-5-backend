@@ -35,7 +35,7 @@ const signoutKakao: RequestHandler = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            data: dbUser?.id,
+            data: { id: dbUser?.id },
         });
     } catch (error: any) {
         res.status(400).json({

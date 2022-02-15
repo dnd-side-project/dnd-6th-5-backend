@@ -3,7 +3,7 @@ import swaggerUI from 'swagger-ui-express';
 import swaggerSpec from '../swagger/option';
 import * as controller from '../controllers';
 import * as middleware from '../middleware';
-import { header, body, param } from 'express-validator';
+import { header, body } from 'express-validator';
 
 const router = Router();
 /*
@@ -87,5 +87,14 @@ router.use(middleware.isAuth);
 router.get('/', (req, res) => {
     res.json({ data: 'data' });
 });
+router.patch(
+    '/user/nickname',
+    [
+        body('id').exists({ checkFalsy: true }),
+        body('nickname').exists({ checkFalsy: true }),
+        middleware.validator,
+    ],
+    controller.patchUserNickname
+);
 
 export default router;
