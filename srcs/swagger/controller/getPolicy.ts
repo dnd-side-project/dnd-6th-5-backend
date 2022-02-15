@@ -61,3 +61,38 @@
  *                                  error:
  *                                      type: string
  */
+
+/**
+ * @swagger
+ * paths:
+ *  /policy/filter:
+ *      post:
+ *          description: policy filtering api
+ *          tags: [Policy]
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Filter'
+ *          responses:
+ *              200:
+ *                  description: success
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: array
+ *                              items:
+ *                                  $ref: "#/components/schemas/Policy"
+ *              400:
+ *                  description: Bad request
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  success:
+ *                                      type: string
+ *                                  error:
+ *                                      type: string
+ */

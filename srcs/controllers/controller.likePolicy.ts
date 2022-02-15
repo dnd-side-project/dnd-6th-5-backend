@@ -2,14 +2,14 @@ import { RequestHandler } from 'express';
 import { likeOrDislikePolicy } from '../repository/index';
 
 const likePolicy: RequestHandler = async (req, res) => {
-    const userId = req.body.userId;
-    const policyId = req.body.policyId;
+    const userId: number = req.body.userId;
+    const policyId: number = req.body.policyId;
 
     try {
         await likeOrDislikePolicy(userId, policyId);
         return res.status(200).json({
             success: true,
-            data: { message: 'temp text' },
+            data: { message: '정책 찜하기/취소 완료' },
         });
     } catch (error: any) {
         res.status(404).json({

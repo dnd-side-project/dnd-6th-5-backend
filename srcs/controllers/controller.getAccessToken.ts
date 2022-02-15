@@ -22,7 +22,8 @@ const getAccessToken: RequestHandler = async (req, res) => {
         if (req.headers.platform === 'kakao') {
             // 리프래쉬 토큰을 사용하여 액세스토큰 재발급
             const updatedToken = await updateKaKaoAccessToken(TokenInfo.refreshToken);
-            if (updatedToken.status !== 200)
+            console.log(updatedToken);
+            if (Object.keys(updatedToken.data).includes('error'))
                 return res.status(401).json({
                     success: false,
                     error: updatedToken.data,
@@ -37,7 +38,7 @@ const getAccessToken: RequestHandler = async (req, res) => {
         } else {
             // 리프래쉬 토큰을 사용하여 액세스토큰 재발급
             const updatedToken = await updateNaverAccessToken(TokenInfo.refreshToken);
-            if (updatedToken.status !== 200)
+            if (Object.keys(updatedToken.data).includes('error'))
                 return res.status(401).json({
                     success: false,
                     error: updatedToken.data,
@@ -51,7 +52,11 @@ const getAccessToken: RequestHandler = async (req, res) => {
         // 재발급된 토큰과 플랫폼을 헤더에 넣고 반환한다.
         return res
             .status(200)
-            .header({ access_token: accessToken, refresh_token: refreshToken, platform: 'kakao' })
+            .header({
+                access_token: accessToken,
+                refresh_token: refreshToken,
+                platform: req.headers.platform,
+            })
             .json({
                 success: true,
             });
