@@ -53,11 +53,7 @@ router.get(
     controller.getAccessToken
 );
 
-router.get(
-    '/policy',
-    [param('category').exists({ checkFalsy: true }), middleware.validator],
-    controller.getPolicyList
-);
+router.get('/policy', controller.getPolicyList);
 router.get('/policy/:id', controller.getPolicyDetail);
 router.post(
     '/policy/filter',
