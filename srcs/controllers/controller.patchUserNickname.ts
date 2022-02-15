@@ -8,7 +8,7 @@ const patchUserNickname: RequestHandler = async (req, res) => {
         const user = await updateOneUserById(id, nickname);
         return res.status(200).json({
             success: true,
-            data: user,
+            data: { user },
         });
     } catch (error: any) {
         res.status(400).json({

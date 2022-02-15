@@ -15,7 +15,7 @@ const getPolicyList: RequestHandler = async (req, res) => {
 
             return res.status(200).json({
                 success: true,
-                data: policy,
+                data: { policy },
             });
         } else {
             throw new Error('Invalid Category');
