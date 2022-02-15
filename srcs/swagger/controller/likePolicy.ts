@@ -17,9 +17,11 @@
  *                  content:
  *                      application/json:
  *                          schema:
- *                              type: array
- *                              items:
- *                                  $ref: "#/components/schemas/Policy"
+ *                              properties:
+ *                                  success:
+ *                                      type: boolean
+ *                                  data:
+ *                                      type: string
  *              400:
  *                  description: No policy in DB
  */

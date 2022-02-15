@@ -16,7 +16,7 @@
  *                  applicationPeriod:
  *                      type: string
  *                  likeCount:
- *                      type: number
+ *                      type: string
  */
 
 /**
@@ -72,6 +72,6 @@
  *                      type: string
  *                  referenceSite2:
  *                      type: string
- *                  like:
- *                      type: number
+ *                  likeCount:
+ *                      type: string
  */

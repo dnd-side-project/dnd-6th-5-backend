@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import { findAllPolicy, findPolicyByCategory } from '../repository/index';
 
 const getPolicyList: RequestHandler = async (req, res) => {
-    const category = req.query.category as string;
+    const category: string = req.query.category as string;
     try {
         let policy;
 
@@ -15,9 +15,7 @@ const getPolicyList: RequestHandler = async (req, res) => {
 
             return res.status(200).json({
                 success: true,
-                data: {
-                    policy,
-                },
+                data: { policy },
             });
         } else {
             throw new Error('Invalid Category');
