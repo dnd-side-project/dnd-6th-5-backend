@@ -66,7 +66,7 @@ const findOnePolicyById: (id: string) => Promise<Policy | undefined> = async (id
             'policy.id = L.policy_id'
         )
         .addSelect('IFNULL(likeCount, 0)', 'likeCount')
-        .where('id = :id', { id: id })
+        .where('id = :id', { id: parseInt(id) })
         .getRawOne();
     return result;
 };
@@ -102,10 +102,10 @@ const likeOrDislikePolicy: (userId: number, policyId: number) => Promise<void> =
     userId,
     policyId
 ) => {
-    const user = await getConnection().getRepository(User).findOneOrFail({ id: userId });
-    const policy = await getConnection().getRepository(Policy).findOneOrFail({ id: policyId });
+    const user = await User.findOneOrFail({ id: userId });
+    const policy = await Policy.findOneOrFail({ id: policyId });
 
-    const data = await getConnection().getRepository(Like).findOne({ user: user, policy: policy });
+    const data = await Like.findOne({ user: user, policy: policy });
 
     // 데이터가 존재한다면
     if (data) {

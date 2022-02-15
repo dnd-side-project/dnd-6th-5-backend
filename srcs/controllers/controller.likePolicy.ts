@@ -2,8 +2,8 @@ import { RequestHandler } from 'express';
 import { likeOrDislikePolicy } from '../repository/index';
 
 const likePolicy: RequestHandler = async (req, res) => {
-    const userId = req.body.userId;
-    const policyId = req.body.policyId;
+    const userId: number = req.body.userId;
+    const policyId: number = req.body.policyId;
 
     try {
         await likeOrDislikePolicy(userId, policyId);

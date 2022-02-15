@@ -8,9 +8,7 @@ const getPolicyDetail: RequestHandler = async (req, res) => {
         if (policy) {
             return res.status(200).json({
                 success: true,
-                data: {
-                    policy,
-                },
+                data: policy,
             });
         } else {
             throw new Error('No matching policy in db');

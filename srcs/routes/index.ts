@@ -3,7 +3,7 @@ import swaggerUI from 'swagger-ui-express';
 import swaggerSpec from '../swagger/option';
 import * as controller from '../controllers';
 import * as middleware from '../middleware';
-import { header } from 'express-validator';
+import { header, body, param } from 'express-validator';
 
 const router = Router();
 /*
@@ -53,9 +53,39 @@ router.get(
     controller.getAccessToken
 );
 
-router.get('/policy', controller.getPolicyList);
+router.get(
+    '/policy',
+    [param('category').exists({ checkFalsy: true }), middleware.validator],
+    controller.getPolicyList
+);
 router.get('/policy/:id', controller.getPolicyDetail);
-router.post('/policy/like', controller.likePolicy);
+router.post(
+    '/policy/filter',
+    [
+        body('category').exists({ checkFalsy: true }),
+        body('id').exists({ checkFalsy: true }),
+        body('age').exists({ checkFalsy: true }),
+        body('maritalStatus').exists({ checkFalsy: true }),
+        body('workStatus').exists({ checkFalsy: true }),
+        body('companyScale').exists({ checkFalsy: true }),
+        body('medianIncome').exists({ checkFalsy: true }),
+        body('annualIncome').exists({ checkFalsy: true }),
+        body('asset').exists({ checkFalsy: true }),
+        body('isHouseOwner').exists({ checkFalsy: true }),
+        body('hasHouse').exists({ checkFalsy: true }),
+        middleware.validator,
+    ],
+    controller.getFilteredPolicyList
+);
+router.post(
+    '/policy/like',
+    [
+        body('userId').exists({ checkFalsy: true }),
+        body('policyId').exists({ checkFalsy: true }),
+        middleware.validator,
+    ],
+    controller.likePolicy
+);
 
 router.use(middleware.isAuth);
 router.get('/', (req, res) => {
