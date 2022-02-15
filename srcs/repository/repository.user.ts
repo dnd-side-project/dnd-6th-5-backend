@@ -1,5 +1,6 @@
 import { User } from '../entity/index';
 import { tUser } from '../../@types/types.d';
+import { getConnection } from 'typeorm';
 
 const createUser: (user: tUser) => Promise<User> = async (user) => {
     const newUser = new User();
@@ -20,4 +21,22 @@ const findOneUserByEmail: (user: tUser) => Promise<User | undefined> = async (us
     return targetUser;
 };
 
-export { createUser, findOneUserByEmail };
+const updateOneUserById: (id: string, nickname?: string) => Promise<tUser | undefined> = async (
+    id,
+    nickname
+) => {
+    const numId = parseInt(id);
+    await getConnection()
+        .createQueryBuilder()
+        .update(User)
+        .set({
+            nickname: nickname,
+        })
+        .where('id = :id', { id: id })
+        .execute();
+
+    const targetUser = await User.findOne({ id: numId });
+    return targetUser;
+};
+
+export { createUser, findOneUserByEmail, updateOneUserById };
