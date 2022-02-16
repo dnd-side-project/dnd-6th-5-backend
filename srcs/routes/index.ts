@@ -96,5 +96,38 @@ router.patch(
     ],
     controller.patchUserNickname
 );
+router.patch(
+    '/user',
+    [
+        body('id').exists({ checkFalsy: true }),
+        body('age').exists({ checkFalsy: true }),
+        body('maritalStatus').isIn(['미혼', '기혼']),
+        body('workStatus').isIn(['재직자', '미취업자']),
+        body('companyScale').isIn(['중소기업', '중견기업', '자영업자', '(예비)창업자', '해당없음']),
+        body('medianIncome').isIn([
+            '30% 이하',
+            '40% 이하',
+            '45% 이하',
+            '50% 이하',
+            '72% 이하',
+            '100% 이하',
+            '해당없음',
+            '미공개',
+        ]),
+        body('annualIncome').isIn([
+            '부부합산 2천만원 이하',
+            '부부합산 5천만원 이하',
+            '외벌이 3천만원 이하',
+            '외벌이 3.5천만원 이하',
+            '해당없음',
+            '미공개',
+        ]),
+        body('asset').isIn(['2.92억원 이하', '2.92억원 초과', '미공개']),
+        body('isHouseOwner').isIn(['세대주 혹은 예비세대주', '세대구성원', '미공개']),
+        body('hasHouse').isIn(['무주택자', '유주택자', '미공개']),
+        middleware.validator,
+    ],
+    controller.patchUserNickname
+);
 
 export default router;
