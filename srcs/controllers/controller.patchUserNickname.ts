@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { updateOneUserNicknameById } from '../repository/repository.user';
+import { updateOneUserNicknameById } from '../repository/index';
 
 const patchUserNickname: RequestHandler = async (req, res) => {
     try {
