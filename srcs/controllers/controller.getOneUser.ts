@@ -6,6 +6,8 @@ const getOneUser: RequestHandler = async (req, res) => {
         const userId: string = req.params.id;
         const user = await findOneUserById(userId);
 
+        if (user === undefined) throw Error('This is a user id that does not exist.');
+
         return res.status(200).json({
             success: true,
             data: { user },
