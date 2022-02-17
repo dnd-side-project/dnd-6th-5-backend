@@ -111,7 +111,7 @@ router.patch(
     '/user',
     [
         body('id').exists({ checkFalsy: true }),
-        body('age').exists({ checkFalsy: true }),
+        body('age').isLength({ min: 8, max: 8 }),
         body('maritalStatus').isIn(Object.values(MaritalStatus)),
         body('workStatus').isIn(Object.values(WorkStatus)),
         body('companyScale').isIn(Object.values(CompanyScale)),

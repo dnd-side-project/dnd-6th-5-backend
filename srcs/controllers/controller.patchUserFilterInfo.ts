@@ -1,11 +1,18 @@
 import { RequestHandler } from 'express';
 import { findOneUserById, updateOneUserFilterById } from '../repository/index';
-import { setUserFilter } from '../lib/index';
+import { setUserFilter, validatorAge } from '../lib/index';
 import { tUser } from '../../@types/types';
 
 const patchUserFilterInfo: RequestHandler = async (req, res) => {
     try {
         const id: string = req.body.id;
+
+        if (validatorAge(req.body.age) === false)
+            return res.status(401).json({
+                success: false,
+                error: 'Age is an invalid date.',
+            });
+
         const user = await findOneUserById(id);
 
         const newUser = await setUserFilter(user as tUser, req.body);
