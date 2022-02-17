@@ -4,6 +4,16 @@ import swaggerSpec from '../swagger/option';
 import * as controller from '../controllers';
 import * as middleware from '../middleware';
 import { header, body } from 'express-validator';
+import {
+    WorkStatus,
+    CompanyScale,
+    MedianIncome,
+    AnnualIncome,
+    Asset,
+    HasHouse,
+    IsHouseOwner,
+    MaritalStatus,
+} from '../entity/common/Enums';
 
 const router = Router();
 /*
@@ -83,7 +93,8 @@ router.post(
     controller.likePolicy
 );
 
-router.use(middleware.isAuth);
+// 인증 미들 웨어
+// router.use(middleware.isAuth);
 router.get('/', (req, res) => {
     res.json({ data: 'data' });
 });
@@ -101,33 +112,17 @@ router.patch(
     [
         body('id').exists({ checkFalsy: true }),
         body('age').exists({ checkFalsy: true }),
-        body('maritalStatus').isIn(['미혼', '기혼']),
-        body('workStatus').isIn(['재직자', '미취업자']),
-        body('companyScale').isIn(['중소기업', '중견기업', '자영업자', '(예비)창업자', '해당없음']),
-        body('medianIncome').isIn([
-            '30% 이하',
-            '40% 이하',
-            '45% 이하',
-            '50% 이하',
-            '72% 이하',
-            '100% 이하',
-            '해당없음',
-            '미공개',
-        ]),
-        body('annualIncome').isIn([
-            '부부합산 2천만원 이하',
-            '부부합산 5천만원 이하',
-            '외벌이 3천만원 이하',
-            '외벌이 3.5천만원 이하',
-            '해당없음',
-            '미공개',
-        ]),
-        body('asset').isIn(['2.92억원 이하', '2.92억원 초과', '미공개']),
-        body('isHouseOwner').isIn(['세대주 혹은 예비세대주', '세대구성원', '미공개']),
-        body('hasHouse').isIn(['무주택자', '유주택자', '미공개']),
+        body('maritalStatus').isIn(Object.values(MaritalStatus)),
+        body('workStatus').isIn(Object.values(WorkStatus)),
+        body('companyScale').isIn(Object.values(CompanyScale)),
+        body('medianIncome').isIn(Object.values(MedianIncome)),
+        body('annualIncome').isIn(Object.values(AnnualIncome)),
+        body('asset').isIn(Object.values(Asset)),
+        body('isHouseOwner').isIn(Object.values(IsHouseOwner)),
+        body('hasHouse').isIn(Object.values(HasHouse)),
         middleware.validator,
     ],
-    controller.patchUserNickname
+    controller.patchUserFilterInfo
 );
 
 export default router;
