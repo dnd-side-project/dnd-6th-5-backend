@@ -124,5 +124,6 @@ router.patch(
     ],
     controller.patchUserFilterInfo
 );
+router.get('/user/:id', controller.getOneUser);
 
 export default router;

@@ -9,3 +9,4 @@ export { default as likePolicy } from './controller.likePolicy';
 export { default as getFilteredPolicyList } from './controller.getFilteredPolicyList';
 export { default as patchUserNickname } from './controller.patchUserNickname';
 export { default as patchUserFilterInfo } from './controller.patchUserFilterInfo';
+export { default as getOneUser } from './controller.getOneUser';
