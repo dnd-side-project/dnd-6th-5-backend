@@ -7,3 +7,4 @@ export {
     updateNaverAccessToken,
     logoutNaver,
 } from './auth.lib';
+export { default as setUserFilter } from './setObj.lib';
