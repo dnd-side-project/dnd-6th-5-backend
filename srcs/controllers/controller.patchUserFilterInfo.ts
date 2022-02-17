@@ -8,10 +8,7 @@ const patchUserFilterInfo: RequestHandler = async (req, res) => {
         const id: string = req.body.id;
 
         if (validatorAge(req.body.age) === false)
-            return res.status(401).json({
-                success: false,
-                error: 'Age is an invalid date.',
-            });
+            throw Error(`The range of age values is '19010101-20211231' 입니다`);
 
         const user = await findOneUserById(id);
 

@@ -1,7 +1,7 @@
 const validatorAge: (age: string) => boolean = (age) => {
     const standardDay = {
         start: new Date(1900, 0),
-        end: new Date(2021, 0),
+        end: new Date(2022, 1),
     };
 
     const date = {
