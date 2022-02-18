@@ -35,7 +35,7 @@ const findAllPosts: () => Promise<Post[]> = async () => {
     return result;
 };
 
-const findAllPostsByUser: (id: string) => Promise<any> = async (id) => {
+const findAllPostsByUser: (id: string) => Promise<Post[]> = async (id) => {
     const user_id = parseInt(id);
 
     const result = await User.createQueryBuilder('U')
