@@ -35,4 +35,42 @@ const findAllPosts: () => Promise<Post[]> = async () => {
     return result;
 };
 
-export { findAllPosts };
+const findAllPostsByUser: (id: string) => Promise<any> = async (id) => {
+    const user_id = parseInt(id);
+
+    const result = await User.createQueryBuilder('U')
+        .select(['id as user_id', 'post_id', 'nickname', 'P.category', 'title', 'content', 'C.cnt'])
+        .leftJoin(
+            (qb) =>
+                qb
+                    .from(Post, 'post')
+                    .select(['user_id', 'category', 'title', 'content', 'created_at', 'updated_at'])
+                    .addSelect('id', 'post_id'),
+            'P',
+            'U.id = P.user_id'
+        )
+        .leftJoin(
+            (qb) =>
+                qb
+                    .from(Comment, 'C')
+                    .select('COUNT(*)', 'cnt')
+                    .addSelect('post_id', 'p_id')
+                    .groupBy('p_id'),
+            'C',
+            'P.post_id = C.p_id'
+        )
+        .where('U.id = :id', { id: user_id })
+        .addSelect(
+            'DATE_FORMAT(CONVERT_TZ(P.created_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
+            'createdAt'
+        )
+        .addSelect(
+            'DATE_FORMAT(CONVERT_TZ(P.updated_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
+            'updatedAt'
+        )
+        .getRawMany();
+
+    return result;
+};
+
+export { findAllPosts, findAllPostsByUser };
