@@ -10,3 +10,4 @@ export { default as getFilteredPolicyList } from './controller.getFilteredPolicy
 export { default as patchUserNickname } from './controller.patchUserNickname';
 export { default as getCommunityList } from './controller.getCommunityList';
 export { default as patchUserFilterInfo } from './controller.patchUserFilterInfo';
+export { default as getOneUser } from './controller.getOneUser';
