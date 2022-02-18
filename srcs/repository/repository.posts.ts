@@ -36,7 +36,8 @@ const findAllPosts: () => Promise<Post[]> = async () => {
 };
 
 const findAllPostsByUser: (id: string) => Promise<Post[]> = async (id) => {
-    const user_id = parseInt(id);
+    const userId = parseInt(id);
+    if (isNaN(userId)) throw Error('id is not number');
 
     const result = await User.createQueryBuilder('U')
         .select(['id as user_id', 'post_id', 'nickname', 'P.category', 'title', 'content', 'C.cnt'])
@@ -59,7 +60,7 @@ const findAllPostsByUser: (id: string) => Promise<Post[]> = async (id) => {
             'C',
             'P.post_id = C.p_id'
         )
-        .where('U.id = :id', { id: user_id })
+        .where('U.id = :id', { id: userId })
         .addSelect(
             'DATE_FORMAT(CONVERT_TZ(P.created_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
             'createdAt'

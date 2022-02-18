@@ -4,6 +4,7 @@ import { findOneUserById } from '../repository/index';
 const getOneUser: RequestHandler = async (req, res) => {
     try {
         const userId: string = req.params.id;
+
         const user = await findOneUserById(userId);
 
         if (user === undefined) throw Error('This is a user id that does not exist.');
