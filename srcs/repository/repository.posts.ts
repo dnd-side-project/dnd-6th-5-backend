@@ -35,4 +35,53 @@ const findAllPosts: () => Promise<Post[]> = async () => {
     return result;
 };
 
-export { findAllPosts };
+const findOnePostById: (id: string) => Promise<Post | undefined> = async (id) => {
+    const result = await Post.createQueryBuilder('post')
+        .select(['title', 'category', 'post.content as content'])
+        .addSelect(
+            'DATE_FORMAT(CONVERT_TZ(post.created_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
+            'createdAt'
+        )
+        .addSelect(
+            'DATE_FORMAT(CONVERT_TZ(post.updated_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
+            'updatedAt'
+        )
+        .where('post.id = :id', { id: parseInt(id) })
+        .getRawOne();
+    return result;
+};
+
+const findAuthorByPostId: (id: string) => Promise<User | undefined> = async (id) => {
+    const post = await Post.createQueryBuilder('post')
+        .leftJoinAndSelect('post.user', 'author')
+        .where('post.id = :id', { id: parseInt(id) })
+        .getOne();
+    const userId = post?.user.id;
+    const result = await User.createQueryBuilder('user')
+        .select([
+            'nickname',
+            'age',
+            'work_status as workStatus',
+            'company_scale as companyScale',
+            'median_income as medianIncome',
+            'annual_income as annualIncome',
+            'asset',
+            'has_house as hasHouse',
+            'is_house_owner as isHouseOwner',
+            'marital_status as maritalStatus',
+        ])
+        .where('id=:id', { id: userId })
+        .getRawOne();
+    return result;
+};
+
+const findCommentsByPostId: (id: string) => Promise<Comment[] | undefined> = async (id) => {
+    const post = await Post.createQueryBuilder('post')
+        .leftJoinAndSelect('post.comment', 'comment')
+        .where('post.id = :id', { id: parseInt(id) })
+        .getOne();
+    const result = post?.comment;
+    return result;
+};
+
+export { findAllPosts, findOnePostById, findAuthorByPostId, findCommentsByPostId };

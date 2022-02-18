@@ -111,4 +111,6 @@ router.patch(
     controller.patchUserFilterInfo
 );
 
+router.get('/posts/:id', controller.getPostDetail);
+
 export default router;

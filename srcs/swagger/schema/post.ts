@@ -21,5 +21,19 @@
  *                      type: string
  *                  updatedAt:
  *                      type: string
+ */
 
+/**
+ * @swagger
+ *  components:
+ *      schemas:
+ *          PostDetail:
+ *              type: object
+ *              properties:
+ *                  post:
+ *                      type: string
+ *                  author:
+ *                      type: string
+ *                  comments:
+ *                      type: string
  */
