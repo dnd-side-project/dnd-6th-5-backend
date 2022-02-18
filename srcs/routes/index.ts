@@ -110,6 +110,7 @@ router.patch(
     ],
     controller.patchUserFilterInfo
 );
+router.get('/user/:id', controller.getOneUser);
 
 router.get('/posts/:id', controller.getPostDetail);
 
