@@ -12,3 +12,4 @@ export {
     findOnePolicyById,
     likeOrDislikePolicy,
 } from './repository.policy';
+export { findAllPosts } from './repository.posts';

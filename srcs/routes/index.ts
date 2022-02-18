@@ -65,24 +65,7 @@ router.get(
 
 router.get('/policy', controller.getPolicyList);
 router.get('/policy/:id', controller.getPolicyDetail);
-router.post(
-    '/policy/filter',
-    [
-        body('category').exists({ checkFalsy: true }),
-        body('id').exists({ checkFalsy: true }),
-        body('age').exists({ checkFalsy: true }),
-        body('maritalStatus').exists({ checkFalsy: true }),
-        body('workStatus').exists({ checkFalsy: true }),
-        body('companyScale').exists({ checkFalsy: true }),
-        body('medianIncome').exists({ checkFalsy: true }),
-        body('annualIncome').exists({ checkFalsy: true }),
-        body('asset').exists({ checkFalsy: true }),
-        body('isHouseOwner').exists({ checkFalsy: true }),
-        body('hasHouse').exists({ checkFalsy: true }),
-        middleware.validator,
-    ],
-    controller.getFilteredPolicyList
-);
+router.post('/policy/filter', controller.getFilteredPolicyList);
 router.post(
     '/policy/like',
     [
@@ -93,6 +76,9 @@ router.post(
     controller.likePolicy
 );
 
+router.get('/posts', controller.getCommunityList);
+
+router.use(middleware.isAuth);
 // 인증 미들 웨어
 // router.use(middleware.isAuth);
 router.get('/', (req, res) => {
