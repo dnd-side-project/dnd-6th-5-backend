@@ -37,7 +37,42 @@ const findAllPosts: () => Promise<Post[]> = async () => {
 
 const findOnePostById: (id: string) => Promise<Post | undefined> = async (id) => {
     const result = await Post.createQueryBuilder('post')
-        .select(['title', 'category', 'post.content as content'])
+        .select([
+            'title',
+            'category',
+            'post.content as content',
+            'author',
+            'DATE_FORMAT(age, "%Y-%m-%d") as age',
+            'post.marital_status as maritalStatus',
+            'work_status as workStatus',
+            'company_scale as companyScale',
+            'median_income as medianIncome',
+            'annual_income as annualIncome',
+            'asset',
+            'has_house as hasHouse',
+            'is_house_owner as isHouseOwner',
+            'commentCount',
+        ])
+        .leftJoin(
+            (qb) =>
+                qb
+                    .from(Comment, 'comment')
+                    .select('COUNT(comment.post_id)', 'commentCount')
+                    .addSelect('comment.post_id', 'post_id')
+                    .groupBy('comment.post_id'),
+            'C',
+            'post.id = C.post_id'
+        )
+        .leftJoin(
+            (qb) =>
+                qb
+                    .from(User, 'user')
+                    .select('user.nickname', 'author')
+                    .addSelect('user.id', 'user_id'),
+            'U',
+            'post.user_id = U.user_id'
+        )
+        .addSelect('IFNULL(commentCount, 0)', 'commentCount')
         .addSelect(
             'DATE_FORMAT(CONVERT_TZ(post.created_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
             'createdAt'
@@ -51,36 +86,28 @@ const findOnePostById: (id: string) => Promise<Post | undefined> = async (id) =>
     return result;
 };
 
-const findAuthorByPostId: (id: string) => Promise<User | undefined> = async (id) => {
-    const post = await Post.createQueryBuilder('post')
-        .leftJoinAndSelect('post.user', 'author')
-        .where('post.id = :id', { id: parseInt(id) })
-        .getOne();
-    const userId = post?.user.id;
-    const result = await User.createQueryBuilder('user')
-        .select([
-            'nickname',
-            'age',
-            'work_status as workStatus',
-            'company_scale as companyScale',
-            'median_income as medianIncome',
-            'annual_income as annualIncome',
-            'asset',
-            'has_house as hasHouse',
-            'is_house_owner as isHouseOwner',
-            'marital_status as maritalStatus',
-        ])
-        .where('id=:id', { id: userId })
-        .getRawOne();
-    return result;
-};
-
-const findCommentsByPostId: (id: string) => Promise<Comment[] | undefined> = async (id) => {
-    const post = await Post.createQueryBuilder('post')
-        .leftJoinAndSelect('post.comment', 'comment')
-        .where('post.id = :id', { id: parseInt(id) })
-        .getOne();
-    const result = post?.comment;
+const findCommentsByPostId: (postId: string) => Promise<Comment[] | undefined> = async (postId) => {
+    const result = await Comment.createQueryBuilder('comment')
+        .select(['id', 'content', 'commenter'])
+        .leftJoin(
+            (qb) =>
+                qb
+                    .from(User, 'user')
+                    .select('user.nickname', 'commenter')
+                    .addSelect('user.id', 'user_id'),
+            'U',
+            'comment.user_id = U.user_id'
+        )
+        .addSelect(
+            'DATE_FORMAT(CONVERT_TZ(comment.created_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
+            'createdAt'
+        )
+        .addSelect(
+            'DATE_FORMAT(CONVERT_TZ(comment.updated_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
+            'updatedAt'
+        )
+        .where('comment.post_id=:id', { id: postId })
+        .getRawMany();
     return result;
 };
 
@@ -138,11 +165,4 @@ const findAllPostsByUser: (id: string) => Promise<Post[]> = async (id) => {
     return result;
 };
 
-export {
-    findAllPosts,
-    findOnePostById,
-    findAuthorByPostId,
-    findCommentsByPostId,
-    createComment,
-    findAllPostsByUser,
-};
+export { findAllPosts, findOnePostById, findCommentsByPostId, createComment, findAllPostsByUser };

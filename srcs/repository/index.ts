@@ -15,7 +15,6 @@ export {
 export {
     findAllPosts,
     findOnePostById,
-    findAuthorByPostId,
     findCommentsByPostId,
     createComment,
     findAllPostsByUser,
