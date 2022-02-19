@@ -137,4 +137,57 @@ const likeOrDislikePolicy: (userId: number, policyId: number) => Promise<void> =
     }
 };
 
-export { findAllPolicy, findPolicyByCategory, findOnePolicyById, likeOrDislikePolicy };
+const findOneUserLikePolicy: (id: string) => Promise<Policy[]> = async (id) => {
+    const userId = parseInt(id);
+    if (isNaN(userId)) throw Error('Please enter a numeric character for the id value.');
+
+    const result = await User.createQueryBuilder('user')
+        .select([
+            'L.user_id as user_id',
+            'L.policy_id',
+            'P.category',
+            'P.name',
+            'P.content',
+            'P.application_period',
+            'L_cnt.cnt',
+        ])
+        .leftJoin(
+            (qb) =>
+                qb
+                    .from(Like, 'like')
+                    .select(['user_id', 'policy_id', 'like_check'])
+                    .where('like_check = 1'),
+            'L',
+            'user.id = L.user_id'
+        )
+        .leftJoin(
+            (qb) =>
+                qb
+                    .from(Like, 'like')
+                    .select(['policy_id', 'count(like_check) as cnt'])
+                    .groupBy('policy_id'),
+            'L_cnt',
+            'L.policy_id = L_cnt.policy_id'
+        )
+        .leftJoin(
+            (qb) =>
+                qb
+                    .from(Policy, 'policy')
+                    .select(['name', 'category', 'content', 'application_period'])
+                    .addSelect('id', 'policy_id'),
+            'P',
+            'L.policy_id = P.policy_id'
+        )
+        .where('user.id = :userId', { userId: userId })
+        .getRawMany();
+
+    return result;
+};
+
+export {
+    findAllPolicy,
+    findPolicyByCategory,
+    findOnePolicyById,
+    likeOrDislikePolicy,
+    findOneUserLikePolicy,
+};

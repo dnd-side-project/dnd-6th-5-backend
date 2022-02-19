@@ -15,3 +15,4 @@ export { default as getPostDetail } from './controller.getPostDetail';
 export { default as postComment } from './controller.postComment';
 export { default as getOneUserPosts } from './controller.getOneUserPosts';
 export { default as getOneUserComments } from './controller.getOneUserComments';
+export { default as getOneUserLikePolicy } from './controller.getOneUserLikePolicy';
