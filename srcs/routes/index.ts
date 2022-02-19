@@ -77,6 +77,7 @@ router.post(
 );
 
 router.get('/posts', controller.getCommunityList);
+router.post('/posts/:id/comment', controller.postComment);
 
 router.use(middleware.isAuth);
 // 인증 미들 웨어
