@@ -143,7 +143,7 @@ const findOneUserLikePolicy: (id: string) => Promise<Policy[]> = async (id) => {
 
     const result = await User.createQueryBuilder('user')
         .select([
-            'user_id',
+            'L.user_id as user_id',
             'L.policy_id',
             'P.category',
             'P.name',
