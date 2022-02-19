@@ -21,10 +21,19 @@ const findOneUserByEmail: (user: tUser) => Promise<User | undefined> = async (us
     return targetUser;
 };
 
-const updateOneUserById: (id: string, nickname?: string) => Promise<tUser | undefined> = async (
-    id,
-    nickname
-) => {
+const findOneUserById: (id: string) => Promise<User | undefined> = async (id) => {
+    const userId = parseInt(id);
+    if (isNaN(userId)) throw Error('Please enter a numeric character for the id value.');
+
+    const targetUser = await User.findOne({ id: userId });
+
+    return targetUser;
+};
+
+const updateOneUserNicknameById: (
+    id: string,
+    nickname?: string
+) => Promise<tUser | undefined> = async (id, nickname) => {
     const numId = parseInt(id);
     await getConnection()
         .createQueryBuilder()
@@ -39,4 +48,34 @@ const updateOneUserById: (id: string, nickname?: string) => Promise<tUser | unde
     return targetUser;
 };
 
-export { createUser, findOneUserByEmail, updateOneUserById };
+const updateOneUserFilterById: (user: tUser) => Promise<tUser | undefined> = async (user) => {
+    const setObj = {
+        age: user.age,
+        workStatus: user.workStatus,
+        companyScale: user.companyScale,
+        medianIncome: user.medianIncome,
+        annualIncome: user.annualIncome,
+        asset: user.asset,
+        hasHouse: user.hasHouse,
+        isHouseOwner: user.isHouseOwner,
+        maritalStatus: user.maritalStatus,
+    };
+
+    await getConnection()
+        .createQueryBuilder()
+        .update(User)
+        .set(setObj)
+        .where('id = :id', { id: user.id })
+        .execute();
+
+    const targetUser = await User.findOne({ id: user.id });
+    return targetUser;
+};
+
+export {
+    createUser,
+    findOneUserByEmail,
+    updateOneUserNicknameById,
+    findOneUserById,
+    updateOneUserFilterById,
+};

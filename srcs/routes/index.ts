@@ -4,6 +4,16 @@ import swaggerSpec from '../swagger/option';
 import * as controller from '../controllers';
 import * as middleware from '../middleware';
 import { header, body } from 'express-validator';
+import {
+    WorkStatus,
+    CompanyScale,
+    MedianIncome,
+    AnnualIncome,
+    Asset,
+    HasHouse,
+    IsHouseOwner,
+    MaritalStatus,
+} from '../entity/common/Enums';
 
 const router = Router();
 /*
@@ -55,24 +65,7 @@ router.get(
 
 router.get('/policy', controller.getPolicyList);
 router.get('/policy/:id', controller.getPolicyDetail);
-router.post(
-    '/policy/filter',
-    [
-        body('category').exists({ checkFalsy: true }),
-        body('id').exists({ checkFalsy: true }),
-        body('age').exists({ checkFalsy: true }),
-        body('maritalStatus').exists({ checkFalsy: true }),
-        body('workStatus').exists({ checkFalsy: true }),
-        body('companyScale').exists({ checkFalsy: true }),
-        body('medianIncome').exists({ checkFalsy: true }),
-        body('annualIncome').exists({ checkFalsy: true }),
-        body('asset').exists({ checkFalsy: true }),
-        body('isHouseOwner').exists({ checkFalsy: true }),
-        body('hasHouse').exists({ checkFalsy: true }),
-        middleware.validator,
-    ],
-    controller.getFilteredPolicyList
-);
+router.post('/policy/filter', controller.getFilteredPolicyList);
 router.post(
     '/policy/like',
     [
@@ -83,7 +76,10 @@ router.post(
     controller.likePolicy
 );
 
-router.use(middleware.isAuth);
+router.get('/posts', controller.getCommunityList);
+
+// 인증 미들 웨어
+// router.use(middleware.isAuth);
 router.get('/', (req, res) => {
     res.json({ data: 'data' });
 });
@@ -96,5 +92,24 @@ router.patch(
     ],
     controller.patchUserNickname
 );
+router.patch(
+    '/user',
+    [
+        body('id').exists({ checkFalsy: true }),
+        body('age').isLength({ min: 8, max: 8 }),
+        body('maritalStatus').isIn(Object.values(MaritalStatus)),
+        body('workStatus').isIn(Object.values(WorkStatus)),
+        body('companyScale').isIn(Object.values(CompanyScale)),
+        body('medianIncome').isIn(Object.values(MedianIncome)),
+        body('annualIncome').isIn(Object.values(AnnualIncome)),
+        body('asset').isIn(Object.values(Asset)),
+        body('isHouseOwner').isIn(Object.values(IsHouseOwner)),
+        body('hasHouse').isIn(Object.values(HasHouse)),
+        middleware.validator,
+    ],
+    controller.patchUserFilterInfo
+);
+router.get('/user/:id', controller.getOneUser);
+router.get('/user/:id/post', controller.getOneUserPosts);
 
 export default router;

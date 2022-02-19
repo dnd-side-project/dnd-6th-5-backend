@@ -1,11 +1,14 @@
 import { RequestHandler } from 'express';
-import { updateOneUserNicknameById } from '../repository/index';
+import { findOneUserById } from '../repository/index';
 
-const patchUserNickname: RequestHandler = async (req, res) => {
+const getOneUser: RequestHandler = async (req, res) => {
     try {
-        const id: string = req.body.id;
-        const nickname: string = req.body.nickname;
-        const user = await updateOneUserNicknameById(id, nickname);
+        const userId: string = req.params.id;
+
+        const user = await findOneUserById(userId);
+
+        if (user === undefined) throw Error('This is a user id that does not exist.');
+
         return res.status(200).json({
             success: true,
             data: { user },
@@ -21,4 +24,4 @@ const patchUserNickname: RequestHandler = async (req, res) => {
     }
 };
 
-export default patchUserNickname;
+export default getOneUser;
