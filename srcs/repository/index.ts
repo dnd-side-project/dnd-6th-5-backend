@@ -11,6 +11,7 @@ export {
     findPolicyByCategory,
     findOnePolicyById,
     likeOrDislikePolicy,
+    findOneUserLikePolicy,
 } from './repository.policy';
 export {
     findAllPosts,
