@@ -1,4 +1,5 @@
-import { Post, Comment } from '../entity/index';
+import { getConnection } from 'typeorm';
+import { Post, Comment, User } from '../entity/index';
 
 const findOneUserComment: (id: string) => Promise<Comment[]> = async (id) => {
     const userId = parseInt(id);
@@ -22,4 +23,18 @@ const findOneUserComment: (id: string) => Promise<Comment[]> = async (id) => {
     return result;
 };
 
-export { findOneUserComment };
+const createComment: (postId: string, userId: number, content: string) => Promise<Comment> = async (
+    postId,
+    userId,
+    content
+) => {
+    const newComment = new Comment();
+    newComment.post = await Post.findOneOrFail({ id: parseInt(postId) });
+    newComment.user = await User.findOneOrFail({ id: userId });
+    newComment.content = content;
+    await newComment.save();
+
+    return newComment;
+};
+
+export { findOneUserComment, createComment };

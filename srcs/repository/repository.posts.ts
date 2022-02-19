@@ -111,21 +111,6 @@ const findCommentsByPostId: (postId: string) => Promise<Comment[] | undefined> =
     return result;
 };
 
-// 댓글 작성 api 진행중
-const createComment: (postId: string, userId: number, content: string) => Promise<Comment> = async (
-    postId,
-    userId,
-    content
-) => {
-    const newComment = new Comment();
-    newComment.post.id = parseInt(postId);
-    newComment.user.id = userId;
-    newComment.content = content;
-    await newComment.save();
-
-    return newComment;
-};
-
 const findAllPostsByUser: (id: string) => Promise<Post[]> = async (id) => {
     const userId = parseInt(id);
     if (isNaN(userId)) throw Error('id is not number');
@@ -165,4 +150,4 @@ const findAllPostsByUser: (id: string) => Promise<Post[]> = async (id) => {
     return result;
 };
 
-export { findAllPosts, findOnePostById, findCommentsByPostId, createComment, findAllPostsByUser };
+export { findAllPosts, findOnePostById, findCommentsByPostId, findAllPostsByUser };
