@@ -5,7 +5,7 @@ const findOneUserComment: (id: string) => Promise<Comment[]> = async (id) => {
     if (isNaN(userId)) throw Error('Please enter a numeric character for the id value.');
 
     const result = await Comment.createQueryBuilder('comment')
-        .select(['id as comment_id', 'user_id', 'P.post_id', 'content', 'P.title'])
+        .select(['user_id', 'P.post_id', 'id as comment_id', 'content', 'P.title'])
         .leftJoin(
             (qb) =>
                 qb.from(Post, 'post').select(['title', 'created_at']).addSelect('id', 'post_id'),
@@ -18,7 +18,7 @@ const findOneUserComment: (id: string) => Promise<Comment[]> = async (id) => {
             'createdAt'
         )
         .getRawMany();
-    console.log(result);
+
     return result;
 };
 

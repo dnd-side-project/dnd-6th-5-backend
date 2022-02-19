@@ -12,3 +12,4 @@ export { default as getCommunityList } from './controller.getCommunityList';
 export { default as patchUserFilterInfo } from './controller.patchUserFilterInfo';
 export { default as getOneUser } from './controller.getOneUser';
 export { default as getOneUserPosts } from './controller.getOneUserPosts';
+export { default as getOneUserComments } from './controller.getOneUserComments';
