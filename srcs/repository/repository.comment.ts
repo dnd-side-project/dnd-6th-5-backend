@@ -1,4 +1,3 @@
-import { getConnection } from 'typeorm';
 import { Post, Comment, User } from '../entity/index';
 
 const findOneUserComment: (id: string) => Promise<Comment[]> = async (id) => {
