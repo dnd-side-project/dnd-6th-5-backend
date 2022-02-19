@@ -13,3 +13,4 @@ export {
     likeOrDislikePolicy,
 } from './repository.policy';
 export { findAllPosts, findAllPostsByUser } from './repository.posts';
+export { findOneUserComment } from './repository.comment';
