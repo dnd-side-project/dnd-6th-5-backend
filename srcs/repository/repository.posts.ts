@@ -84,18 +84,15 @@ const findCommentsByPostId: (id: string) => Promise<Comment[] | undefined> = asy
     return result;
 };
 
+// 댓글 작성 api 진행중
 const createComment: (postId: string, userId: number, content: string) => Promise<Comment> = async (
     postId,
     userId,
     content
 ) => {
     const newComment = new Comment();
-    // newComment.post = await Post.findOne({ id: parseInt(postId) });
-    console.log('111');
     newComment.post.id = parseInt(postId);
-    console.log('222');
     newComment.user.id = userId;
-    console.log('333');
     newComment.content = content;
     await newComment.save();
 
