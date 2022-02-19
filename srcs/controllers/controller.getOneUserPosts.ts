@@ -1,17 +1,15 @@
 import { RequestHandler } from 'express';
-import { findOneUserById } from '../repository/index';
+import { findAllPostsByUser } from '../repository/index';
 
-const getOneUser: RequestHandler = async (req, res) => {
+const getOneUserPosts: RequestHandler = async (req, res) => {
     try {
         const userId: string = req.params.id;
 
-        const user = await findOneUserById(userId);
-
-        if (user === undefined) throw Error('This is a user id that does not exist.');
+        const posts = await findAllPostsByUser(userId);
 
         return res.status(200).json({
             success: true,
-            data: { user },
+            data: { posts },
         });
     } catch (error: any) {
         res.status(400).json({
@@ -24,4 +22,4 @@ const getOneUser: RequestHandler = async (req, res) => {
     }
 };
 
-export default getOneUser;
+export default getOneUserPosts;

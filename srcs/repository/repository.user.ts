@@ -23,6 +23,8 @@ const findOneUserByEmail: (user: tUser) => Promise<User | undefined> = async (us
 
 const findOneUserById: (id: string) => Promise<User | undefined> = async (id) => {
     const userId = parseInt(id);
+    if (isNaN(userId)) throw Error('Please enter a numeric character for the id value.');
+
     const targetUser = await User.findOne({ id: userId });
 
     return targetUser;
