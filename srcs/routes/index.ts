@@ -77,7 +77,6 @@ router.post(
 );
 
 router.get('/posts', controller.getCommunityList);
-router.post('/posts/:id/comment', controller.postComment);
 
 // 인증 미들 웨어
 // router.use(middleware.isAuth);
@@ -116,5 +115,6 @@ router.get('/user/:id/comment', controller.getOneUserComments);
 router.get('/user/:id/like/policy', controller.getOneUserLikePolicy);
 
 router.get('/posts/:id', controller.getPostDetail);
+router.post('/posts/:id/comment', controller.postComment);
 
 export default router;

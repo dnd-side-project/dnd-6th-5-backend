@@ -1,16 +1,15 @@
 import { RequestHandler } from 'express';
-import { findOnePostById, findAuthorByPostId, findCommentsByPostId } from '../repository/index';
+import { findOnePostById, findCommentsByPostId } from '../repository/index';
 
 const getPostDetail: RequestHandler = async (req, res) => {
     const id: string = req.params.id;
     try {
         const post = await findOnePostById(id);
-        const author = await findAuthorByPostId(id);
         const comments = await findCommentsByPostId(id);
         if (post) {
             return res.status(200).json({
                 success: true,
-                data: { post, author, comments },
+                data: { post, comments },
             });
         } else {
             throw new Error('No matching post in db');
