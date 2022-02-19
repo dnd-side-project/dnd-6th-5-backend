@@ -35,6 +35,70 @@ const findAllPosts: () => Promise<Post[]> = async () => {
     return result;
 };
 
+const findOnePostById: (id: string) => Promise<Post | undefined> = async (id) => {
+    const result = await Post.createQueryBuilder('post')
+        .select(['title', 'category', 'post.content as content'])
+        .addSelect(
+            'DATE_FORMAT(CONVERT_TZ(post.created_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
+            'createdAt'
+        )
+        .addSelect(
+            'DATE_FORMAT(CONVERT_TZ(post.updated_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
+            'updatedAt'
+        )
+        .where('post.id = :id', { id: parseInt(id) })
+        .getRawOne();
+    return result;
+};
+
+const findAuthorByPostId: (id: string) => Promise<User | undefined> = async (id) => {
+    const post = await Post.createQueryBuilder('post')
+        .leftJoinAndSelect('post.user', 'author')
+        .where('post.id = :id', { id: parseInt(id) })
+        .getOne();
+    const userId = post?.user.id;
+    const result = await User.createQueryBuilder('user')
+        .select([
+            'nickname',
+            'age',
+            'work_status as workStatus',
+            'company_scale as companyScale',
+            'median_income as medianIncome',
+            'annual_income as annualIncome',
+            'asset',
+            'has_house as hasHouse',
+            'is_house_owner as isHouseOwner',
+            'marital_status as maritalStatus',
+        ])
+        .where('id=:id', { id: userId })
+        .getRawOne();
+    return result;
+};
+
+const findCommentsByPostId: (id: string) => Promise<Comment[] | undefined> = async (id) => {
+    const post = await Post.createQueryBuilder('post')
+        .leftJoinAndSelect('post.comment', 'comment')
+        .where('post.id = :id', { id: parseInt(id) })
+        .getOne();
+    const result = post?.comment;
+    return result;
+};
+
+// 댓글 작성 api 진행중
+const createComment: (postId: string, userId: number, content: string) => Promise<Comment> = async (
+    postId,
+    userId,
+    content
+) => {
+    const newComment = new Comment();
+    newComment.post.id = parseInt(postId);
+    newComment.user.id = userId;
+    newComment.content = content;
+    await newComment.save();
+
+    return newComment;
+};
+
 const findAllPostsByUser: (id: string) => Promise<Post[]> = async (id) => {
     const userId = parseInt(id);
     if (isNaN(userId)) throw Error('id is not number');
@@ -74,4 +138,11 @@ const findAllPostsByUser: (id: string) => Promise<Post[]> = async (id) => {
     return result;
 };
 
-export { findAllPosts, findAllPostsByUser };
+export {
+    findAllPosts,
+    findOnePostById,
+    findAuthorByPostId,
+    findCommentsByPostId,
+    createComment,
+    findAllPostsByUser,
+};
