@@ -111,6 +111,7 @@ router.patch(
     controller.patchUserFilterInfo
 );
 router.get('/user/:id', controller.getOneUser);
+router.get('/user/:id/post', controller.getOneUserPosts);
 router.get('/user/:id/comment', controller.getOneUserComments);
 
 router.get('/posts/:id', controller.getPostDetail);
