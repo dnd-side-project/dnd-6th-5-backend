@@ -72,6 +72,8 @@ const updateOneUserFilterById: (user: tUser) => Promise<tUser | undefined> = asy
         .execute();
 
     const targetUser = await User.findOne({ id: user.id });
+    if (targetUser === undefined) throw Error(`This user_id does not exist.`);
+
     return targetUser;
 };
 
