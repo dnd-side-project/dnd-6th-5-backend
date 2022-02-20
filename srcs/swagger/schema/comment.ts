@@ -5,9 +5,15 @@
  *          Comment:
  *              type: object
  *              properties:
- *                  userId:
+ *                  id:
  *                      type: number
  *                  content:
+ *                      type: string
+ *                  commenter:
+ *                      type: string
+ *                  createdAt:
+ *                      type: string
+ *                  updatedAt:
  *                      type: string
  */
 

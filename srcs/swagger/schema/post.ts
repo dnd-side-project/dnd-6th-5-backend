@@ -30,9 +30,37 @@
  *          PostDetail:
  *              type: object
  *              properties:
- *                  post:
+ *                  title:
  *                      type: string
- *                  comments:
+ *                  category:
+ *                      type: string
+ *                  content:
+ *                      type: string
+ *                  author:
+ *                      type: string
+ *                  age:
+ *                      type: string
+ *                  maritalStatus:
+ *                      type: string
+ *                  workStatus:
+ *                      type: string
+ *                  companyScale:
+ *                      type: string
+ *                  medianIncome:
+ *                      type: string
+ *                  annualIncome:
+ *                      type: string
+ *                  asset:
+ *                      type: string
+ *                  hasHouse:
+ *                      type: string
+ *                  isHouseOwner:
+ *                      type: string
+ *                  commentCount:
+ *                      type: string
+ *                  createdAt:
+ *                      type: string
+ *                  updatedAt:
  *                      type: string
  */
 
