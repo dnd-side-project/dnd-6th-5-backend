@@ -32,8 +32,41 @@
  *              properties:
  *                  post:
  *                      type: string
- *                  author:
- *                      type: string
  *                  comments:
+ *                      type: string
+ */
+
+/**
+ * @swagger
+ *  components:
+ *      schemas:
+ *          CreatePost:
+ *              type: object
+ *              properties:
+ *                  userId:
+ *                      type: number
+ *                  title:
+ *                      type: string
+ *                  category:
+ *                      type: string
+ *                  content:
+ *                      type: string
+ *                  age:
+ *                      type: string
+ *                  maritalStatus:
+ *                      type: string
+ *                  workStatus:
+ *                      type: string
+ *                  companyScale:
+ *                      type: string
+ *                  medianIncome:
+ *                      type: string
+ *                  annualIncome:
+ *                      type: string
+ *                  asset:
+ *                      type: string
+ *                  isHouseOwner:
+ *                      type: string
+ *                  hasHouse:
  *                      type: string
  */
