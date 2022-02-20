@@ -63,3 +63,19 @@ export declare type tToken = {
     expiresAt?: string;
     user?: User;
 };
+
+export declare type tPost = {
+    userId?: number;
+    title?: string;
+    category?: string;
+    content?: string;
+    age?: Date;
+    maritalStatus?: MaritalStatus;
+    workStatus?: WorkStatus;
+    companyScale?: CompanyScale;
+    medianIncome?: MedianIncome;
+    annualIncome?: AnnualIncome;
+    asset?: Asset;
+    isHouseOwner?: IsHouseOwner;
+    hasHouse?: HasHouse;
+};
