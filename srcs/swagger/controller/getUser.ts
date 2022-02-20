@@ -423,3 +423,96 @@
  *                              code: authentication
  *                              message: The value of headers.access_token is not valid.
  */
+
+/**
+ * @swagger
+ * /user/{userId}/comment:
+ *  get:
+ *      description: 특정 user가 작성한 모든 comment(댓글)에 대한 데이터와 |
+ *                   해당 comment가 작성된 post(게시글)의 title(제목), content(본문), createdAt(작성일)을 반환합니다.
+ *      parameters:
+ *      - in: header
+ *        name: access_token
+ *        type: string
+ *        required: true
+ *        description: 로그인하면서 발급받은 access_token
+ *      - in: header
+ *        name: platform
+ *        type: string
+ *        required: true
+ *        description: 로그인하면서 발급받은 platform값
+ *      - in: path
+ *        name: userId
+ *        type: string
+ *        required: true
+ *        description: 특정 user의 userId값
+ *      tags: [User]
+ *      responses:
+ *          200:
+ *              description: 특정 user가 작성한 모든 comment(댓글)에 대한 데이터를 성공적으로 조회하였을 경우 다음 결과가 반환됩니다.(cnt는 해당 게시물에 달린 댓글의 갯수입니다.)
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                            success:
+ *                              type: boolean
+ *                            data:
+ *                              type: object
+ *                              properties:
+ *                                  comment:
+ *                                      type: array
+ *                                      items:
+ *                                          oneOf:
+ *                                          - $ref: "#/components/schemas/UserComment"
+ *                                          - $ref: "#/components/schemas/UserComment"
+ *          400:
+ *              description: |
+ *                오류가 발생해 특정 user가 작성한 모든 comment(댓글)에 대한 데이터를 성공적으로 조회하지 못했을 경우 다음 결과가 반환됩니다.</br></br>
+ *                -오류 예시</br>
+ *                - 존재하지 않는 userID가 들어온 경우 <br>
+ *                - No user in DB <br>
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                            success:
+ *                              type: boolean
+ *                            error:
+ *                              properties:
+ *                               code:
+ *                                 type: string
+ *                               message:
+ *                                 type: string
+ *                          example:
+ *                            success: false
+ *                            error:
+ *                              code: Error
+ *                              message: This userID does not exist.
+ *          401:
+ *              description: Authentication Error |
+ *                user인증에 실패했을 경우 해당 오류가 반환됩니다.</br></br>
+ *                -오류 예시</br>
+ *                - access_token or platform을 헤더값에 넣지 않고 요청을 보낸경우 <br>
+ *                - 만료되거나 올바르지 않은 형식의 access_token을 헤더에 넣어 보낸 경우 <br>
+ *                - platform값이 naver, kakao를 제외한 값인 경우
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                            success:
+ *                              type: boolean
+ *                            error:
+ *                              properties:
+ *                               code:
+ *                                 type: string
+ *                               message:
+ *                                 type: string
+ *                          example:
+ *                            success: false
+ *                            error:
+ *                              code: authentication
+ *                              message: The value of headers.access_token is not valid.
+ */
