@@ -43,6 +43,7 @@ const findAllPosts: () => Promise<Post[]> = async () => {
             'DATE_FORMAT(CONVERT_TZ(updated_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
             'updatedAt'
         )
+        .orderBy('updated_at', 'DESC')
         .getRawMany();
     return result;
 };
@@ -216,6 +217,7 @@ const findPostsByKeyword: (query: string) => Promise<Post[] | undefined> = async
         )
         .where('title LIKE :query', { query: `%${query}%` })
         .orWhere('content LIKE :query', { query: `%${query}%` })
+        .orderBy('updated_at', 'DESC')
         .getRawMany();
 
     return result;
