@@ -347,6 +347,12 @@
  *                description: 발급받아 저장해뒀던 refresh_token
  *                schema:
  *                    type: string
+ *              - in: header
+ *                name: platform
+ *                required: true
+ *                description: 해당 user가 로그인했던 소셜 플랫폼(kaka, naver 중 하나)
+ *                schema:
+ *                    type: string
  *          responses:
  *              200:
  *                  description: access_token과 refresh_token을 성공적으로 갱신하였을 경우 다음 결과가 반환됩니다. <br>
@@ -382,7 +388,7 @@
  *                                  location: headers
  *              401:
  *                  description: |
- *                    인증 오류가 발생해 spoon feed에 kakao 계정으로 성공적으로 소셜 로그아웃하지 못했을 경우 다음 결과가 반환됩니다.</br></br>
+ *                    인증 오류가 발생해 access_token과 refresh_token을 성공적으로 갱신하지 못했을 경우 다음 결과가 반환됩니다.</br></br>
  *                    -오류 예시</br>
  *                    - 만료되거나 올바르지않은 refresh_token이 요청 헤더에 들어온 경우<br>
  *                  content:
