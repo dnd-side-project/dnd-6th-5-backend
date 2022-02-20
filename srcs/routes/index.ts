@@ -78,6 +78,7 @@ router.post(
 );
 
 router.get('/posts', controller.getCommunityList);
+router.get('/posts/search', controller.searchCommunity);
 
 // 인증 미들 웨어
 // router.use(middleware.isAuth);
