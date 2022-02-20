@@ -45,6 +45,29 @@
  *                  description: |
  *                    오류가 발생해 spoon feed에 네이버 계정으로 성공적으로 소셜 로그인하지 못했을 경우 다음 결과가 반환됩니다.</br>
  *                    -오류 예시</br>
+ *                    - header에 access_tokne or refresh_token을 넣지 않고 요청했을 경우 <br>
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                success:
+ *                                  type: boolean
+ *                                error:
+ *                                  properties:
+ *                                   code:
+ *                                     type: string
+ *                                   message:
+ *                                     type: string
+ *                              example:
+ *                                errors:
+ *                                  msg: Invalid value
+ *                                  param: refresh_token
+ *                                  location: headers
+ *              401:
+ *                  description: |
+ *                    오류가 발생해 spoon feed에 네이버 계정으로 성공적으로 소셜 로그인하지 못했을 경우 다음 결과가 반환됩니다.</br>
+ *                    -오류 예시</br>
  *                    - 만료되거나 올바르지않은 access_token이 요청 헤더에 들어온 경우<br>
  *                    - 만료되거나 올바르지않은 refresh_token이 요청 헤더에 들어온 경우<br>
  *                  content:
@@ -66,27 +89,4 @@
  *                                  error: invalid_grant
  *                                  error_description: expired_or_invalid_refresh_token
  *                                  error_code: KOE322
- *              401:
- *                  description: Authentication Error |
- *                    user인증에 실패했을 경우 해당 오류가 반환됩니다.</br></br>
- *                    - 오류 예시</br>
- *                    - access_token or platform을 헤더값에 넣지 않고 요청을 보낸경우 <br>
- *                  content:
- *                      application/json:
- *                          schema:
- *                              type: object
- *                              properties:
- *                                success:
- *                                  type: boolean
- *                                error:
- *                                  properties:
- *                                   code:
- *                                     type: string
- *                                   message:
- *                                     type: string
- *                              example:
- *                                success: false
- *                                error:
- *                                  code: -401
- *                                  message: this access token does not exist
  */
