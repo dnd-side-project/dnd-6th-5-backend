@@ -37,3 +37,28 @@
  *                  comments:
  *                      type: string
  */
+
+/**
+ * @swagger
+ *  components:
+ *      schemas:
+ *          PostArray:
+ *              type: object
+ *              properties:
+ *                  user_id:
+ *                      type: number
+ *                  post_id:
+ *                      type: number
+ *                  category:
+ *                      type: string
+ *                  title:
+ *                      type: string
+ *                  content:
+ *                      type: string
+ *                  cnt:
+ *                      type: number
+ *                  createdAt:
+ *                      type: string
+ *                  updatedAt:
+ *                      type: string
+ */
