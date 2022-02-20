@@ -17,3 +17,4 @@ export { default as getOneUserPosts } from './controller.getOneUserPosts';
 export { default as getOneUserComments } from './controller.getOneUserComments';
 export { default as getOneUserLikePolicy } from './controller.getOneUserLikePolicy';
 export { default as postCommunityPost } from './controller.postCommunityPost';
+export { default as searchCommunity } from './controller.searchCommunity';
