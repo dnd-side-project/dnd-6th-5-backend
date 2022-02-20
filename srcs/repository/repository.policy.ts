@@ -140,6 +140,8 @@ const likeOrDislikePolicy: (userId: number, policyId: number) => Promise<void> =
 const findOneUserLikePolicy: (id: string) => Promise<Policy[]> = async (id) => {
     const userId = parseInt(id);
     if (isNaN(userId)) throw Error('Please enter a numeric character for the id value.');
+    const targetUser = await User.findOne({ id: userId });
+    if (targetUser === undefined) throw Error(`This user_id does not exist.`);
 
     const result = await User.createQueryBuilder('user')
         .select([

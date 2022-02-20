@@ -40,6 +40,30 @@
  * @swagger
  *  components:
  *      schemas:
+ *          PostArray:
+ *              type: object
+ *              properties:
+ *                  user_id:
+ *                      type: number
+ *                  post_id:
+ *                      type: number
+ *                  category:
+ *                      type: string
+ *                  title:
+ *                      type: string
+ *                  content:
+ *                      type: string
+ *                  cnt:
+ *                      type: number
+ *                  createdAt:
+ *                      type: string
+ *                  updatedAt:
+ */
+
+/**
+ * @swagger
+ *  components:
+ *      schemas:
  *          CreatePost:
  *              type: object
  *              properties:

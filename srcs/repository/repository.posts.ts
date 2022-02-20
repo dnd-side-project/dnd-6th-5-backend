@@ -126,6 +126,8 @@ const findCommentsByPostId: (postId: string) => Promise<Comment[] | undefined> =
 const findAllPostsByUser: (id: string) => Promise<Post[]> = async (id) => {
     const userId = parseInt(id);
     if (isNaN(userId)) throw Error('id is not number');
+    const targetUser = await User.findOne({ id: userId });
+    if (targetUser === undefined) throw Error(`This user_id does not exist.`);
 
     const result = await User.createQueryBuilder('U')
         .select(['id as user_id', 'post_id', 'nickname', 'P.category', 'title', 'content', 'C.cnt'])

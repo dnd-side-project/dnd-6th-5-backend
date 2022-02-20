@@ -35,6 +35,8 @@ const updateOneUserNicknameById: (
     nickname?: string
 ) => Promise<tUser | undefined> = async (id, nickname) => {
     const numId = parseInt(id);
+    if (isNaN(numId)) throw Error('Please enter a numeric character for the id value.');
+
     await getConnection()
         .createQueryBuilder()
         .update(User)
@@ -45,6 +47,7 @@ const updateOneUserNicknameById: (
         .execute();
 
     const targetUser = await User.findOne({ id: numId });
+    if (targetUser === undefined) throw Error(`This user_id does not exist.`);
     return targetUser;
 };
 
@@ -69,6 +72,8 @@ const updateOneUserFilterById: (user: tUser) => Promise<tUser | undefined> = asy
         .execute();
 
     const targetUser = await User.findOne({ id: user.id });
+    if (targetUser === undefined) throw Error(`This user_id does not exist.`);
+
     return targetUser;
 };
 
