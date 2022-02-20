@@ -3,9 +3,11 @@ import { Post, Comment, User } from '../entity/index';
 const findOneUserComment: (id: string) => Promise<Comment[]> = async (id) => {
     const userId = parseInt(id);
     if (isNaN(userId)) throw Error('Please enter a numeric character for the id value.');
+    const targetUser = await User.findOne({ id: userId });
+    if (targetUser === undefined) throw Error(`This user_id does not exist.`);
 
     const result = await Comment.createQueryBuilder('comment')
-        .select(['user_id', 'P.post_id', 'id as comment_id', 'content', 'P.title'])
+        .select(['user_id', 'P.post_id', 'id as comment_id', 'P.title', 'content'])
         .leftJoin(
             (qb) =>
                 qb.from(Post, 'post').select(['title', 'created_at']).addSelect('id', 'post_id'),
