@@ -1,4 +1,16 @@
+import { tPost } from '../../@types/types';
 import { Post, Comment, User } from '../entity';
+import {
+    AnnualIncome,
+    Asset,
+    Category,
+    CompanyScale,
+    HasHouse,
+    IsHouseOwner,
+    MaritalStatus,
+    MedianIncome,
+    WorkStatus,
+} from '../entity/common/Enums';
 
 const findAllPosts: () => Promise<Post[]> = async () => {
     const result = await Post.createQueryBuilder('post')
@@ -150,4 +162,25 @@ const findAllPostsByUser: (id: string) => Promise<Post[]> = async (id) => {
     return result;
 };
 
-export { findAllPosts, findOnePostById, findCommentsByPostId, findAllPostsByUser };
+const createPost: (post: tPost) => Promise<Post> = async (post) => {
+    const newPost = new Post();
+
+    newPost.user = await User.findOneOrFail({ id: post.userId });
+    newPost.title = post.title as string;
+    newPost.category = post.category as Category;
+    newPost.content = post.content as string;
+    newPost.age = post.age as Date;
+    newPost.maritalStatus = post.maritalStatus as MaritalStatus;
+    newPost.workStatus = post.workStatus as WorkStatus;
+    newPost.companyScale = post.companyScale as CompanyScale;
+    newPost.medianIncome = post.medianIncome as MedianIncome;
+    newPost.annualIncome = post.annualIncome as AnnualIncome;
+    newPost.asset = post.asset as Asset;
+    newPost.isHouseOwner = post.isHouseOwner as IsHouseOwner;
+    newPost.hasHouse = post.hasHouse as HasHouse;
+    await newPost.save();
+
+    return newPost;
+};
+
+export { findAllPosts, findOnePostById, findCommentsByPostId, findAllPostsByUser, createPost };
