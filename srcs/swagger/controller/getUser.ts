@@ -49,7 +49,7 @@
  *          ### 변경할 상태 정보입니다.</br>
  *          - id - nickname을 변경할 user의 id값입니다.</br>
  *          - age - 변경될 age값입니다. `yyyymmdd`형식으로 입력합니다.</br>
- *          - maritalStatus - 변경될 nickname값입니다.</br>
+ *          - maritalStatus - 변경될 maritalStatus값입니다.</br>
  *          - workStatus - 변경될 workStatus값입니다.</br>
  *          - companyScale - 변경될 companyScale값입니다.</br>
  *          - medianIncome - 변경될 medianIncome값입니다.</br>
