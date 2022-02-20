@@ -5,11 +5,11 @@ const getOneUserPosts: RequestHandler = async (req, res) => {
     try {
         const userId: string = req.params.id;
 
-        const posts = await findAllPostsByUser(userId);
+        const post = await findAllPostsByUser(userId);
 
         return res.status(200).json({
             success: true,
-            data: { posts },
+            data: { post },
         });
     } catch (error: any) {
         res.status(400).json({
