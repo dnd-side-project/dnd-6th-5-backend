@@ -43,6 +43,7 @@ const findAllPosts: () => Promise<Post[]> = async () => {
             'DATE_FORMAT(CONVERT_TZ(updated_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
             'updatedAt'
         )
+        .orderBy('updated_at', 'DESC')
         .getRawMany();
     return result;
 };
@@ -185,4 +186,50 @@ const createPost: (post: tPost) => Promise<Post> = async (post) => {
     return newPost;
 };
 
-export { findAllPosts, findOnePostById, findCommentsByPostId, findAllPostsByUser, createPost };
+const findPostsByKeyword: (query: string) => Promise<Post[] | undefined> = async (query) => {
+    const result = await await Post.createQueryBuilder('post')
+        .select(['id', 'author', 'title', 'category', 'content', 'commentCount'])
+        .leftJoin(
+            (qb) =>
+                qb
+                    .from(Comment, 'comment')
+                    .select('COUNT(comment.post_id)', 'commentCount')
+                    .addSelect('comment.post_id', 'post_id')
+                    .groupBy('comment.post_id'),
+            'C',
+            'post.id = C.post_id'
+        )
+        .leftJoin(
+            (qb) =>
+                qb
+                    .from(User, 'user')
+                    .select('user.nickname', 'author')
+                    .addSelect('user.id', 'user_id'),
+            'U',
+            'post.user_id = U.user_id'
+        )
+        .addSelect('IFNULL(commentCount, 0)', 'commentCount')
+        .addSelect(
+            'DATE_FORMAT(CONVERT_TZ(created_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
+            'createdAt'
+        )
+        .addSelect(
+            'DATE_FORMAT(CONVERT_TZ(updated_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
+            'updatedAt'
+        )
+        .where('title LIKE :query', { query: `%${query}%` })
+        .orWhere('content LIKE :query', { query: `%${query}%` })
+        .orderBy('updated_at', 'DESC')
+        .getRawMany();
+
+    return result;
+};
+
+export {
+    findAllPosts,
+    findOnePostById,
+    findCommentsByPostId,
+    findAllPostsByUser,
+    createPost,
+    findPostsByKeyword,
+};
