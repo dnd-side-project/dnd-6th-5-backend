@@ -30,7 +30,7 @@
  * @swagger
  * /user/{userId}:
  *  get:
- *      description: 특정 user의 필터링값을 변경합니다.
+ *      description: 특정 user의 정보를 반환합니다.
  *      parameters:
  *      - in: header
  *        name: access_token
