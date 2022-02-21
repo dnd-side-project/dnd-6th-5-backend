@@ -1,15 +1,15 @@
 import { RequestHandler } from 'express';
-import { findAllPostsByUser } from '../repository/index';
+import { findOneUserLikePolicy } from '../repository/index';
 
-const getOneUserPosts: RequestHandler = async (req, res) => {
+const getOneUserLikePolicy: RequestHandler = async (req, res) => {
     try {
         const userId: string = req.params.id;
 
-        const post = await findAllPostsByUser(userId);
+        const policy = await findOneUserLikePolicy(userId);
 
         return res.status(200).json({
             success: true,
-            data: { post },
+            data: { policy },
         });
     } catch (error: any) {
         res.status(400).json({
@@ -22,4 +22,4 @@ const getOneUserPosts: RequestHandler = async (req, res) => {
     }
 };
 
-export default getOneUserPosts;
+export default getOneUserLikePolicy;

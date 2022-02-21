@@ -75,3 +75,26 @@
  *                  likeCount:
  *                      type: string
  */
+
+/**
+ * @swagger
+ *  components:
+ *      schemas:
+ *          LikePolicy:
+ *              type: object
+ *              properties:
+ *                  user_id:
+ *                      type: number
+ *                  policy_id:
+ *                      type: number
+ *                  category:
+ *                      type: string
+ *                  name:
+ *                      type: string
+ *                  content:
+ *                      type: string
+ *                  application_period:
+ *                      type: string
+ *                  cnt:
+ *                      type: number
+ */

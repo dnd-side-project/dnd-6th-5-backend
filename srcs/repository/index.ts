@@ -11,5 +11,14 @@ export {
     findPolicyByCategory,
     findOnePolicyById,
     likeOrDislikePolicy,
+    findOneUserLikePolicy,
 } from './repository.policy';
-export { findAllPosts, findAllPostsByUser } from './repository.posts';
+export {
+    findAllPosts,
+    findOnePostById,
+    findCommentsByPostId,
+    findAllPostsByUser,
+    createPost,
+    findPostsByKeyword,
+} from './repository.posts';
+export { findOneUserComment, createComment } from './repository.comment';

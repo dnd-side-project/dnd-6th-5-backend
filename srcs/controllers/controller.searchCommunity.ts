@@ -1,12 +1,10 @@
 import { RequestHandler } from 'express';
-import { findAllPostsByUser } from '../repository/index';
+import { findPostsByKeyword } from '../repository/index';
 
-const getOneUserPosts: RequestHandler = async (req, res) => {
+const searchCommunity: RequestHandler = async (req, res) => {
+    const query: string = req.query.query as string;
     try {
-        const userId: string = req.params.id;
-
-        const post = await findAllPostsByUser(userId);
-
+        const post = await findPostsByKeyword(query);
         return res.status(200).json({
             success: true,
             data: { post },
@@ -22,4 +20,4 @@ const getOneUserPosts: RequestHandler = async (req, res) => {
     }
 };
 
-export default getOneUserPosts;
+export default searchCommunity;

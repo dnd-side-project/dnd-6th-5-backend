@@ -13,6 +13,7 @@ import {
     HasHouse,
     IsHouseOwner,
     MaritalStatus,
+    Category,
 } from '../entity/common/Enums';
 
 const router = Router();
@@ -64,19 +65,9 @@ router.get(
 );
 
 router.get('/policy', controller.getPolicyList);
-router.get('/policy/:id', controller.getPolicyDetail);
-router.post('/policy/filter', controller.getFilteredPolicyList);
-router.post(
-    '/policy/like',
-    [
-        body('userId').exists({ checkFalsy: true }),
-        body('policyId').exists({ checkFalsy: true }),
-        middleware.validator,
-    ],
-    controller.likePolicy
-);
 
 router.get('/posts', controller.getCommunityList);
+router.get('/posts/search', controller.searchCommunity);
 
 // 인증 미들 웨어
 // router.use(middleware.isAuth);
@@ -111,5 +102,42 @@ router.patch(
 );
 router.get('/user/:id', controller.getOneUser);
 router.get('/user/:id/post', controller.getOneUserPosts);
+router.get('/user/:id/comment', controller.getOneUserComments);
+router.get('/user/:id/like/policy', controller.getOneUserLikePolicy);
+
+router.post(
+    '/posts',
+    [
+        body('userId').exists({ checkFalsy: true }),
+        body('title').exists({ checkFalsy: true }),
+        body('category').isIn(Object.values(Category)),
+        body('content').exists({ checkFalsy: true }),
+        body('age').isLength({ min: 8, max: 8 }),
+        body('maritalStatus').isIn(Object.values(MaritalStatus)),
+        body('workStatus').isIn(Object.values(WorkStatus)),
+        body('companyScale').isIn(Object.values(CompanyScale)),
+        body('medianIncome').isIn(Object.values(MedianIncome)),
+        body('annualIncome').isIn(Object.values(AnnualIncome)),
+        body('asset').isIn(Object.values(Asset)),
+        body('isHouseOwner').isIn(Object.values(IsHouseOwner)),
+        body('hasHouse').isIn(Object.values(HasHouse)),
+        middleware.validator,
+    ],
+    controller.postCommunityPost
+);
+router.get('/posts/:id', controller.getPostDetail);
+router.post('/posts/:id/comment', controller.postComment);
+
+router.get('/policy/:id', controller.getPolicyDetail);
+router.post('/policy/filter', controller.getFilteredPolicyList);
+router.post(
+    '/policy/like',
+    [
+        body('userId').exists({ checkFalsy: true }),
+        body('policyId').exists({ checkFalsy: true }),
+        middleware.validator,
+    ],
+    controller.likePolicy
+);
 
 export default router;
