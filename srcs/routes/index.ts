@@ -65,17 +65,6 @@ router.get(
 );
 
 router.get('/policy', controller.getPolicyList);
-router.get('/policy/:id', controller.getPolicyDetail);
-router.post('/policy/filter', controller.getFilteredPolicyList);
-router.post(
-    '/policy/like',
-    [
-        body('userId').exists({ checkFalsy: true }),
-        body('policyId').exists({ checkFalsy: true }),
-        middleware.validator,
-    ],
-    controller.likePolicy
-);
 
 router.get('/posts', controller.getCommunityList);
 router.get('/posts/search', controller.searchCommunity);
@@ -138,5 +127,17 @@ router.post(
 );
 router.get('/posts/:id', controller.getPostDetail);
 router.post('/posts/:id/comment', controller.postComment);
+
+router.get('/policy/:id', controller.getPolicyDetail);
+router.post('/policy/filter', controller.getFilteredPolicyList);
+router.post(
+    '/policy/like',
+    [
+        body('userId').exists({ checkFalsy: true }),
+        body('policyId').exists({ checkFalsy: true }),
+        middleware.validator,
+    ],
+    controller.likePolicy
+);
 
 export default router;
