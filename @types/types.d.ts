@@ -79,3 +79,9 @@ export declare type tPost = {
     isHouseOwner?: IsHouseOwner;
     hasHouse?: HasHouse;
 };
+
+export declare type tDate = {
+    yy: number;
+    mm: number;
+    dd: number;
+};
