@@ -50,6 +50,7 @@ const findOnePolicyById: (id: string) => Promise<Policy | undefined> = async (id
             'application_site_name as applicationSiteName',
             'submission',
             'other_info as otherInfo',
+            'operating_institute as operatingInstitute',
             'reference_site1 as referenceSite1',
             'reference_site2 as referenceSite2',
             'likeCount',
