@@ -1,3 +1,4 @@
+import { getConnection } from 'typeorm';
 import { tPost } from '../../@types/types';
 import { Post, Comment, User } from '../entity';
 import {
@@ -225,6 +226,38 @@ const findPostsByKeyword: (query: string) => Promise<Post[] | undefined> = async
     return result;
 };
 
+const updateOnePostById: (id: string, post: tPost) => Promise<tPost | undefined> = async (
+    id,
+    post
+) => {
+    const setObj = {
+        title: post.title,
+        category: post.category as Category,
+        content: post.content,
+        age: post.age,
+        workStatus: post.workStatus,
+        companyScale: post.companyScale,
+        medianIncome: post.medianIncome,
+        annualIncome: post.annualIncome,
+        asset: post.asset,
+        hasHouse: post.hasHouse,
+        isHouseOwner: post.isHouseOwner,
+        maritalStatus: post.maritalStatus,
+    };
+
+    await getConnection()
+        .createQueryBuilder()
+        .update(Post)
+        .set(setObj)
+        .where('id = :id', { id: id })
+        .execute();
+
+    const targetPost = await Post.findOne({ id: parseInt(id) });
+    if (targetPost === undefined) throw Error(`This post_id does not exist.`);
+
+    return targetPost;
+};
+
 export {
     findAllPosts,
     findOnePostById,
@@ -232,4 +265,5 @@ export {
     findAllPostsByUser,
     createPost,
     findPostsByKeyword,
+    updateOnePostById,
 };

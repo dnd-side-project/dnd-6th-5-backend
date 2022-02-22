@@ -126,6 +126,7 @@ router.post(
     controller.postCommunityPost
 );
 router.get('/posts/:id', controller.getPostDetail);
+router.patch('/posts/:id', controller.patchCommunityPost);
 router.post('/posts/:id/comment', controller.postComment);
 
 router.get('/policy/:id', controller.getPolicyDetail);

@@ -20,5 +20,6 @@ export {
     findAllPostsByUser,
     createPost,
     findPostsByKeyword,
+    updateOnePostById,
 } from './repository.posts';
 export { findOneUserComment, createComment } from './repository.comment';
