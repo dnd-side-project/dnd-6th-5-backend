@@ -1,5 +1,5 @@
 import { Policy, Like, User } from '../entity/index';
-import { getConnection, QueryBuilder } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 const findAllPolicy: () => Promise<Policy[]> = async () => {
     const result = await Policy.createQueryBuilder('policy')
@@ -189,18 +189,23 @@ const findOneUserLikePolicy: (id: string) => Promise<Policy[]> = async (id) => {
 const findFilterPolicy: (filterInfo: any) => Promise<Policy[]> = async (filterInfo) => {
     const result = await Policy.createQueryBuilder('policy')
         .select([
-            'id',
+            'policy.id',
+            'category',
             'name',
-            'limit_age',
-            'work_status',
-            'company_scale',
-            'median_income',
-            'annual_income',
-            'asset',
-            'has_house',
-            'is_house_owner',
-            'marital_status',
+            'summary',
+            'application_period',
+            `IFNULL(L.like_cnt, '0') as like_cnt`,
         ])
+        .leftJoin(
+            (qb) =>
+                qb
+                    .from(Like, 'like')
+                    .select(['count(*) as like_cnt'])
+                    .addSelect('policy_id', 'id')
+                    .groupBy('id'),
+            'L',
+            'policy.id = L.id'
+        )
         .where(
             `(((cast(regexp_replace(SUBSTRING_INDEX(limit_age, '~', 1), '[^0-9]','') as unsigned) <= :age) 
             and (cast(regexp_replace(SUBSTRING_INDEX(limit_age, '~', -1), '[^0-9]','') as unsigned) >= :age))
@@ -224,8 +229,9 @@ const findFilterPolicy: (filterInfo: any) => Promise<Policy[]> = async (filterIn
         .andWhere(`(marital_status != :maritalStatus or (marital_status is null))`, {
             maritalStatus: filterInfo.maritalStatus,
         })
+        .orderBy('number')
+        .orderBy('like_cnt', 'DESC')
         .getRawMany();
-
     return result;
 };
 
