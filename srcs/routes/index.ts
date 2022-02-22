@@ -146,6 +146,25 @@ router.get(
     ],
     controller.getFilteredPolicyList
 );
+
+router.post(
+    '/custom/policy',
+    [
+        body('id').exists({ checkFalsy: true }),
+        body('age').isLength({ min: 8, max: 8 }),
+        body('workStatus').isIn(Object.values(WorkStatus)),
+        body('companyScale').isIn(Object.values(CompanyScale)),
+        body('medianIncome').isIn(Object.values(MedianIncome)),
+        body('annualIncome').isIn(Object.values(AnnualIncome)),
+        body('asset').isIn(Object.values(Asset)),
+        body('hasHouse').isIn(Object.values(HasHouse)),
+        body('isHouseOwner').isIn(Object.values(IsHouseOwner)),
+        body('maritalStatus').isIn(Object.values(MaritalStatus)),
+        middleware.validator,
+    ],
+    controller.postFilteredPolicyList
+);
+
 router.post(
     '/policy/like',
     [
