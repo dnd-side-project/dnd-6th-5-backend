@@ -22,3 +22,4 @@ export {
     findPostsByKeyword,
 } from './repository.posts';
 export { findOneUserComment, createComment } from './repository.comment';
+export { findAllNotice } from './repository.notice';
