@@ -166,6 +166,16 @@ router.post(
 );
 
 router.post(
+    '/question',
+    [
+        body('userId').exists({ checkFalsy: true }),
+        body('content').exists({ checkFalsy: true }),
+        body('email').isEmail(),
+        middleware.validator,
+    ],
+    controller.postQuestion
+);
+router.post(
     '/policy/like',
     [
         body('userId').exists({ checkFalsy: true }),
