@@ -174,5 +174,6 @@ router.post(
     ],
     controller.likePolicy
 );
+router.get('/notice', controller.getNotice);
 
 export default router;
