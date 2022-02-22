@@ -1,5 +1,5 @@
 import { Policy, Like, User } from '../entity/index';
-import { getConnection } from 'typeorm';
+import { getConnection, QueryBuilder } from 'typeorm';
 
 const findAllPolicy: () => Promise<Policy[]> = async () => {
     const result = await Policy.createQueryBuilder('policy')
@@ -186,10 +186,54 @@ const findOneUserLikePolicy: (id: string) => Promise<Policy[]> = async (id) => {
     return result;
 };
 
+const findFilterPolicy: (filterInfo: any) => Promise<Policy[]> = async (filterInfo) => {
+    const result = await Policy.createQueryBuilder('policy')
+        .select([
+            'id',
+            'name',
+            'limit_age',
+            'work_status',
+            'company_scale',
+            'median_income',
+            'annual_income',
+            'asset',
+            'has_house',
+            'is_house_owner',
+            'marital_status',
+        ])
+        .where(
+            `(((cast(regexp_replace(SUBSTRING_INDEX(limit_age, '~', 1), '[^0-9]','') as unsigned) <= :age) 
+            and (cast(regexp_replace(SUBSTRING_INDEX(limit_age, '~', -1), '[^0-9]','') as unsigned) >= :age))
+            or limit_age = '제한없음')`,
+            { age: parseInt(filterInfo.age) }
+        )
+        .andWhere(`work_status != :workStatus`, { workStatus: filterInfo.workStatus })
+        .andWhere(`(company_scale like '%${filterInfo.companyScale}%' or (company_scale is null))`)
+        .andWhere(
+            `((cast(regexp_replace(median_income, '[^0-9]','') as unsigned) <= cast(:medianIncome as unsigned)) or median_income is null)`,
+            { medianIncome: filterInfo.medianIncome }
+        )
+        .andWhere(`(annual_income like '%${filterInfo.annualIncome}%' or (annual_income is null))`)
+        .andWhere(`(asset like '%${filterInfo.asset}%' or (asset is null))`)
+        .andWhere(`(has_house != :hasHouse or (has_house is null))`, {
+            hasHouse: filterInfo.hasHouse,
+        })
+        .andWhere(`(is_house_owner != :isHouseOwner or (is_house_owner is null))`, {
+            isHouseOwner: filterInfo.isHouseOwner,
+        })
+        .andWhere(`(marital_status != :maritalStatus or (marital_status is null))`, {
+            maritalStatus: filterInfo.maritalStatus,
+        })
+        .getRawMany();
+
+    return result;
+};
+
 export {
     findAllPolicy,
     findPolicyByCategory,
     findOnePolicyById,
     likeOrDislikePolicy,
     findOneUserLikePolicy,
+    findFilterPolicy,
 };

@@ -24,7 +24,7 @@ const convertWorkStatus: (workStatus: string) => string = (workStatus) => {
     return workStatus;
 };
 
-const convertEtc: (companyScale: string) => string = (companyScale) => {
+const convertCompanyScale: (companyScale: string) => string = (companyScale) => {
     switch (companyScale) {
         case '해당없음':
             return '0000';
@@ -53,6 +53,20 @@ const convertAsset: (asset: string) => string = (asset) => {
             return '';
     }
     return asset;
+};
+
+const convertAnnualIncome: (annualIncome: string) => string = (annualIncome) => {
+    switch (annualIncome) {
+        case '부부합산 2천만원 이하':
+            return '부부합산';
+        case '외벌이 3천만원 이하':
+            return '외벌이';
+        case '해당없음':
+            return '00';
+        case '미공개':
+            return '';
+    }
+    return annualIncome;
 };
 
 const convertHasHouse: (hasHouse: string) => string = (hasHouse) => {
@@ -92,9 +106,9 @@ const convertMaritalStatus: (isHouseOwner: string) => string = (isHouseOwner) =>
 const convertForFilterData: (userInfo?: any) => Promise<any> = async (userInfo) => {
     userInfo.age = convertRealAge(userInfo.age);
     userInfo.workStatus = convertWorkStatus(userInfo.workStatus);
-    userInfo.companyScale = convertEtc(userInfo.companyScale);
+    userInfo.companyScale = convertCompanyScale(userInfo.companyScale);
     userInfo.medianIncome = convertMedianIncome(userInfo.medianIncome);
-    userInfo.annualIncome = convertEtc(userInfo.annualIncome);
+    userInfo.annualIncome = convertAnnualIncome(userInfo.annualIncome);
     userInfo.asset = convertAsset(userInfo.asset);
     userInfo.hasHouse = convertHasHouse(userInfo.hasHouse);
     userInfo.isHouseOwner = convertIsHouseOwner(userInfo.isHouseOwner);
