@@ -1,12 +1,11 @@
 import { RequestHandler } from 'express';
-import { findOneUserById, updateOneUserFilterById } from '../repository/index';
-import { setUserFilter, validatorAge } from '../lib/index';
+import { convertForFilterData, validatorAge, setUserFilter } from '../lib/index';
+import { findFilterPolicy, findOneUserById, updateOneUserFilterById } from '../repository/index';
 import { tUser } from '../../@types/types';
 
-const patchUserFilterInfo: RequestHandler = async (req, res) => {
+const postFilteredPolicyList: RequestHandler = async (req, res) => {
     try {
         const id: string = req.body.id;
-
         if (validatorAge(req.body.age) === false)
             throw Error(`The range of age values is '19010101-20211231'`);
 
@@ -15,9 +14,13 @@ const patchUserFilterInfo: RequestHandler = async (req, res) => {
         const newUser = await setUserFilter(user as tUser, req.body);
         await updateOneUserFilterById(newUser);
 
+        const userInfo = req.body;
+        const FilterData = await convertForFilterData(userInfo);
+        const policy = await findFilterPolicy(FilterData);
+
         return res.status(200).json({
             success: true,
-            data: newUser,
+            data: { newUser, policy },
         });
     } catch (error: any) {
         res.status(400).json({
@@ -30,4 +33,4 @@ const patchUserFilterInfo: RequestHandler = async (req, res) => {
     }
 };
 
-export default patchUserFilterInfo;
+export default postFilteredPolicyList;

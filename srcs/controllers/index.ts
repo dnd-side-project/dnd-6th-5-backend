@@ -6,7 +6,8 @@ export { default as signoutNaver } from './controller.signoutNaver';
 export { default as getPolicyList } from './controller.getPolicyList';
 export { default as getPolicyDetail } from './controller.getPolicyDetail';
 export { default as likePolicy } from './controller.likePolicy';
-export { default as getFilteredPolicyList } from './controller.getFilteredPolicyList';
+export { default as getFilteredPolicyList } from './controller.postFilteredPolicyList';
+export { default as postFilteredPolicyList } from './controller.postFilteredPolicyList';
 export { default as patchUserNickname } from './controller.patchUserNickname';
 export { default as patchUserFilterInfo } from './controller.patchUserFilterInfo';
 export { default as getOneUser } from './controller.getOneUser';
@@ -19,3 +20,4 @@ export { default as getOneUserLikePolicy } from './controller.getOneUserLikePoli
 export { default as postCommunityPost } from './controller.postCommunityPost';
 export { default as searchCommunity } from './controller.searchCommunity';
 export { default as postQuestion } from './controller.postQuestion';
+export { default as getNotice } from './controller.getNotice';
