@@ -127,6 +127,7 @@ router.post(
 );
 router.get('/posts/:id', controller.getPostDetail);
 router.patch('/posts/:id', controller.patchCommunityPost);
+router.delete('/posts/:id', controller.deletePost);
 router.post('/posts/:id/comment', controller.postComment);
 router.patch('/posts/:id/comment', controller.patchComment);
 
