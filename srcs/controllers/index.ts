@@ -21,3 +21,4 @@ export { default as searchCommunity } from './controller.searchCommunity';
 export { default as patchCommunityPost } from './controller.patchCommunityPost';
 export { default as patchComment } from './controller.patchComment';
 export { default as deletePost } from './controller.deletePost';
+export { default as deleteComment } from './controller.deleteComment';
