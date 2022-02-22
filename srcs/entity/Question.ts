@@ -7,6 +7,7 @@ import {
     ManyToOne,
     JoinColumn,
 } from 'typeorm';
+import { IsEmail } from 'class-validator';
 import { User } from './User';
 
 @Entity()
@@ -16,6 +17,10 @@ export class Question extends BaseEntity {
 
     @Column({ type: 'longtext', name: 'content', nullable: false })
     content!: string;
+
+    @IsEmail()
+    @Column({ type: 'varchar', name: 'email', nullable: false, unique: false })
+    email!: string;
 
     @CreateDateColumn({
         type: 'timestamp',
