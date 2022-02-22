@@ -22,4 +22,4 @@ export {
     findPostsByKeyword,
     updateOnePostById,
 } from './repository.posts';
-export { findOneUserComment, createComment } from './repository.comment';
+export { findOneUserComment, createComment, updateOneCommentById } from './repository.comment';

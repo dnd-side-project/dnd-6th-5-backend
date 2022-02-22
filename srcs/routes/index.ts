@@ -128,6 +128,7 @@ router.post(
 router.get('/posts/:id', controller.getPostDetail);
 router.patch('/posts/:id', controller.patchCommunityPost);
 router.post('/posts/:id/comment', controller.postComment);
+router.patch('/posts/:id/comment', controller.patchComment);
 
 router.get('/policy/:id', controller.getPolicyDetail);
 router.post('/policy/filter', controller.getFilteredPolicyList);

@@ -1,3 +1,4 @@
+import { getConnection } from 'typeorm';
 import { Post, Comment, User } from '../entity/index';
 
 const findOneUserComment: (id: string) => Promise<Comment[]> = async (id) => {
@@ -38,4 +39,32 @@ const createComment: (postId: string, userId: number, content: string) => Promis
     return newComment;
 };
 
-export { findOneUserComment, createComment };
+const updateOneCommentById: (
+    commentId: number,
+    content: string
+) => Promise<Comment | undefined> = async (commentId, content) => {
+    await getConnection()
+        .createQueryBuilder()
+        .update(Comment)
+        .set({ content: content })
+        .where('id = :id', { id: commentId })
+        .execute();
+
+    const targetComment = await Comment.createQueryBuilder('comment')
+        .select(['user_id as userId', 'id as commentId', 'content'])
+        .where('id = :id', { id: commentId })
+        .addSelect(
+            'DATE_FORMAT(CONVERT_TZ(created_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
+            'createdAt'
+        )
+        .addSelect(
+            'DATE_FORMAT(CONVERT_TZ(updated_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
+            'updatedAt'
+        )
+        .getRawOne();
+    if (targetComment === undefined) throw Error(`This comment_id does not exist.`);
+
+    return targetComment;
+};
+
+export { findOneUserComment, createComment, updateOneCommentById };

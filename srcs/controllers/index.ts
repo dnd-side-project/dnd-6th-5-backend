@@ -19,3 +19,4 @@ export { default as getOneUserLikePolicy } from './controller.getOneUserLikePoli
 export { default as postCommunityPost } from './controller.postCommunityPost';
 export { default as searchCommunity } from './controller.searchCommunity';
 export { default as patchCommunityPost } from './controller.patchCommunityPost';
+export { default as patchComment } from './controller.patchComment';
