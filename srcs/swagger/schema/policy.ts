@@ -23,6 +23,27 @@
  * @swagger
  *  components:
  *      schemas:
+ *          CustomPolicy:
+ *              type: object
+ *              properties:
+ *                  policy_idid:
+ *                      type: number
+ *                  name:
+ *                      type: string
+ *                  category:
+ *                      type: string
+ *                  summary:
+ *                      type: string
+ *                  applicationPeriod:
+ *                      type: string
+ *                  like_cnt:
+ *                      type: number
+ */
+
+/**
+ * @swagger
+ *  components:
+ *      schemas:
  *          PolicyDetail:
  *              type: object
  *              properties:
