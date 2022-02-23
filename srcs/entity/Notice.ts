@@ -15,6 +15,9 @@ export class Notice extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
+    @Column('varchar', { name: 'title', nullable: false, length: 20 })
+    title!: string;
+
     @Column({ type: 'longtext', name: 'content', nullable: false })
     content!: string;
 

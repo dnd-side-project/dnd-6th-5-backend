@@ -37,3 +37,22 @@
  *                  createdAt:
  *                      type: string
  */
+
+/**
+ * @swagger
+ *  components:
+ *      schemas:
+ *          PatchComment:
+ *              type: object
+ *              properties:
+ *                  userId:
+ *                      type: number
+ *                  commentId:
+ *                      type: number
+ *                  content:
+ *                      type: string
+ *                  createdAt:
+ *                      type: string
+ *                  updatedAt:
+ *                      type: string
+ */

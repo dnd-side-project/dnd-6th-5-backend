@@ -12,6 +12,7 @@ export {
     findOnePolicyById,
     likeOrDislikePolicy,
     findOneUserLikePolicy,
+    findFilterPolicy,
 } from './repository.policy';
 export {
     findAllPosts,
@@ -20,5 +21,8 @@ export {
     findAllPostsByUser,
     createPost,
     findPostsByKeyword,
+    updateOnePostById,
 } from './repository.posts';
-export { findOneUserComment, createComment } from './repository.comment';
+export { findOneUserComment, createComment, updateOneCommentById } from './repository.comment';
+export { createQuestion } from './repository.question';
+export { findAllNotice } from './repository.notice';

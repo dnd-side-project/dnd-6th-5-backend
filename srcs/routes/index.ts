@@ -126,10 +126,59 @@ router.post(
     controller.postCommunityPost
 );
 router.get('/posts/:id', controller.getPostDetail);
+router.patch('/posts/:id', controller.patchCommunityPost);
+router.delete('/posts/:id', controller.deletePost);
 router.post('/posts/:id/comment', controller.postComment);
+router.patch('/posts/:id/comment', controller.patchComment);
+router.delete('/posts/:id/comment', controller.deleteComment);
 
 router.get('/policy/:id', controller.getPolicyDetail);
-router.post('/policy/filter', controller.getFilteredPolicyList);
+router.get(
+    '/custom/policy',
+    [
+        body('id').exists({ checkFalsy: true }),
+        body('age').isLength({ min: 8, max: 8 }),
+        body('workStatus').isIn(Object.values(WorkStatus)),
+        body('companyScale').isIn(Object.values(CompanyScale)),
+        body('medianIncome').isIn(Object.values(MedianIncome)),
+        body('annualIncome').isIn(Object.values(AnnualIncome)),
+        body('asset').isIn(Object.values(Asset)),
+        body('hasHouse').isIn(Object.values(HasHouse)),
+        body('isHouseOwner').isIn(Object.values(IsHouseOwner)),
+        body('maritalStatus').isIn(Object.values(MaritalStatus)),
+        middleware.validator,
+    ],
+    controller.getFilteredPolicyList
+);
+
+router.post(
+    '/custom/policy',
+    [
+        body('id').exists({ checkFalsy: true }),
+        body('age').isLength({ min: 8, max: 8 }),
+        body('workStatus').isIn(Object.values(WorkStatus)),
+        body('companyScale').isIn(Object.values(CompanyScale)),
+        body('medianIncome').isIn(Object.values(MedianIncome)),
+        body('annualIncome').isIn(Object.values(AnnualIncome)),
+        body('asset').isIn(Object.values(Asset)),
+        body('hasHouse').isIn(Object.values(HasHouse)),
+        body('isHouseOwner').isIn(Object.values(IsHouseOwner)),
+        body('maritalStatus').isIn(Object.values(MaritalStatus)),
+        middleware.validator,
+    ],
+    controller.postFilteredPolicyList
+);
+
+router.post(
+    '/question',
+    [
+        body('userId').exists({ checkFalsy: true }),
+        body('content').exists({ checkFalsy: true }),
+        body('email').isEmail(),
+        middleware.validator,
+    ],
+    controller.postQuestion
+);
 router.post(
     '/policy/like',
     [
@@ -139,5 +188,6 @@ router.post(
     ],
     controller.likePolicy
 );
+router.get('/notice', controller.getNotice);
 
 export default router;
