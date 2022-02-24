@@ -371,7 +371,7 @@
  * @swagger
  * paths:
  *  /custom/policy:
- *      get:
+ *      put:
  *          description: user의 필터링 조건을 받아 그에 맞는 맞춤 정책을 배열 형태로 반환합니다.
  *          parameters:
  *          - in: header
@@ -432,9 +432,6 @@
  *                                data:
  *                                  type: object
  *                                  properties:
- *                                      newUser:
- *                                          type: object
- *                                          $ref: "#/components/schemas/UserEntity"
  *                                      post:
  *                                          type: array
  *                                          items:
