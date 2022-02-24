@@ -119,3 +119,20 @@
  *                  cnt:
  *                      type: string
  */
+
+/**
+ * @swagger
+ *  components:
+ *      schemas:
+ *          HomePolicy:
+ *              type: object
+ *              properties:
+ *                  user_id:
+ *                      type: number
+ *                  policy_id:
+ *                      type: number
+ *                  category:
+ *                      type: string
+ *                  name:
+ *                      type: string
+ */
