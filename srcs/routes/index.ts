@@ -134,7 +134,7 @@ router.patch('/posts/:id/comment', controller.patchComment);
 router.delete('/posts/:id/comment', controller.deleteComment);
 
 router.get('/policy/:id', controller.getPolicyDetail);
-router.get(
+router.put(
     '/custom/policy',
     [
         body('id').exists({ checkFalsy: true }),

@@ -4,7 +4,9 @@ import { findFilterPolicy } from '../repository/index';
 
 const getFilteredPolicyList: RequestHandler = async (req, res) => {
     try {
-        const userInfo = req.body;
+        console.log('1');
+        const userInfo = req.query;
+        console.log(userInfo);
         const FilterData = await convertForFilterData(userInfo);
         const policy = await findFilterPolicy(FilterData);
 
