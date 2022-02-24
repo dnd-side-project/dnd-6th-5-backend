@@ -26,7 +26,7 @@
  *          CustomPolicy:
  *              type: object
  *              properties:
- *                  policy_idid:
+ *                  policy_id:
  *                      type: number
  *                  name:
  *                      type: string
@@ -37,7 +37,7 @@
  *                  applicationPeriod:
  *                      type: string
  *                  like_cnt:
- *                      type: number
+ *                      type: string
  */
 
 /**
@@ -117,5 +117,22 @@
  *                  application_period:
  *                      type: string
  *                  cnt:
+ *                      type: string
+ */
+
+/**
+ * @swagger
+ *  components:
+ *      schemas:
+ *          HomePolicy:
+ *              type: object
+ *              properties:
+ *                  user_id:
  *                      type: number
+ *                  policy_id:
+ *                      type: number
+ *                  category:
+ *                      type: string
+ *                  name:
+ *                      type: string
  */

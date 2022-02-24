@@ -187,6 +187,36 @@ const findOneUserLikePolicy: (id: string) => Promise<Policy[]> = async (id) => {
     return result;
 };
 
+const findOneUserOrderedLikePolicy: (id: string) => Promise<Policy[]> = async (id) => {
+    const userId = parseInt(id);
+    if (isNaN(userId)) throw Error('Please enter a numeric character for the id value.');
+    const targetUser = await User.findOne({ id: userId });
+    if (targetUser === undefined) throw Error(`This user_id does not exist.`);
+
+    const result = await User.createQueryBuilder('user')
+        .select(['L.user_id as user_id', 'L.policy_id', 'P.category', 'P.name'])
+        .leftJoin(
+            (qb) =>
+                qb
+                    .from(Like, 'like')
+                    .select(['user_id', 'policy_id', 'like_check', 'updated_at'])
+                    .where('like_check = 1'),
+            'L',
+            'user.id = L.user_id'
+        )
+        .leftJoin(
+            (qb) =>
+                qb.from(Policy, 'policy').select(['name', 'category']).addSelect('id', 'policy_id'),
+            'P',
+            'L.policy_id = P.policy_id'
+        )
+        .where('user.id = :userId', { userId: userId })
+        .orderBy('L.updated_at', 'DESC')
+        .getRawMany();
+
+    return result.slice(0, 3);
+};
+
 const findFilterPolicy: (filterInfo: any) => Promise<Policy[]> = async (filterInfo) => {
     const result = await Policy.createQueryBuilder('policy')
         .select([
@@ -242,5 +272,6 @@ export {
     findOnePolicyById,
     likeOrDislikePolicy,
     findOneUserLikePolicy,
+    findOneUserOrderedLikePolicy,
     findFilterPolicy,
 };

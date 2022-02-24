@@ -25,3 +25,4 @@ export { default as deletePost } from './controller.deletePost';
 export { default as deleteComment } from './controller.deleteComment';
 export { default as postQuestion } from './controller.postQuestion';
 export { default as getNotice } from './controller.getNotice';
+export { default as getHome } from './controller.getHome';

@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { tPost } from '../../@types/types';
-import validatorAge from '../lib/date.lib';
+import { validatorAge } from '../lib/date.lib';
 import { updateOnePostById } from '../repository/index';
 
 const patchCommunityPost: RequestHandler = async (req, res) => {
