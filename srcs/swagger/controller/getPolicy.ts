@@ -432,9 +432,6 @@
  *                                data:
  *                                  type: object
  *                                  properties:
- *                                      newUser:
- *                                          type: object
- *                                          $ref: "#/components/schemas/UserEntity"
  *                                      post:
  *                                          type: array
  *                                          items:
