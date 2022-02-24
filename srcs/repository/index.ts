@@ -12,6 +12,7 @@ export {
     findOnePolicyById,
     likeOrDislikePolicy,
     findOneUserLikePolicy,
+    findOneUserOrderedLikePolicy,
     findFilterPolicy,
 } from './repository.policy';
 export {

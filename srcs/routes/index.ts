@@ -64,6 +64,7 @@ router.get(
     controller.getAccessToken
 );
 
+router.get('/', controller.getHome);
 router.get('/policy', controller.getPolicyList);
 
 router.get('/posts', controller.getCommunityList);
