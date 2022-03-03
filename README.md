@@ -1,4 +1,4 @@
-# dnd-6th-5-android
+# dnd-6th-5-backend
 사회초년생을 위한 가이드, Spoon Feed
 
 ## Team Fork
@@ -14,6 +14,3 @@
 
 ### Designer
 - 김은령, 최지은
-
-## Project Rule
-[GITHUB WIKI](https://github.com/dnd-side-project/dnd-6th-5-android/wiki)
