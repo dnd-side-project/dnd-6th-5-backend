@@ -55,12 +55,12 @@ describe('Product Controller Create', () => {
         expect(await mockFindOneUser).toBeCalledWith({ id: numId });
     });
 
-    // User.findOne()를 모킹하여 호출이 되는지 확인하는 test code입니다.
+    // User.createQueryBuilder()를 모킹하여 호출이 되는지 확인하는 test code입니다.
     it('should call createQueryBuilder', async () => {
         // 컨트롤러를 실행합니다.
         patchUserNickname(req, res, next);
 
-        // newProduct를 인자로 User.findOne()가 실행되었는지 확인합니다.
+        // newProduct를 인자로 User.createQueryBuilder()가 1번 실행되었는지 확인합니다.
         expect(res.statusCode).toBe(200);
         expect(await mockEntity.createQueryBuilder).toBeCalledTimes(1);
     });
