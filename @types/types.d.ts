@@ -1,4 +1,3 @@
-// declare module '@types/jest';
 import tJest from '@types/jest';
 
 export default tJest;
