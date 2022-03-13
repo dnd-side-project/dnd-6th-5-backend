@@ -12,6 +12,7 @@ beforeAll(async () => {
 
 it('PATCH /api/products', async () => {
     const response = await request(app).patch('/user/nickname').send(newUser);
+
     expect(response.statusCode).toBe(200);
     expect(response.body.success).toBe(true);
     expect(response.body.data.user.nickname).toBe(newUser.nickname);
