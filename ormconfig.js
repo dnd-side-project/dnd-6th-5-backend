@@ -4,7 +4,7 @@ dotenv.config();
 
 module.exports = [
     {
-        name: 'product',
+        name: 'default',
         type: 'mysql',
         host: process.env.DB_HOST,
         port: process.env.DB_PORT,
