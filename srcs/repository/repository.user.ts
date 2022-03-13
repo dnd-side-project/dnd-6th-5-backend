@@ -46,7 +46,6 @@ const updateOneUserNicknameById: (
         .execute();
 
     const targetUser = await User.findOne({ id: numId });
-
     if (targetUser === undefined) throw Error(`This user_id does not exist.`);
     return targetUser;
 };

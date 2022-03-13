@@ -1,11 +1,10 @@
 import { expect, it, describe, beforeEach, jest } from '@jest/globals';
 import patchUserNickname from '../../srcs/controllers/controller.patchUserNickname';
 import httpMocks from 'node-mocks-http';
-import newUser from '../data/new-user.json';
 import { User } from '../../srcs/entity/index';
 
 import tJest from '../../@types/types';
-// const mockedTypeorm = typeorm as jest.Mocked<typeof typeorm>;
+import newUser from '../data/new-user.json';
 
 jest.mock('../../srcs/entity/index');
 
@@ -64,6 +63,18 @@ describe('Product Controller Create', () => {
         // newProduct를 인자로 User.findOne()가 실행되었는지 확인합니다.
         expect(res.statusCode).toBe(200);
         expect(res._isEndCalled()).toBeTruthy();
+    });
+
+    it('should return json body in response', async () => {
+        const resJsonData = {
+            success: true,
+            data: { user: newUser },
+        };
+
+        await mockFindOneUser.mockReturnValue(newUser);
+        await patchUserNickname(req, res, next);
+
+        expect(res._getJSONData()).toStrictEqual(resJsonData);
     });
 
     // User.createQueryBuilder()를 모킹하여 호출이 되는지 확인하는 test code입니다.
