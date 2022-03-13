@@ -37,12 +37,12 @@ describe('Product Controller Create', () => {
     });
 
     // 해당 컨트롤러가 존재하는지 확인하는 testcode
-    it('should have createProduct function', () => {
+    it('should have patchUserNickname function', () => {
         expect(typeof patchUserNickname).toBe('function');
     });
 
     // User.findOne()를 모킹하여 호출이 되는지 확인하는 test code입니다.
-    it('should call FindOneUser', async () => {
+    it('should call User.findOne()', async () => {
         // 컨트롤러를 실행합니다.
         const numId = parseInt(newUser.id);
 
@@ -53,6 +53,17 @@ describe('Product Controller Create', () => {
         // newProduct를 인자로 User.findOne()가 실행되었는지 확인합니다.
         expect(res.statusCode).toBe(200);
         expect(await mockFindOneUser).toBeCalledWith({ id: numId });
+    });
+
+    // User.findOne()를 모킹하여 호출이 되는지 확인하는 test code입니다.
+    it('should return 201 response code', async () => {
+        // 컨트롤러를 실행합니다.
+        await mockFindOneUser.mockReturnValue(newUser);
+        await patchUserNickname(req, res, next);
+
+        // newProduct를 인자로 User.findOne()가 실행되었는지 확인합니다.
+        expect(res.statusCode).toBe(200);
+        expect(res._isEndCalled()).toBeTruthy();
     });
 
     // User.createQueryBuilder()를 모킹하여 호출이 되는지 확인하는 test code입니다.
