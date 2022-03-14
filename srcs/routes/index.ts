@@ -64,6 +64,8 @@ router.get(
     controller.getAccessToken
 );
 
+router.get('/user/check-duplicate', controller.checkNicknameDuplicate);
+
 router.get('/', controller.getHome);
 router.get('/policy', controller.getPolicyList);
 

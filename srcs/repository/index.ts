@@ -3,6 +3,7 @@ export {
     findOneUserByEmail,
     updateOneUserNicknameById,
     findOneUserById,
+    findOneUserByNickname,
     updateOneUserFilterById,
 } from './repository.user';
 export { createToken, findOneToken, updateToken, updateTokenById } from './repository.token';
