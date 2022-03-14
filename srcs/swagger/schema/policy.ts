@@ -112,6 +112,8 @@
  *                      type: string
  *                  name:
  *                      type: string
+ *                  host:
+ *                      type: string
  *                  content:
  *                      type: string
  *                  application_period:

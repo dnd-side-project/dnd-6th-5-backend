@@ -286,7 +286,7 @@
  *                오류가 발생해 특정 user의 nickname값을 성공적으로 변경하지 못했을 경우 다음 결과가 반환됩니다.</br></br>
  *                -오류 예시</br>
  *                - 존재하지 않는 userID가 들어온 경우 <br>
- *                - No user in DB <br>
+ *                - requestBody.id값이 숫자형 문자열이 아닌경우 ex) '1', '2' <br>
  *              content:
  *                  application/json:
  *                      schema:
