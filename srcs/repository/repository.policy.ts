@@ -150,6 +150,7 @@ const findOneUserLikePolicy: (id: string) => Promise<Policy[]> = async (id) => {
             'L.policy_id',
             'P.category',
             'P.name',
+            'P.host',
             'P.content',
             'P.application_period',
             'L_cnt.cnt',
@@ -176,7 +177,7 @@ const findOneUserLikePolicy: (id: string) => Promise<Policy[]> = async (id) => {
             (qb) =>
                 qb
                     .from(Policy, 'policy')
-                    .select(['name', 'category', 'content', 'application_period'])
+                    .select(['name', 'host', 'category', 'content', 'application_period'])
                     .addSelect('id', 'policy_id'),
             'P',
             'L.policy_id = P.policy_id'
