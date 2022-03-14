@@ -86,4 +86,21 @@ describe('Product Controller Create', () => {
         expect(res.statusCode).toBe(200);
         expect(await mockEntity.createQueryBuilder).toBeCalledTimes(1);
     });
+
+    // 존재하지 않는 user_id값이 req.body에 들어올 경우 에러처리 test code
+    it('should handle id does not exist error', async () => {
+        // 컨트롤러를 실행합니다.
+        const errorMsg = {
+            success: false,
+            error: {
+                code: 'Error',
+                message: 'This user_id does not exist.',
+            },
+        };
+        const rejectedPromise = Promise.reject(errorMsg);
+        await mockFindOneUser.mockReturnValue(rejectedPromise);
+
+        await patchUserNickname(req, res, next);
+        expect(next).toBeCalledWith(errorMsg);
+    });
 });
