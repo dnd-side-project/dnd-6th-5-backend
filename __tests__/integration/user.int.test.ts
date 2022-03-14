@@ -10,7 +10,7 @@ beforeAll(async () => {
     app = await createServer();
 });
 
-it('PATCH /api/products', async () => {
+it('PATCH /user/nickname', async () => {
     const response = await request(app).patch('/user/nickname').send(newUser);
 
     expect(response.statusCode).toBe(200);
