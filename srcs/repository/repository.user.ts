@@ -42,9 +42,8 @@ const updateOneUserNicknameById: (
     const numId = parseInt(id);
     if (isNaN(numId)) throw Error('Please enter a numeric character for the id value.');
 
-    await getConnection()
-        .createQueryBuilder()
-        .update(User)
+    await User.createQueryBuilder()
+        .update()
         .set({
             nickname: nickname,
         })

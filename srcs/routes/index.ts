@@ -193,4 +193,14 @@ router.post(
 );
 router.get('/notice', controller.getNotice);
 
+router.use((error, req, res, next) => {
+    res.status(400).json({
+        success: false,
+        error: {
+            code: error.name,
+            message: error.message,
+        },
+    });
+});
+
 export default router;

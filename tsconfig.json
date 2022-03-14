@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
-
     "target": "es6",
     "jsx": "react",       
     "module": "commonjs",
-    "types": ["jest", "node"],    
+    "types": ["jest", "node"],
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
     "strict": true,       
     "noImplicitAny": false,
     "esModuleInterop": true,
@@ -16,7 +17,8 @@
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "typeRoots": ["/node_modules/@types", "./@types"]
+    "typeRoots": ["/node_modules/@types", "./@types"],
+    "allowJs": true,
   },
   "exclude": [
     "node_modules",

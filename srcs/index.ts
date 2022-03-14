@@ -1,11 +1,10 @@
-import app from './app';
+import createServer from './app';
 import dotenv from 'dotenv';
-import { connectDB } from './config/index';
 
 dotenv.config();
 
 const runServer = async () => {
-    await connectDB();
+    const app = await createServer();
     /* Run server */
     console.log('Set application...');
     app.listen(process.env.PORT, () => console.log(`server Run with port: ${process.env.PORT}`));

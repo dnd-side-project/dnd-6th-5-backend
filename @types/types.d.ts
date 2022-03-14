@@ -1,3 +1,7 @@
+import tJest from '@types/jest';
+
+export default tJest;
+
 import {
     WorkStatus,
     CompanyScale,
