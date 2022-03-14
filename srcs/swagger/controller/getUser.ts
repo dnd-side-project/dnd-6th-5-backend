@@ -609,3 +609,57 @@
  *                              code: authentication
  *                              message: The value of headers.access_token is not valid.
  */
+
+/**
+ * @swagger
+ * paths:
+ *  /user/check-duplicate:
+ *      get:
+ *          description: 유저 닉네임 중복 확인
+ *          tags: [User]
+ *          parameters:
+ *              - in: query
+ *                name: nickname
+ *                description: 중복 확인할 유저 닉네임
+ *                type: string
+ *          responses:
+ *              200:
+ *                  description: 사용할 수 있는 닉네임일 경우 다음과 같은 메시지가 반환됩니다.</br>
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                success:
+ *                                  type: boolean
+ *                                data:
+ *                                  type: object
+ *                                  properties:
+ *                                      message:
+ *                                          type: string
+ *                              example:
+ *                                success: true
+ *                                data:
+ *                                   message: Available user nickname.
+ *              400:
+ *                  description: |
+ *                    이미 존재하는 닉네임일 경우 다음 결과가 반환됩니다.</br></br>
+ *                  content:
+ *                      application/json:
+ *                        schema:
+ *                          type: object
+ *                          properties:
+ *                            success:
+ *                              type: boolean
+ *                            error:
+ *                              properties:
+ *                               code:
+ *                                 type: string
+ *                               message:
+ *                                 type: string
+ *                          example:
+ *                            success: false
+ *                            error:
+ *                              code: Error
+ *                              message: This user nickname already exists.
+ */

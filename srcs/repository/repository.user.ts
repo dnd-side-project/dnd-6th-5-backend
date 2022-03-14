@@ -30,6 +30,11 @@ const findOneUserById: (id: string) => Promise<User | undefined> = async (id) =>
     return targetUser;
 };
 
+const findOneUserByNickname: (nickname: string) => Promise<User | undefined> = async (nickname) => {
+    const targetUser = await User.findOne({ nickname: nickname });
+    return targetUser;
+};
+
 const updateOneUserNicknameById: (
     id: string,
     nickname?: string
@@ -82,5 +87,6 @@ export {
     findOneUserByEmail,
     updateOneUserNicknameById,
     findOneUserById,
+    findOneUserByNickname,
     updateOneUserFilterById,
 };
