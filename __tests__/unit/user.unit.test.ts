@@ -103,4 +103,14 @@ describe('Product Controller Create', () => {
         await patchUserNickname(req, res, next);
         expect(next).toBeCalledWith(errorMsg);
     });
+
+    // req.id값이 숫자형 문자열이 아닐경우 발생하는 error testcode입니다.
+    it('should handle id is not a numberic error', async () => {
+        // 컨트롤러를 실행합니다.
+        req.body.id = 'invalid id';
+        const error = Error('Please enter a numeric character for the id value.');
+
+        await patchUserNickname(req, res, next);
+        expect(next).toBeCalledWith(error);
+    });
 });
