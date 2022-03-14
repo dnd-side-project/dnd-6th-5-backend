@@ -12,13 +12,7 @@ const patchUserNickname: RequestHandler = async (req, res, next) => {
             data: { user },
         });
     } catch (error: any) {
-        res.status(400).json({
-            success: false,
-            error: {
-                code: error.name,
-                message: error.message,
-            },
-        });
+        next(error);
     }
 };
 
