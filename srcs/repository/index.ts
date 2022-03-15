@@ -5,6 +5,7 @@ export {
     findOneUserById,
     findOneUserByNickname,
     updateOneUserFilterById,
+    deleteUserById,
 } from './repository.user';
 export { createToken, findOneToken, updateToken, updateTokenById } from './repository.token';
 export {

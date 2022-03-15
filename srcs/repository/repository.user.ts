@@ -81,6 +81,12 @@ const updateOneUserFilterById: (user: tUser) => Promise<tUser | undefined> = asy
     return targetUser;
 };
 
+const deleteUserById: (id: number) => Promise<boolean> = async (id) => {
+    if (isNaN(id)) throw Error('Please enter a numeric character for the id value.');
+    await User.delete({ id: id });
+    return true;
+};
+
 export {
     createUser,
     findOneUserByEmail,
@@ -88,4 +94,5 @@ export {
     findOneUserById,
     findOneUserByNickname,
     updateOneUserFilterById,
+    deleteUserById,
 };
