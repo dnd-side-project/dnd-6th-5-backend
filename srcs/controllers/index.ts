@@ -4,6 +4,7 @@ export { default as signoutKakao } from './controller.signoutKakao';
 export { default as signinNaver } from './controller.signinNaver';
 export { default as signoutNaver } from './controller.signoutNaver';
 export { default as deleteUserNaver } from './controller.deleteUserNaver';
+export { default as deleteUserKakao } from './controller.deleteUserKakao';
 
 export { default as getPolicyList } from './controller.getPolicyList';
 export { default as getPolicyDetail } from './controller.getPolicyDetail';
