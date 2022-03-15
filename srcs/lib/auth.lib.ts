@@ -94,6 +94,33 @@ const logoutKakao: (accessToken?: string | string[]) => Promise<tTokenResponse> 
     return res;
 };
 
+const unlinkKakao: (
+    user_id: string,
+    accessToken?: string | string[]
+) => Promise<tTokenResponse> = async (user_id, accessToken) => {
+    const res = await axios({
+        method: 'post',
+        url: 'https://kapi.kakao.com/v1/user/unlink',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+            Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+            target_id_type: 'user_id',
+            target_id: user_id,
+        },
+    })
+        .then((res) => ({
+            status: res.status,
+            data: res.data,
+        }))
+        .catch((err) => ({
+            status: err.response.status,
+            data: err.response.data,
+        }));
+    return res;
+};
+
 const getNaverAccessTokenInfo: (accessToken?: string | string[]) => Promise<any> = async (
     accessToken
 ) => {
@@ -173,6 +200,7 @@ export {
     updateKaKaoAccessToken,
     logoutKakao,
     getKaKaoUserInfo,
+    unlinkKakao,
     getNaverAccessTokenInfo,
     updateNaverAccessToken,
     logoutNaver,

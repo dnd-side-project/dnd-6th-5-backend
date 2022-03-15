@@ -3,6 +3,7 @@ export {
     updateKaKaoAccessToken,
     logoutKakao,
     getKaKaoUserInfo,
+    unlinkKakao,
     getNaverAccessTokenInfo,
     updateNaverAccessToken,
     logoutNaver,

@@ -54,6 +54,18 @@ router.get(
     controller.signoutKakao
 );
 
+router.delete(
+    '/user/naver',
+    [header('access_token').exists({ checkFalsy: true }), middleware.validator],
+    controller.deleteUserNaver
+);
+
+router.delete(
+    '/user/kakao',
+    [header('access_token').exists({ checkFalsy: true }), middleware.validator],
+    controller.deleteUserKakao
+);
+
 router.get(
     '/token',
     [

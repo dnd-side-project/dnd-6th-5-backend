@@ -1,9 +1,9 @@
 import { RequestHandler } from 'express';
-import { findOneUserByEmail, updateToken } from '../repository/index';
-import { getKaKaoAccessTokenInfo, getKaKaoUserInfo, logoutKakao } from '../lib/index';
+import { findOneUserByEmail, deleteUserById } from '../repository/index';
+import { getKaKaoAccessTokenInfo, getKaKaoUserInfo, unlinkKakao } from '../lib/index';
 import { tUser } from '../../@types/types';
 
-const signoutKakao: RequestHandler = async (req, res, next) => {
+const deleteUserKakao: RequestHandler = async (req, res, next) => {
     try {
         const accessToken = req.headers.access_token;
         // getTokenInfo - 토큰 검증 api를 호출하는 함수
@@ -20,18 +20,18 @@ const signoutKakao: RequestHandler = async (req, res, next) => {
             });
 
         const userInfo = await getKaKaoUserInfo(accessToken);
-        const logoutResponse = await logoutKakao(accessToken);
-        if (logoutResponse.status !== 200)
+        const unlinkResponse = await unlinkKakao(userInfo.data.id, accessToken);
+        if (unlinkResponse.status !== 200)
             return res.status(401).json({
                 success: false,
-                error: logoutResponse.data,
+                error: unlinkResponse.data,
             });
 
         const userObj: tUser = {
             email: userInfo.data.kakao_account.email,
         };
         const dbUser = await findOneUserByEmail(userObj);
-        await updateToken(dbUser?.token.refreshToken as string, null);
+        await deleteUserById(dbUser?.id as number);
 
         return res.status(200).json({
             success: true,
@@ -42,4 +42,4 @@ const signoutKakao: RequestHandler = async (req, res, next) => {
     }
 };
 
-export default signoutKakao;
+export default deleteUserKakao;
