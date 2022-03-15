@@ -7,9 +7,6 @@ const createUser: (user: tUser) => Promise<User> = async (user) => {
     newUser.email = user.email;
     await newUser.save();
 
-    newUser.nickname = newUser.id.toString();
-    await newUser.save();
-
     return newUser;
 };
 
