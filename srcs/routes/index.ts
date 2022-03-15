@@ -54,6 +54,18 @@ router.get(
     controller.signoutKakao
 );
 
+router.delete(
+    '/user/naver',
+    [header('access_token').exists({ checkFalsy: true }), middleware.validator],
+    controller.deleteUserNaver
+);
+
+router.delete(
+    '/user/kakao',
+    [header('access_token').exists({ checkFalsy: true }), middleware.validator],
+    controller.deleteUserKakao
+);
+
 router.get(
     '/token',
     [
@@ -63,6 +75,8 @@ router.get(
     ],
     controller.getAccessToken
 );
+
+router.get('/user/check-duplicate', controller.checkNicknameDuplicate);
 
 router.get('/', controller.getHome);
 router.get('/policy', controller.getPolicyList);
@@ -190,5 +204,15 @@ router.post(
     controller.likePolicy
 );
 router.get('/notice', controller.getNotice);
+
+router.use((error, req, res, next) => {
+    res.status(400).json({
+        success: false,
+        error: {
+            code: error.name,
+            message: error.message,
+        },
+    });
+});
 
 export default router;

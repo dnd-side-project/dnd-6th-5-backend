@@ -20,6 +20,11 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
 
+            - name: create env file
+              run: |
+                  touch .env
+                  echo "${{ secrets.ENV_VARS }}" >> .env
+
             - name: npm install, run lint
               run: |
                   npm install

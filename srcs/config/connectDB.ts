@@ -4,7 +4,7 @@ import { Comment, Like, Notice, Policy, Post, Question, Token, User } from '../e
 const connectDb = async (): Promise<void> => {
     const connectionOptions = await getConnectionOptions(process.env.NODE_ENV);
 
-    await createConnection({ ...connectionOptions })
+    await createConnection({ ...connectionOptions, name: 'default' })
         .then((connection) => {
             connection.getRepository(Comment);
             connection.getRepository(Like);

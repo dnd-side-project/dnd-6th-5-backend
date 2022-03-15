@@ -30,6 +30,11 @@ const findOneUserById: (id: string) => Promise<User | undefined> = async (id) =>
     return targetUser;
 };
 
+const findOneUserByNickname: (nickname: string) => Promise<User | undefined> = async (nickname) => {
+    const targetUser = await User.findOne({ nickname: nickname });
+    return targetUser;
+};
+
 const updateOneUserNicknameById: (
     id: string,
     nickname?: string
@@ -37,9 +42,8 @@ const updateOneUserNicknameById: (
     const numId = parseInt(id);
     if (isNaN(numId)) throw Error('Please enter a numeric character for the id value.');
 
-    await getConnection()
-        .createQueryBuilder()
-        .update(User)
+    await User.createQueryBuilder()
+        .update()
         .set({
             nickname: nickname,
         })
@@ -77,10 +81,18 @@ const updateOneUserFilterById: (user: tUser) => Promise<tUser | undefined> = asy
     return targetUser;
 };
 
+const deleteUserById: (id: number) => Promise<boolean> = async (id) => {
+    if (isNaN(id)) throw Error('Please enter a numeric character for the id value.');
+    await User.delete({ id: id });
+    return true;
+};
+
 export {
     createUser,
     findOneUserByEmail,
     updateOneUserNicknameById,
     findOneUserById,
+    findOneUserByNickname,
     updateOneUserFilterById,
+    deleteUserById,
 };
