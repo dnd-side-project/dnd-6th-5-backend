@@ -3,7 +3,7 @@ import { findOneUserByEmail, updateToken } from '../repository/index';
 import { getKaKaoAccessTokenInfo, getKaKaoUserInfo, logoutKakao } from '../lib/index';
 import { tUser } from '../../@types/types';
 
-const signoutKakao: RequestHandler = async (req, res) => {
+const signoutKakao: RequestHandler = async (req, res, next) => {
     try {
         const accessToken = req.headers.access_token;
         // getTokenInfo - 토큰 검증 api를 호출하는 함수
@@ -38,13 +38,7 @@ const signoutKakao: RequestHandler = async (req, res) => {
             data: { id: dbUser?.id },
         });
     } catch (error: any) {
-        res.status(400).json({
-            success: false,
-            error: {
-                code: error.name,
-                message: error.message,
-            },
-        });
+        next(error);
     }
 };
 

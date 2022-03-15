@@ -60,11 +60,11 @@ router.delete(
     controller.deleteUserNaver
 );
 
-// router.delete(
-//     '/user/kakao',
-//     [header('access_token').exists({ checkFalsy: true }), middleware.validator],
-//     controller.deleteUserKakao
-// );
+router.delete(
+    '/user/kakao',
+    [header('access_token').exists({ checkFalsy: true }), middleware.validator],
+    controller.deleteUserKakao
+);
 
 router.get(
     '/token',
