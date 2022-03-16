@@ -3,7 +3,7 @@ import { expect, it, beforeAll, afterEach } from '@jest/globals';
 import createServer from '../../../srcs/app';
 
 import newUser from '../../data/new-user.json';
-import error from '../../data/errorObject.json';
+import error from '../../data/error.json';
 import tJest from '../../../@types/types';
 
 let app;
