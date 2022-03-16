@@ -1,0 +1,16 @@
+{
+    "numericId": {
+        "success": false,
+        "error": {
+            "code": "Error", 
+            "message": "Please enter a numeric character for the id value."
+        }
+    },
+    "existUser":{
+        "success": false,
+        "error": {
+            "code": "Error", 
+            "message": "This is a user id that does not exist."
+        }
+    }
+}
