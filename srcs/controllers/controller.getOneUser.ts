@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express';
-import { nextTick } from 'process';
 import { findOneUserById } from '../repository/index';
 
 const getOneUser: RequestHandler = async (req, res, next) => {
