@@ -1,12 +1,12 @@
 import { expect, it, describe, beforeEach, jest } from '@jest/globals';
-import patchUserNickname from '../../srcs/controllers/controller.patchUserNickname';
+import patchUserNickname from '../../../srcs/controllers/controller.patchUserNickname';
 import httpMocks from 'node-mocks-http';
-import { User } from '../../srcs/entity/index';
+import { User } from '../../../srcs/entity/index';
 
-import tJest from '../../@types/types';
-import newUser from '../data/new-user.json';
+import tJest from '../../../@types/types';
+import newUser from '../../data/new-user.json';
 
-jest.mock('../../srcs/entity/index');
+jest.mock('../../../srcs/entity/index');
 
 // User.findOne()를 모킹합니다.
 const mockFindOneUser: tJest.mock = User.findOne;
