@@ -42,6 +42,13 @@ describe('PATCH /user/nickname', () => {
         expect(response.body).toStrictEqual(error.existUser);
     });
 
+    it('400: validator error', async () => {
+        const response = await request(app).patch('/user/nickname').send();
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toStrictEqual(error.validator);
+    });
+
     afterEach(async (done: tJest.DoneFn) => {
         done();
     });

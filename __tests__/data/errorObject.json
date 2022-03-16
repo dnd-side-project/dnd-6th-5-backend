@@ -12,5 +12,20 @@
             "code": "Error", 
             "message": "This is a user id that does not exist."
         }
+    },
+    "validator":{
+        "errors": 
+        [
+            {
+                "location": "body",
+                "msg": "Invalid value",
+                "param": "id"
+            },
+            {
+            "location": "body",
+                "msg": "Invalid value",
+            "param": "nickname"
+            }
+        ]
     }
 }
