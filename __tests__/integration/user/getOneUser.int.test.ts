@@ -13,7 +13,7 @@ beforeAll(async () => {
 
 describe('GET /user/:id', () => {
     it('200: nomal request', async () => {
-        const response = await request(app).get(`/user/${newUser.id}`).send(newUser);
+        const response = await request(app).get(`/user/${newUser.id}`);
 
         expect(response.statusCode).toBe(200);
         expect(response.body.success).toBe(true);
@@ -22,14 +22,14 @@ describe('GET /user/:id', () => {
     });
 
     it('400: id is not a numeric error ', async () => {
-        const response = await request(app).get(`/user/id`).send(newUser);
+        const response = await request(app).get(`/user/id`);
 
         expect(response.statusCode).toBe(400);
         expect(response.body).toStrictEqual(error.numericId);
     });
 
     it('400: id does not exist error', async () => {
-        const response = await request(app).get(`/user/1000000`).send(newUser);
+        const response = await request(app).get(`/user/1000000`);
 
         expect(response.statusCode).toBe(400);
         expect(response.body).toStrictEqual(error.existUser);
