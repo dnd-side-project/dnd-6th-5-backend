@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { findOneUserById } from '../repository/index';
 
-const getOneUser: RequestHandler = async (req, res) => {
+const getOneUser: RequestHandler = async (req, res, next) => {
     try {
         const userId: string = req.params.id;
 
@@ -14,13 +14,7 @@ const getOneUser: RequestHandler = async (req, res) => {
             data: { user },
         });
     } catch (error: any) {
-        res.status(400).json({
-            success: false,
-            error: {
-                code: error.name,
-                message: error.message,
-            },
-        });
+        next(error);
     }
 };
 
