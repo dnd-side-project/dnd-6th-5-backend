@@ -19,7 +19,7 @@ beforeEach(async () => {
 });
 
 // 먼저 함수의 존재 유무부터 test합니다.
-describe('Product Controller Create', () => {
+describe('getOneUser Controller Create', () => {
     beforeEach(async () => {
         req.params = newUser;
         await mockFindOneUser.mockClear();
