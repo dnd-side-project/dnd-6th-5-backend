@@ -28,7 +28,7 @@ beforeEach(async () => {
 });
 
 // 먼저 함수의 존재 유무부터 test합니다.
-describe('patch One User Nickname Update', () => {
+describe('patchOneUserNickname Controller Create', () => {
     beforeEach(async () => {
         req.body = newUser;
         await mockFindOneUser.mockClear();
