@@ -3,7 +3,7 @@ import getNotice from '../../../srcs/controllers/controller.getNotice';
 import httpMocks from 'node-mocks-http';
 import { Notice } from '../../../srcs/entity/index';
 
-import allNotice from '../../data/body.json';
+import allNotice from '../../data/result.json';
 import tJest from '../../../@types/types';
 
 jest.mock('../../../srcs/entity/index');
