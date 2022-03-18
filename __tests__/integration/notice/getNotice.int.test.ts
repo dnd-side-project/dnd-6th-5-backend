@@ -12,14 +12,11 @@ beforeAll(async () => {
 
 describe('GET /notice', () => {
     it('200: nomal request', async () => {
-        const resJsonData = {
-            success: true,
-            data: { notice: result },
-        };
         const response = await request(app).get(`/notice`);
 
         expect(response.statusCode).toBe(200);
-        expect(response.body).toStrictEqual(resJsonData);
+        expect(response.body.success).toBe(true);
+        expect(response.body.data.notice).toStrictEqual(result);
     });
 
     afterEach(async (done: tJest.DoneFn) => {
