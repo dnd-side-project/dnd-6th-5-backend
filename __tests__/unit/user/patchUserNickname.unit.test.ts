@@ -84,7 +84,7 @@ describe('patchOneUserNickname Controller Create', () => {
 
         // newProduct를 인자로 User.createQueryBuilder()가 1번 실행되었는지 확인합니다.
         expect(res.statusCode).toBe(200);
-        expect(await mockEntity.createQueryBuilder).toBeCalledTimes(1);
+        expect(mockEntity.createQueryBuilder).toBeCalledTimes(1);
     });
 
     // 존재하지 않는 user_id값이 req.body에 들어올 경우 에러처리 test code
