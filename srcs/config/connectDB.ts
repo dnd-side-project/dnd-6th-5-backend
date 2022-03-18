@@ -1,4 +1,4 @@
-import { getConnectionOptions, createConnection } from 'typeorm';
+import { createConnection } from 'typeorm';
 import { Comment, Like, Notice, Policy, Post, Question, Token, User } from '../entity/index';
 import dbOption from '../../ormconfig';
 
