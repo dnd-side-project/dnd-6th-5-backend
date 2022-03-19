@@ -8,7 +8,10 @@ const checkNicknameDuplicate: RequestHandler = async (req, res) => {
         const user = await findOneUserByNickname(nickname);
 
         if (user) {
-            throw Error('This user nickname already exists.');
+            return res.status(200).json({
+                success: false,
+                data: { message: 'This user nickname already exists.' },
+            });
         } else {
             return res.status(200).json({
                 success: true,
