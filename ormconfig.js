@@ -13,6 +13,7 @@ module.exports.default = {
     synchronize: true,
     logging: false,
     dropSchema: false,
+    timezone: process.env.TZ, // 서울 시간대
     entities: ['./srcs/entity/*.ts'],
     subscribers: ['srcs/migration/*.ts'],
     migrations: ['srcs/migration/*.ts'],
@@ -29,6 +30,7 @@ module.exports.test = {
     synchronize: true,
     logging: false,
     dropSchema: false,
+    timezone: process.env.TZ, // 서울 시간대
     entities: ['./srcs/entity/*.ts'],
     subscribers: ['srcs/migration/*.ts'],
     migrations: ['srcs/migration/*.ts'],

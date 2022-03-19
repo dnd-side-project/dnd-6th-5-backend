@@ -41,11 +41,11 @@ describe('getOneUser Controller Create', () => {
 
         // newProduct를 인자로 User.findOne()가 실행되었는지 확인합니다.
         expect(res.statusCode).toBe(200);
-        expect(mockFindOneUser).toBeCalledWith({ id: numId });
+        expect(await mockFindOneUser).toBeCalledWith({ id: numId });
     });
 
     // User.findOne()를 모킹하여 해당 컨트롤러에서 추가적인 결과값을 res담아 전달하고 있는지 확인합니다.
-    it('should return 201 response code', async () => {
+    it('should return 200 response code', async () => {
         // 컨트롤러를 실행합니다.
         await mockFindOneUser.mockReturnValue(newUser);
         await getOneUser(req, res, next);
