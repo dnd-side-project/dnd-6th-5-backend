@@ -1,0 +1,26 @@
+[
+    {
+        "id": "1",
+        "name": "test name1",
+        "category": "주거",
+        "summary": "test summary1",
+        "applicationPeriod": "-",
+        "likeCount": "0"
+    },
+    {
+        "id": "2",
+        "name": "test name2",
+        "category": "주거",
+        "summary": "test summary1",
+        "applicationPeriod": "-",
+        "likeCount": "0"
+    },
+    {
+        "id": "14",
+        "name": "test name3",
+        "category": "금융",
+        "summary": "test summary3",
+        "applicationPeriod": "-",
+        "likeCount": "2"
+    }
+]
