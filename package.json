@@ -4,8 +4,8 @@
   "description": "### member - 이광수, 최예원",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec ts-node ./srcs/index.ts",
-    "test": "jest --detectOpenHandles --forceExit",
+    "start": "NODE_ENV=default nodemon --exec ts-node ./srcs/index.ts",
+    "test": "NODE_ENV=default jest --detectOpenHandles --forceExit",
     "lint": "node_modules/.bin/eslint srcs/"
   },
   "repository": {

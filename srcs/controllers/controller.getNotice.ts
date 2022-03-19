@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { findAllNotice } from '../repository/index';
 
-const getNotice: RequestHandler = async (req, res) => {
+const getNotice: RequestHandler = async (req, res, next) => {
     try {
         const notice = await findAllNotice();
 
@@ -10,13 +10,7 @@ const getNotice: RequestHandler = async (req, res) => {
             data: { notice },
         });
     } catch (error: any) {
-        res.status(400).json({
-            success: false,
-            error: {
-                code: error.name,
-                message: error.message,
-            },
-        });
+        next(error);
     }
 };
 
