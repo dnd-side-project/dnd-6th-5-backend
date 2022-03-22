@@ -54,10 +54,10 @@ export class Policy extends BaseEntity {
     @Column('varchar', { name: 'host', nullable: true, length: 50 })
     host!: string;
 
-    @Column('varchar', { name: 'application_period', nullable: true, length: 100 })
+    @Column('varchar', { name: 'application_period', nullable: true, length: 125 })
     applicationPeriod!: string;
 
-    @Column('varchar', { name: 'announcement', nullable: true, length: 100 })
+    @Column('varchar', { name: 'announcement', nullable: true, length: 512 })
     announcement!: string;
 
     @Column('varchar', { name: 'policy_duration', nullable: true, length: 100 })
@@ -78,7 +78,7 @@ export class Policy extends BaseEntity {
     @Column({ type: 'longtext', name: 'note', nullable: false })
     note!: string;
 
-    @Column('varchar', { name: 'limited_target', nullable: true, length: 100 })
+    @Column('varchar', { name: 'limited_target', nullable: true, length: 512 })
     limitedTarget!: string;
 
     @Column('varchar', { name: 'support_scale', nullable: true, length: 100 })
@@ -99,7 +99,7 @@ export class Policy extends BaseEntity {
     @Column({ type: 'longtext', name: 'other_info', nullable: true })
     otherInfo!: string;
 
-    @Column('varchar', { name: 'operating_institute', nullable: true, length: 50 })
+    @Column('varchar', { name: 'operating_institute', nullable: true, length: 128 })
     operatingInstitute!: string;
 
     @Column('varchar', { name: 'reference_site1', nullable: true, length: 2084 })
