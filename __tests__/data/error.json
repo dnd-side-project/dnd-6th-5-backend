@@ -27,5 +27,12 @@
             "param": "nickname"
             }
         ]
+    },
+    "invalidCategory":{
+        "success": false,
+        "error": {
+            "code": "Error", 
+            "message": "Invalid Category"
+        }
     }
 }
