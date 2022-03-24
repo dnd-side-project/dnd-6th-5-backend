@@ -14,92 +14,31 @@ const mainUrl = `https://www.youthcenter.go.kr/youngPlcyUnif/youngPlcyUnifList.d
 const OPEN_API_KEY = process.env.OPEN_API_KEY;
 const requestUrl = `https://www.youthcenter.go.kr/opi/empList.do?display=100&pageIndex=1&bizTycdSel=004003&openApiVlak=${OPEN_API_KEY}`;
 
-async function collectData(name) {
-    const browser = await puppeteer.launch({
-        headless: true,
-    });
-    try {
-        const page = await browser.newPage();
-        await page.on('dialog', async (dialog) => {
-            await dialog.dismiss();
-        });
-        const result = await accessDetailPage(page, name);
-        return result;
-    } finally {
-        await browser.close();
+function getRequestUrl(pageIndex) {
+    const requestUrl = `https://www.youthcenter.go.kr/opi/empList.do?display=100&pageIndex=${pageIndex}&bizTycdSel=004003&openApiVlak=${OPEN_API_KEY}`;
+    return requestUrl;
+}
+
+async function getEmp() {
+    const emp = [];
+    for (let pageIndex = 1; pageIndex < 13; pageIndex++) {
+        const requestUrl = getRequestUrl(pageIndex);
+        const body = await axios
+            .get(requestUrl)
+            .then((res) => {
+                return res.data;
+            })
+            .catch((err) => {
+                return err;
+            });
+
+        const empData = await getJson(body);
+        emp.push(...empData);
     }
+    return emp;
 }
 
-async function updatePolicy(connection, policy) {
-    const sql = `UPDATE policy SET number=?, category=?, summary=?, host=?, application_period=?,
-    announcement=?, policy_duration=?, limit_age=?, limit_area_asset=?, specialization=?, content=?, 
-    note=?, limited_target=?, support_scale=?, application_process=?, application_site=?, 
-    application_site_name=?,
-    submission=?, other_info=?, operating_institute=?, reference_site1=?, reference_site2=?
-    WHERE name=? `;
-    const arg = [
-        policy.number,
-        policy.category,
-        policy.summary,
-        policy.host,
-        policy.applicationPeriod,
-        policy.announcement,
-        policy.policyDuration,
-        policy.limitAge,
-        policy.limitAreaAsset,
-        policy.specialization,
-        policy.content,
-        policy.note,
-        policy.limitedTarget,
-        policy.supportScale,
-        policy.applicationProcess,
-        policy.applicationSite,
-        policy.applicationSiteName,
-        policy.submission,
-        policy.otherInfo,
-        policy.operatingInstitute,
-        policy.referenceSite1,
-        policy.referenceSite2,
-        policy.name,
-    ];
-    const res = await connection.query(sql, arg).catch(() => false);
-    if (res === false) console.log(`update fail : ${policy.name}`);
-    else console.log(`update success: ${policy.name}`);
-}
-
-async function insertPolicy(connection, policy) {
-    const sql = `INSERT INTO policy(name, number, category, summary, host, application_period, announcement, policy_duration, limit_age, limit_area_asset, specialization, content, note, limited_target,support_scale, application_process, application_site, application_site_name, submission, other_info, operating_institute, reference_site1, reference_site2) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`;
-    const arg = [
-        policy.name,
-        policy.number,
-        policy.category,
-        policy.summary,
-        policy.host,
-        policy.applicationPeriod,
-        policy.announcement,
-        policy.policyDuration,
-        policy.limitAge,
-        policy.limitAreaAsset,
-        policy.specialization,
-        policy.content,
-        policy.note,
-        policy.limitedTarget,
-        policy.supportScale,
-        policy.applicationProcess,
-        policy.applicationSite,
-        policy.applicationSiteName,
-        policy.submission,
-        policy.otherInfo,
-        policy.operatingInstitute,
-        policy.referenceSite1,
-        policy.referenceSite2,
-    ];
-    const res = await connection.query(sql, arg).catch(() => false);
-    if (res === false) console.log(`insert fail : ${policy.name}`);
-    else console.log(`insert success: ${policy.name}`);
-}
-
-async function get_json(body) {
+async function getJson(body) {
     const xmlToJson = await convert.xml2json(body, { compact: true, spaces: 4 });
     const json = await JSON.parse(xmlToJson); // json 객체로 파싱
     const emp = await json.empsInfo?.emp;
@@ -108,22 +47,14 @@ async function get_json(body) {
 
 async function main() {
     const connection = await mysql.createConnection({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
+        host: process.env.TEST_DB_HOST,
+        user: process.env.TEST_DB_USERNAME,
+        password: process.env.TEST_DB_PASSWORD,
+        database: process.env.TEST_DB_NAME,
     });
+    const emp = await getEmp();
+    console.log(emp.length);
 
-    const body = await axios
-        .get(requestUrl)
-        .then((res) => {
-            return res.data;
-        })
-        .catch((err) => {
-            return err;
-        });
-
-    const emp = await get_json(body);
     const policySet = new Set();
     const dto_list = [];
     for (const data of emp) {
@@ -136,6 +67,7 @@ async function main() {
         const dto = await collectData(policyName);
         if (dto === false) continue;
         dto_list.push(dto);
+        console.log(dto);
     }
     console.log(dto_list);
 
@@ -152,8 +84,20 @@ async function main() {
 
 main();
 
-async function sleep(ms) {
-    return new Promise((r) => setTimeout(r, ms));
+async function collectData(name) {
+    const browser = await puppeteer.launch({
+        headless: false,
+    });
+    try {
+        const page = await browser.newPage();
+        await page.on('dialog', async (dialog) => {
+            await dialog.dismiss();
+        });
+        const result = await accessDetailPage(page, name);
+        return result;
+    } finally {
+        await browser.close();
+    }
 }
 
 async function getTitle(page, url) {
@@ -197,16 +141,18 @@ async function getPureTitle(page, site) {
     return title;
 }
 
+async function sleep(ms) {
+    return new Promise((r) => setTimeout(r, ms));
+}
+
 async function accessDetailPage(page, name) {
     try {
         await page.goto(mainUrl);
 
         await page.waitForSelector('#srchWord');
+        await page.$eval('input[name=srchWord]', (el, name) => (el.value = name), name);
         await page.waitForSelector('#srchSortOrder');
-        await page.evaluate((name) => {
-            document.querySelector('#srchWord').value = name;
-            document.querySelector('#srchSortOrder').value = '4';
-        }, name);
+        await page.$eval('select[name=srchSortOrder]', (el) => (el.value = '4'));
 
         await page.waitForSelector(
             '#srchFrm > div.ply-srh-box.explain-srh-box > div.policy-search.green-type > div:nth-child(2) > div.r.ply-op > ul > li:nth-child(3) > span > button'
@@ -256,13 +202,11 @@ async function accessDetailPage(page, name) {
             '#srchFrm > div.sch-result-wrap.compare-result-list > div.result-list-box > ul > li',
             { timeout: 1000 }
         );
-        await page.evaluate(() => {
-            document
-                .querySelector(
-                    '#srchFrm > div.sch-result-wrap.compare-result-list > div.result-list-box > ul > li'
-                ).querySelector('a')
-                .click();
-        });
+
+        await page.click(
+            '#srchFrm > div.sch-result-wrap.compare-result-list > div.result-list-box > ul > li a'
+        );
+
         const data = await getData(page, name);
         if (data === false) return false;
         return data;
@@ -350,4 +294,73 @@ async function getData(page, name) {
     } catch (e) {
         return false;
     }
+}
+
+async function updatePolicy(connection, policy) {
+    const sql = `UPDATE policy SET number=?, category=?, summary=?, host=?, application_period=?,
+    announcement=?, policy_duration=?, limit_age=?, limit_area_asset=?, specialization=?, content=?, 
+    note=?, limited_target=?, support_scale=?, application_process=?, application_site=?, 
+    application_site_name=?,
+    submission=?, other_info=?, operating_institute=?, reference_site1=?, reference_site2=?
+    WHERE name=? `;
+    const arg = [
+        policy.number,
+        policy.category,
+        policy.summary,
+        policy.host,
+        policy.applicationPeriod,
+        policy.announcement,
+        policy.policyDuration,
+        policy.limitAge,
+        policy.limitAreaAsset,
+        policy.specialization,
+        policy.content,
+        policy.note,
+        policy.limitedTarget,
+        policy.supportScale,
+        policy.applicationProcess,
+        policy.applicationSite,
+        policy.applicationSiteName,
+        policy.submission,
+        policy.otherInfo,
+        policy.operatingInstitute,
+        policy.referenceSite1,
+        policy.referenceSite2,
+        policy.name,
+    ];
+    const res = await connection.query(sql, arg).catch(() => false);
+    if (res === false) console.log(`update fail : ${policy.name}`);
+    else console.log(`update success: ${policy.name}`);
+}
+
+async function insertPolicy(connection, policy) {
+    const sql = `INSERT INTO policy(name, number, category, summary, host, application_period, announcement, policy_duration, limit_age, limit_area_asset, specialization, content, note, limited_target,support_scale, application_process, application_site, application_site_name, submission, other_info, operating_institute, reference_site1, reference_site2) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`;
+    const arg = [
+        policy.name,
+        policy.number,
+        policy.category,
+        policy.summary,
+        policy.host,
+        policy.applicationPeriod,
+        policy.announcement,
+        policy.policyDuration,
+        policy.limitAge,
+        policy.limitAreaAsset,
+        policy.specialization,
+        policy.content,
+        policy.note,
+        policy.limitedTarget,
+        policy.supportScale,
+        policy.applicationProcess,
+        policy.applicationSite,
+        policy.applicationSiteName,
+        policy.submission,
+        policy.otherInfo,
+        policy.operatingInstitute,
+        policy.referenceSite1,
+        policy.referenceSite2,
+    ];
+    const res = await connection.query(sql, arg).catch(() => false);
+    if (res === false) console.log(`insert fail : ${policy.name}`);
+    else console.log(`insert success: ${policy.name}`);
 }
