@@ -14,11 +14,19 @@ import { ReportReason } from './common/Enums';
 
 @Entity()
 export class Report extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id!: number;
+    @ManyToOne(() => Post, (post) => post.report, { primary: true, onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'post_id' })
+    post!: Post;
+
+    @ManyToOne(() => User, (user) => user.report, { primary: true, onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'user_id' })
+    user!: User;
 
     @Column({ type: 'enum', name: 'reason', nullable: false, enum: ReportReason })
     reason!: ReportReason;
+
+    @Column({ type: 'int', name: 'count', default: 1 })
+    count!: number;
 
     @CreateDateColumn({
         type: 'timestamp',
@@ -33,14 +41,6 @@ export class Report extends BaseEntity {
         nullable: false,
     })
     updatedAt!: Date;
-
-    @ManyToOne(() => User, (user) => user.report, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'user_id' })
-    user!: User;
-
-    @ManyToOne(() => Post, (post) => post.report, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'post_id' })
-    post!: Post;
 }
 
 export default Report;

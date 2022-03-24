@@ -30,3 +30,4 @@ export { default as postQuestion } from './controller.postQuestion';
 export { default as getNotice } from './controller.getNotice';
 export { default as getHome } from './controller.getHome';
 export { default as checkNicknameDuplicate } from './controller.checkNicknameDuplicate';
+export { default as postReport } from './controller.postReport';

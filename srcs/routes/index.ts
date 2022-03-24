@@ -146,6 +146,7 @@ router.delete('/posts/:id', controller.deletePost);
 router.post('/posts/:id/comment', controller.postComment);
 router.patch('/posts/:id/comment', controller.patchComment);
 router.delete('/posts/:id/comment', controller.deleteComment);
+router.post('/posts/:id/report', controller.postReport);
 
 router.get('/policy/:id', controller.getPolicyDetail);
 router.put(
