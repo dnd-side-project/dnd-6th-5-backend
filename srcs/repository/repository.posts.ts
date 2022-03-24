@@ -268,7 +268,7 @@ const reportOnePost: (userId: number, postId: string, reason: string) => Promise
     const post = await Post.findOneOrFail({ id: parseInt(postId) });
 
     let count;
-    const tempCnt = await Report.findAndCount({ post: post});
+    const tempCnt = await Report.findAndCount({ post: post });
 
     if (tempCnt[1] == 0) count = 1;
     else count = tempCnt[1] + 1;

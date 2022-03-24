@@ -1,5 +1,15 @@
 import { createConnection } from 'typeorm';
-import { Comment, Like, Notice, Policy, Post, Question, Token, User, Report } from '../entity/index';
+import {
+    Comment,
+    Like,
+    Notice,
+    Policy,
+    Post,
+    Question,
+    Token,
+    User,
+    Report,
+} from '../entity/index';
 import dbOption from '../../ormconfig';
 
 const connectDb = async (): Promise<void> => {
