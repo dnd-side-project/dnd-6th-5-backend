@@ -72,3 +72,13 @@ export enum SocialType {
     KAKAO = 'kakao',
     NAVER = 'naver',
 }
+
+// 신고 사유
+export enum ReportReason {
+    SPAM = '스팸광고/도배글',
+    LEWD = '음란물/선정성 게시글',
+    SWEAR = '욕설 및 비속어, 혐오와 같은 불쾌한 표현',
+    PRIVACY = '개인정보 노출',
+    NICKNAME = '부적절한 닉네임',
+    IRRELEVANT = '주제와 무관한 내용',
+}

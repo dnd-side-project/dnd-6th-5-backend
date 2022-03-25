@@ -22,6 +22,7 @@ import {
     WorkStatus,
 } from './common/Enums';
 import { Comment } from './Comment';
+import Report from './Report';
 
 @Entity()
 export class Post extends BaseEntity {
@@ -84,6 +85,9 @@ export class Post extends BaseEntity {
 
     @OneToMany(() => Comment, (comment) => comment.post)
     comment!: Comment[];
+
+    @OneToMany(() => Report, (report) => report.post)
+    report!: Report[];
 }
 
 export default Post;

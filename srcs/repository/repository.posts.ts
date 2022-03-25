@@ -1,6 +1,6 @@
 import { getConnection } from 'typeorm';
 import { tPost } from '../../@types/types';
-import { Post, Comment, User } from '../entity';
+import { Post, Comment, User, Report } from '../entity';
 import {
     AnnualIncome,
     Asset,
@@ -10,6 +10,7 @@ import {
     IsHouseOwner,
     MaritalStatus,
     MedianIncome,
+    ReportReason,
     WorkStatus,
 } from '../entity/common/Enums';
 
@@ -258,6 +259,28 @@ const updateOnePostById: (id: string, post: tPost) => Promise<tPost | undefined>
     return targetPost;
 };
 
+const reportOnePost: (userId: number, postId: string, reason: string) => Promise<void> = async (
+    userId,
+    postId,
+    reason
+) => {
+    const user = await User.findOneOrFail({ id: userId });
+    const post = await Post.findOneOrFail({ id: parseInt(postId) });
+
+    let count;
+    const tempCnt = await Report.findAndCount({ post: post });
+
+    if (tempCnt[1] == 0) count = 1;
+    else count = tempCnt[1] + 1;
+
+    await getConnection()
+        .createQueryBuilder()
+        .insert()
+        .into(Report)
+        .values({ user: user, post: post, count: count, reason: reason as ReportReason })
+        .execute();
+};
+
 export {
     findAllPosts,
     findOnePostById,
@@ -266,4 +289,5 @@ export {
     createPost,
     findPostsByKeyword,
     updateOnePostById,
+    reportOnePost,
 };

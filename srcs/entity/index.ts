@@ -6,3 +6,4 @@ export { default as Post } from './Post';
 export { default as Question } from './Question';
 export { default as Token } from './Token';
 export { default as User } from './User';
+export { default as Report } from './Report';

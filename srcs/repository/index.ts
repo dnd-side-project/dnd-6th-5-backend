@@ -25,6 +25,7 @@ export {
     createPost,
     findPostsByKeyword,
     updateOnePostById,
+    reportOnePost,
 } from './repository.posts';
 export { findOneUserComment, createComment, updateOneCommentById } from './repository.comment';
 export { createQuestion } from './repository.question';

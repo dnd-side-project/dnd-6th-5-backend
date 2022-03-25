@@ -25,6 +25,7 @@ import { Post } from './Post';
 import { Notice } from './Notice';
 import { Comment } from './Comment';
 import { Like } from './Like';
+import Report from './Report';
 
 @Entity()
 export class User extends BaseEntity {
@@ -94,6 +95,9 @@ export class User extends BaseEntity {
 
     @OneToMany(() => Like, (like) => like.user)
     like!: Like[];
+
+    @OneToMany(() => Report, (report) => report.user)
+    report!: Report[];
 }
 
 export default User;
