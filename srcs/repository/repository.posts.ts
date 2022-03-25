@@ -45,8 +45,10 @@ const findAllPosts: () => Promise<Post[]> = async () => {
             'DATE_FORMAT(CONVERT_TZ(updated_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
             'updatedAt'
         )
+        .addSelect('IF(post.created_at = post.updated_at, false, true)', 'isModified')
         .orderBy('updated_at', 'DESC')
         .getRawMany();
+
     return result;
 };
 
@@ -121,8 +123,10 @@ const findCommentsByPostId: (postId: string) => Promise<Comment[] | undefined> =
             'DATE_FORMAT(CONVERT_TZ(comment.updated_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
             'updatedAt'
         )
+        .addSelect('IF(comment.created_at = comment.updated_at, false, true)', 'isModified')
         .where('comment.post_id=:id', { id: postId })
         .getRawMany();
+
     return result;
 };
 
