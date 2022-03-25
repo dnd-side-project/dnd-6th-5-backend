@@ -131,8 +131,8 @@ async function searchPolicy(page, name) {
 async function checkPolicyName(searchResult, name) {
     let flag = false;
     for (const pName of searchResult) {
-        const articelName = await pName.$eval('a', (e) => e.innerText);
-        if (name === articelName) {
+        const articleName = await pName.$eval('a', (e) => e.innerText);
+        if (name === articleName) {
             flag = true;
             break;
         }
