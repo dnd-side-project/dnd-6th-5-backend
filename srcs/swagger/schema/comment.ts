@@ -15,6 +15,8 @@
  *                      type: string
  *                  updatedAt:
  *                      type: string
+ *                  isModified:
+ *                      type: boolean
  */
 
 /**

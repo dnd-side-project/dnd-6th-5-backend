@@ -47,6 +47,19 @@ const findAllPosts: () => Promise<Post[]> = async () => {
         )
         .orderBy('updated_at', 'DESC')
         .getRawMany();
+
+    let timeInfos, isModified;
+    for (let i = 0; i < result.length; i++) {
+        timeInfos = await Post.createQueryBuilder('post')
+            .select(['post.createdAt', 'post.updatedAt'])
+            .where('post.id = :id', { id: result[i].id })
+            .getOne();
+
+        isModified =
+            timeInfos?.createdAt.getTime() !== timeInfos?.updatedAt.getTime() ? true : false;
+        result[i].isModified = isModified;
+    }
+
     return result;
 };
 
@@ -123,6 +136,19 @@ const findCommentsByPostId: (postId: string) => Promise<Comment[] | undefined> =
         )
         .where('comment.post_id=:id', { id: postId })
         .getRawMany();
+
+    let timeInfos, isModified;
+    for (let i = 0; i < result.length; i++) {
+        timeInfos = await Comment.createQueryBuilder('comment')
+            .select(['comment.createdAt', 'comment.updatedAt'])
+            .where('comment.id = :id', { id: result[i].id })
+            .getOne();
+
+        isModified =
+            timeInfos?.createdAt.getTime() !== timeInfos?.updatedAt.getTime() ? true : false;
+        result[i].isModified = isModified;
+    }
+
     return result;
 };
 
