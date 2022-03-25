@@ -7,6 +7,7 @@ export enum Category {
 export enum WorkStatus {
     EMPLOYED = '재직자',
     UNEMPLOYED = '미취업자',
+    UNCHECKED = '',
 }
 
 // 회사규모

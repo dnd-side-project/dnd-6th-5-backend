@@ -45,18 +45,9 @@ async function getJson(body) {
     return emp;
 }
 
-async function main() {
-    const connection = await mysql.createConnection({
-        host: process.env.TEST_DB_HOST,
-        user: process.env.TEST_DB_USERNAME,
-        password: process.env.TEST_DB_PASSWORD,
-        database: process.env.TEST_DB_NAME,
-    });
-    const emp = await getEmp();
-    console.log(emp.length);
-
+async function filterCenterPolicy(emp) {
     const policySet = new Set();
-    const dto_list = [];
+    const policyList = [];
     for (const data of emp) {
         // 중앙부처 정책만
         if (data.polyBizTy._cdata !== '중앙부처') continue;
@@ -66,16 +57,29 @@ async function main() {
         const policyName = data.polyBizSjnm._cdata;
         const dto = await collectData(policyName);
         if (dto === false) continue;
-        dto_list.push(dto);
-        console.log(dto);
+        console.log(dto.name);
+        policyList.push(dto);
     }
-    console.log(dto_list);
+    return policyList;
+}
 
-    for (const policy of dto_list) {
-        const select = await connection
+async function main() {
+    const connection = await mysql.createConnection({
+        host: process.env.TEST_DB_HOST,
+        user: process.env.TEST_DB_USERNAME,
+        password: process.env.TEST_DB_PASSWORD,
+        database: process.env.TEST_DB_NAME,
+    });
+
+    const emp = await getEmp();
+    const policyList = await filterCenterPolicy(emp);
+
+    console.log(policyList.length);
+    for (const policy of policyList) {
+        const dbPolictName = await connection
             .query(`SELECT name FROM policy where name = '${policy.name}'`)
             .catch(() => false);
-        if (select[0].length === 0) await insertPolicy(connection, policy);
+        if (dbPolictName[0].length === 0) await insertPolicy(connection, policy);
         else await updatePolicy(connection, policy);
         console.log();
     }
@@ -153,6 +157,8 @@ async function accessDetailPage(page, name) {
         await page.$eval('input[name=srchWord]', (el, name) => (el.value = name), name);
         await page.waitForSelector('#srchSortOrder');
         await page.$eval('select[name=srchSortOrder]', (el) => (el.value = '4'));
+        await page.waitForSelector('#pageUnit');
+        await page.$eval('select[name=pageUnit]', (el) => (el.value = '60'));
 
         await page.waitForSelector(
             '#srchFrm > div.ply-srh-box.explain-srh-box > div.policy-search.green-type > div:nth-child(2) > div.r.ply-op > ul > li:nth-child(3) > span > button'
@@ -199,12 +205,18 @@ async function accessDetailPage(page, name) {
         );
 
         await page.waitForSelector(
-            '#srchFrm > div.sch-result-wrap.compare-result-list > div.result-list-box > ul > li',
+            '#srchFrm > div.sch-result-wrap.compare-result-list > div.result-list-box > ul > li> a',
             { timeout: 1000 }
         );
 
+        const searchResult = await page.$$(
+            '#srchFrm > div.sch-result-wrap.compare-result-list > div.result-list-box > ul > li'
+        );
+
+        const index = await getPolicyIndex(searchResult, name);
+        if (index === false) return false;
         await page.click(
-            '#srchFrm > div.sch-result-wrap.compare-result-list > div.result-list-box > ul > li a'
+            `#srchFrm > div.sch-result-wrap.compare-result-list > div.result-list-box > ul > li:nth-child(${index}) > a`
         );
 
         const data = await getData(page, name);
@@ -213,6 +225,18 @@ async function accessDetailPage(page, name) {
     } catch (e) {
         return false;
     }
+}
+
+async function getPolicyIndex(searchResult, name) {
+    let flag;
+    for (const pName of searchResult) {
+        const articelName = await pName.$eval('a', (e) => e.innerText);
+        if (name === articelName) {
+            flag = searchResult.indexOf(pName) + 1;
+            break;
+        }
+    }
+    return flag;
 }
 
 async function getData(page, name) {
@@ -263,7 +287,6 @@ async function getData(page, name) {
         const referenceSite1 = await lis[19].$eval('div.list_cont', (e) => e.innerText);
         const referenceSite2 = await lis[21].$eval('div.list_cont', (e) => e.innerText);
         const applicationSiteName = await getPureTitle(page, applicationSite);
-
         const data = {
             name,
             number,
@@ -328,9 +351,14 @@ async function updatePolicy(connection, policy) {
         policy.referenceSite2,
         policy.name,
     ];
-    const res = await connection.query(sql, arg).catch(() => false);
-    if (res === false) console.log(`update fail : ${policy.name}`);
-    else console.log(`update success: ${policy.name}`);
+    const res = await connection.query(sql, arg).catch((e) => {
+        console.log(e);
+        return false;
+    });
+    if (res === false) {
+        console.log(policy);
+        console.log(`update fail : ${policy.name}`);
+    } else console.log(`update success: ${policy.name}`);
 }
 
 async function insertPolicy(connection, policy) {
@@ -360,7 +388,12 @@ async function insertPolicy(connection, policy) {
         policy.referenceSite1,
         policy.referenceSite2,
     ];
-    const res = await connection.query(sql, arg).catch(() => false);
-    if (res === false) console.log(`insert fail : ${policy.name}`);
-    else console.log(`insert success: ${policy.name}`);
+    const res = await connection.query(sql, arg).catch((e) => {
+        console.log(e);
+        return false;
+    });
+    if (res === false) {
+        console.log(policy);
+        console.log(`insert fail : ${policy.name}`);
+    } else console.log(`insert success: ${policy.name}`);
 }
