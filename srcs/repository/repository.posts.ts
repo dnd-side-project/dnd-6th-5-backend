@@ -45,20 +45,9 @@ const findAllPosts: () => Promise<Post[]> = async () => {
             'DATE_FORMAT(CONVERT_TZ(updated_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
             'updatedAt'
         )
+        .addSelect('IF(post.created_at = post.updated_at, false, true)', 'isModified')
         .orderBy('updated_at', 'DESC')
         .getRawMany();
-
-    let timeInfos, isModified;
-    for (let i = 0; i < result.length; i++) {
-        timeInfos = await Post.createQueryBuilder('post')
-            .select(['post.createdAt', 'post.updatedAt'])
-            .where('post.id = :id', { id: result[i].id })
-            .getOne();
-
-        isModified =
-            timeInfos?.createdAt.getTime() !== timeInfos?.updatedAt.getTime() ? true : false;
-        result[i].isModified = isModified;
-    }
 
     return result;
 };
@@ -134,20 +123,9 @@ const findCommentsByPostId: (postId: string) => Promise<Comment[] | undefined> =
             'DATE_FORMAT(CONVERT_TZ(comment.updated_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
             'updatedAt'
         )
+        .addSelect('IF(comment.created_at = comment.updated_at, false, true)', 'isModified')
         .where('comment.post_id=:id', { id: postId })
         .getRawMany();
-
-    let timeInfos, isModified;
-    for (let i = 0; i < result.length; i++) {
-        timeInfos = await Comment.createQueryBuilder('comment')
-            .select(['comment.createdAt', 'comment.updatedAt'])
-            .where('comment.id = :id', { id: result[i].id })
-            .getOne();
-
-        isModified =
-            timeInfos?.createdAt.getTime() !== timeInfos?.updatedAt.getTime() ? true : false;
-        result[i].isModified = isModified;
-    }
 
     return result;
 };

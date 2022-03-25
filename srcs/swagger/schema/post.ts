@@ -22,7 +22,7 @@
  *                  updatedAt:
  *                      type: string
  *                  isModified:
- *                      type: boolean
+ *                      type: string
  */
 
 /**
