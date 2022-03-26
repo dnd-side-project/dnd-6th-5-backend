@@ -90,7 +90,7 @@ main();
 
 async function collectData(name) {
     const browser = await puppeteer.launch({
-        headless: false,
+        headless: true,
     });
     try {
         const page = await browser.newPage();
