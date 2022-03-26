@@ -72,6 +72,7 @@ async function main() {
     });
 
     const emp = await getEmp();
+
     const policyList = await filterCenterPolicy(emp);
 
     console.log(policyList.length);
@@ -271,21 +272,42 @@ async function getData(page, name) {
         const host = await lis[18].$eval('div.list_cont', (e) => e.innerText);
         const applicationPeriod = await lis[3].$eval('div.list_cont', (e) => e.innerText);
         const announcement = await lis[14].$eval('div.list_cont', (e) => e.innerText);
-        const policyDuration = await lis[2].$eval('div.list_cont', (e) => e.innerText);
+        const policyDuration = await lis[2].$eval('div.list_cont', (e) => {
+            if (e.innerText === '') return '-';
+            return e.innerText;
+        });
         const limitAge = await lis[5].$eval('div.list_cont', (e) => e.innerText);
         const limitAreaAsset = await lis[6].$eval('div.list_cont', (e) => e.innerText);
         const specialization = await lis[10].$eval('div.list_cont', (e) => e.innerText);
         const content = await lis[1].$eval('div.list_cont', (e) => e.innerText);
-        const note = await lis[11].$eval('div.list_cont', (e) => e.innerText);
-        const limitedTarget = await lis[12].$eval('div.list_cont', (e) => e.innerText);
+        const note = await lis[11].$eval('div.list_cont', (e) => {
+            if (e.innerText === '') return '-';
+            return e.innerText;
+        });
+        const limitedTarget = await lis[12].$eval('div.list_cont', (e) => {
+            if (e.innerText === '') return '-';
+            return e.innerText;
+        });
         const supportScale = await lis[4].$eval('div.list_cont', (e) => e.innerText);
         const applicationProcess = await lis[13].$eval('div.list_cont', (e) => e.innerText);
-        const applicationSite = await lis[15].$eval('div.list_cont', (e) => e.innerText);
+        const applicationSite = await lis[15].$eval('div.list_cont', (e) => {
+            if (e.innerText === '') return '-';
+            return e.innerText;
+        });
         const submission = await lis[16].$eval('div.list_cont', (e) => e.innerText);
-        const otherInfo = await lis[17].$eval('div.list_cont', (e) => e.innerText);
+        const otherInfo = await lis[17].$eval('div.list_cont', (e) => {
+            if (e.innerText === '') return '-';
+            return e.innerText;
+        });
         const operatingInstitute = await lis[19].$eval('div.list_cont', (e) => e.innerText);
-        const referenceSite1 = await lis[19].$eval('div.list_cont', (e) => e.innerText);
-        const referenceSite2 = await lis[21].$eval('div.list_cont', (e) => e.innerText);
+        const referenceSite1 = await lis[20].$eval('div.list_cont', (e) => {
+            if (e.innerText === '') return '-';
+            return e.innerText;
+        });
+        const referenceSite2 = await lis[21].$eval('div.list_cont', (e) => {
+            if (e.innerText === '') return '-';
+            return e.innerText;
+        });
         const applicationSiteName = await getPureTitle(page, applicationSite);
         const data = {
             name,
