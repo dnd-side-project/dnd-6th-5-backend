@@ -1,0 +1,22 @@
+{
+    "newUser": {
+        "id": "24",
+        "nickname": "kiwi"
+    },
+    "testUser": {
+        "id": 24,
+        "nickname": "kiwi",
+        "age": "1996-06-05",
+        "workStatus": "재직자",
+        "companyScale": "중소기업",
+        "medianIncome": "45% 이하",
+        "annualIncome": "해당없음",
+        "asset": "2.92억원 이하",
+        "hasHouse": "무주택자",
+        "isHouseOwner": "세대구성원",
+        "maritalStatus": "기혼",
+        "email": "ekdan9172@naver.com",
+        "createdAt": "2022-02-25T19:42:20.636Z",
+        "updatedAt": "2022-03-26T08:12:34.000Z"
+    }
+}
