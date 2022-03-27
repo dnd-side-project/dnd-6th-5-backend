@@ -132,7 +132,7 @@ const findCommentsByPostId: (postId: string) => Promise<Comment[] | undefined> =
 
 const findAllPostsByUser: (id: string) => Promise<Post[]> = async (id) => {
     const userId = parseInt(id);
-    if (isNaN(userId)) throw Error('id is not number');
+    if (isNaN(userId)) throw Error('Please enter a numeric character for the id value.');
     const targetUser = await User.findOne({ id: userId });
     if (targetUser === undefined) throw Error(`This user_id does not exist.`);
 
