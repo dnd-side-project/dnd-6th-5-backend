@@ -1,5 +1,5 @@
 import { expect, it, describe, beforeEach, jest } from '@jest/globals';
-import patchUserNickname from '../../../srcs/controllers/controller.patchUserNickname';
+import { patchUserNickname } from '../../../srcs/controllers/index';
 import httpMocks from 'node-mocks-http';
 import { User } from '../../../srcs/entity/index';
 
