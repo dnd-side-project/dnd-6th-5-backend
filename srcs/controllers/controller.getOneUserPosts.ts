@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { findAllPostsByUser } from '../repository/index';
 
-const getOneUserPosts: RequestHandler = async (req, res) => {
+const getOneUserPosts: RequestHandler = async (req, res, next) => {
     try {
         const userId: string = req.params.id;
 
@@ -12,13 +12,7 @@ const getOneUserPosts: RequestHandler = async (req, res) => {
             data: { post },
         });
     } catch (error: any) {
-        res.status(400).json({
-            success: false,
-            error: {
-                code: error.name,
-                message: error.message,
-            },
-        });
+        next(error);
     }
 };
 

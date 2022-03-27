@@ -89,3 +89,19 @@ export declare type tDate = {
     mm: number;
     dd: number;
 };
+
+export declare type postByUserArray = {
+    byUser?: postByUserObj[] | [];
+};
+
+export declare type postByUserObj = {
+    user_id: number;
+    post_id: number;
+    nickname: string;
+    category: string;
+    title: string;
+    content: string;
+    cnt?: number;
+    createdAt: string;
+    updatedAt: string;
+};
