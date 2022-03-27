@@ -43,15 +43,12 @@ describe('getOneUser Controller Create', () => {
         expect(typeof getOneUserPosts).toBe('function');
     });
 
-    // User.findOne()를 모킹하여 호출이 되는지 확인하는 test code입니다.
     it('should call User.findOne()', async () => {
-        // 컨트롤러를 실행합니다.
         const numId = parseInt(req.params.id);
         await mockFindOneUser.mockReturnValue(user);
 
         await getOneUserPosts(req, res, next);
 
-        // newProduct를 인자로 User.findOne()가 실행되었는지 확인합니다.
         expect(res.statusCode).toBe(200);
         expect(await mockFindOneUser).toBeCalledWith({ id: numId });
     });
@@ -62,7 +59,6 @@ describe('getOneUser Controller Create', () => {
 
         await getOneUserPosts(req, res, next);
 
-        // newProduct를 인자로 User.findOne()가 실행되었는지 확인합니다.
         expect(res.statusCode).toBe(200);
         expect(res._isEndCalled()).toBeTruthy();
     });
