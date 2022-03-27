@@ -158,14 +158,8 @@ const findAllPostsByUser: (id: string) => Promise<Post[]> = async (id) => {
             'P.post_id = C.p_id'
         )
         .where('U.id = :id', { id: userId })
-        .addSelect(
-            'DATE_FORMAT(CONVERT_TZ(P.created_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
-            'createdAt'
-        )
-        .addSelect(
-            'DATE_FORMAT(CONVERT_TZ(P.updated_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
-            'updatedAt'
-        )
+        .addSelect('DATE_FORMAT(P.created_at, "%Y/%m/%d")', 'createdAt')
+        .addSelect('DATE_FORMAT(P.updated_at, "%Y/%m/%d")', 'updatedAt')
         .getRawMany();
 
     return result;
