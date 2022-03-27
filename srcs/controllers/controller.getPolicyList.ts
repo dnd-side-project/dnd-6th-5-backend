@@ -2,8 +2,8 @@ import { RequestHandler } from 'express';
 import { findAllPolicy, findPolicyByCategory } from '../repository/index';
 
 const getPolicyList: RequestHandler = async (req, res, next) => {
-    const category: string = req.query.category as string;
     try {
+        const category: string = req.query.category as string;
         let policy;
 
         if (['전체', '주거', '금융'].includes(category)) {
