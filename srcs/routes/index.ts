@@ -215,6 +215,7 @@ router.post(
 );
 router.get('/notice', controller.getNotice);
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 router.use((error, req, res, next) => {
     res.status(400).json({
         success: false,
