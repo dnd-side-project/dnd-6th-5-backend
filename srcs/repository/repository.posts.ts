@@ -134,7 +134,7 @@ const findAllPostsByUser: (id: string) => Promise<Post[]> = async (id) => {
     const userId = parseInt(id);
     if (isNaN(userId)) throw Error('Please enter a numeric character for the id value.');
     const targetUser = await User.findOne({ id: userId });
-    if (targetUser === undefined) throw Error(`This user_id does not exist.`);
+    if (targetUser === undefined) throw Error(`This is a user id that does not exist.`);
 
     const result = await User.createQueryBuilder('U')
         .select(['id as user_id', 'post_id', 'nickname', 'P.category', 'title', 'content', 'C.cnt'])
