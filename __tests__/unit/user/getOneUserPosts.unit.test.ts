@@ -106,7 +106,7 @@ describe('getOneUser Controller Create', () => {
             success: false,
             error: {
                 code: 'Error',
-                message: 'This user_id does not exist.',
+                message: 'This is a user id that does not exist.',
             },
         };
         const rejectedPromise = Promise.reject(errorMsg);
