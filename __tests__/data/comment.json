@@ -1,0 +1,36 @@
+{
+    "oneUserComment": [
+        {
+            "user_id": 24,
+            "post_id": 41,
+            "comment_id": 76,
+            "title": "글 제목",
+            "content": "댓글입니다.",
+            "createdAt": "2022/02/26"
+        },
+        {
+            "user_id": 24,
+            "post_id": 41,
+            "comment_id": 77,
+            "title": "글 제목",
+            "content": "댓글댓글",
+            "createdAt": "2022/02/26"
+        },
+        {
+            "user_id": 24,
+            "post_id": 41,
+            "comment_id": 78,
+            "title": "글 제목",
+            "content": "test댓글입니다.",
+            "createdAt": "2022/02/26"
+        },
+        {
+            "user_id": 24,
+            "post_id": 121,
+            "comment_id": 79,
+            "title": "제목",
+            "content": "test",
+            "createdAt": "2022/03/24"
+        }
+    ]
+}
