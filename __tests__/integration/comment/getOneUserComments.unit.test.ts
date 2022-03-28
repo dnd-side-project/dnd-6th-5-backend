@@ -4,7 +4,7 @@ import createServer from '../../../srcs/app';
 
 import error from '../../data/error.json';
 import commentJson from '../../data/comment.json';
-import tJest, { postByUserArray } from '../../../@types/types';
+import tJest from '../../../@types/types';
 
 let app;
 const comment = commentJson.oneUserComment;
