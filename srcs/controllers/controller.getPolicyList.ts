@@ -1,9 +1,9 @@
 import { RequestHandler } from 'express';
 import { findAllPolicy, findPolicyByCategory } from '../repository/index';
 
-const getPolicyList: RequestHandler = async (req, res) => {
-    const category: string = req.query.category as string;
+const getPolicyList: RequestHandler = async (req, res, next) => {
     try {
+        const category: string = req.query.category as string;
         let policy;
 
         if (['전체', '주거', '금융'].includes(category)) {
@@ -21,13 +21,7 @@ const getPolicyList: RequestHandler = async (req, res) => {
             throw new Error('Invalid Category');
         }
     } catch (error: any) {
-        res.status(400).json({
-            success: false,
-            error: {
-                code: error.name,
-                message: error.message,
-            },
-        });
+        next(error);
     }
 };
 
