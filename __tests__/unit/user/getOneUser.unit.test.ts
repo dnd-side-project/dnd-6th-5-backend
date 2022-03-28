@@ -27,7 +27,7 @@ describe('getOneUser Controller Create', () => {
     });
 
     // 해당 컨트롤러가 존재하는지 확인하는 testcode
-    it('should have patchUserNickname function', () => {
+    it('should have getOneUser function', () => {
         expect(typeof getOneUser).toBe('function');
     });
 
