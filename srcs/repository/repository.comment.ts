@@ -16,10 +16,7 @@ const findOneUserComment: (id: string) => Promise<Comment[]> = async (id) => {
             'comment.post_id = P.post_id'
         )
         .where('comment.user_id = :userId', { userId: userId })
-        .addSelect(
-            'DATE_FORMAT(CONVERT_TZ(P.created_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
-            'createdAt'
-        )
+        .addSelect('DATE_FORMAT(P.created_at, "%Y/%m/%d")', 'createdAt')
         .getRawMany();
 
     return result;
