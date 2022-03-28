@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -13,7 +14,7 @@ module.exports.default = {
     synchronize: true,
     logging: false,
     dropSchema: false,
-    timezone: process.env.TZ, // 서울 시간대
+    timezone: process.env.TZ,
     entities: ['./srcs/entity/*.ts'],
     subscribers: ['srcs/migration/*.ts'],
     migrations: ['srcs/migration/*.ts'],
@@ -30,7 +31,7 @@ module.exports.test = {
     synchronize: true,
     logging: false,
     dropSchema: false,
-    timezone: process.env.TZ, // 서울 시간대
+    timezone: process.env.TZ,
     entities: ['./srcs/entity/*.ts'],
     subscribers: ['srcs/migration/*.ts'],
     migrations: ['srcs/migration/*.ts'],

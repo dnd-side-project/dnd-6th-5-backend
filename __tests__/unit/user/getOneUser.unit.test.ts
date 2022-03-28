@@ -4,12 +4,13 @@ import httpMocks from 'node-mocks-http';
 import { User } from '../../../srcs/entity/index';
 
 import tJest from '../../../@types/types';
-import newUser from '../../data/new-user.json';
+import userJson from '../../data/user.json';
 
 jest.mock('../../../srcs/entity/index');
 
 // User.findOne()를 모킹합니다.
 const mockFindOneUser: tJest.mock = User.findOne;
+const user = userJson.newUser;
 
 let req, res, next;
 beforeEach(async () => {
@@ -21,21 +22,21 @@ beforeEach(async () => {
 // 먼저 함수의 존재 유무부터 test합니다.
 describe('getOneUser Controller Create', () => {
     beforeEach(async () => {
-        req.params = newUser;
+        req.params = user;
         await mockFindOneUser.mockClear();
     });
 
     // 해당 컨트롤러가 존재하는지 확인하는 testcode
-    it('should have patchUserNickname function', () => {
+    it('should have getOneUser function', () => {
         expect(typeof getOneUser).toBe('function');
     });
 
     // User.findOne()를 모킹하여 호출이 되는지 확인하는 test code입니다.
     it('should call User.findOne()', async () => {
         // 컨트롤러를 실행합니다.
-        const numId = parseInt(newUser.id);
+        const numId = parseInt(user.id);
 
-        await mockFindOneUser.mockReturnValue(newUser);
+        await mockFindOneUser.mockReturnValue(user);
 
         await getOneUser(req, res, next);
 
@@ -47,7 +48,7 @@ describe('getOneUser Controller Create', () => {
     // User.findOne()를 모킹하여 해당 컨트롤러에서 추가적인 결과값을 res담아 전달하고 있는지 확인합니다.
     it('should return 200 response code', async () => {
         // 컨트롤러를 실행합니다.
-        await mockFindOneUser.mockReturnValue(newUser);
+        await mockFindOneUser.mockReturnValue(user);
         await getOneUser(req, res, next);
 
         expect(res.statusCode).toBe(200);
@@ -57,10 +58,10 @@ describe('getOneUser Controller Create', () => {
     it('should return json body in response', async () => {
         const resJsonData = {
             success: true,
-            data: { user: newUser },
+            data: { user: user },
         };
 
-        await mockFindOneUser.mockReturnValue(newUser);
+        await mockFindOneUser.mockReturnValue(user);
         await getOneUser(req, res, next);
 
         expect(res._getJSONData()).toStrictEqual(resJsonData);

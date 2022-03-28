@@ -5,7 +5,7 @@ const findOneUserComment: (id: string) => Promise<Comment[]> = async (id) => {
     const userId = parseInt(id);
     if (isNaN(userId)) throw Error('Please enter a numeric character for the id value.');
     const targetUser = await User.findOne({ id: userId });
-    if (targetUser === undefined) throw Error(`This user_id does not exist.`);
+    if (targetUser === undefined) throw Error(`This is a user id that does not exist.`);
 
     const result = await Comment.createQueryBuilder('comment')
         .select(['user_id', 'P.post_id', 'id as comment_id', 'P.title', 'content'])
@@ -16,10 +16,7 @@ const findOneUserComment: (id: string) => Promise<Comment[]> = async (id) => {
             'comment.post_id = P.post_id'
         )
         .where('comment.user_id = :userId', { userId: userId })
-        .addSelect(
-            'DATE_FORMAT(CONVERT_TZ(P.created_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
-            'createdAt'
-        )
+        .addSelect('DATE_FORMAT(P.created_at, "%Y/%m/%d")', 'createdAt')
         .getRawMany();
 
     return result;

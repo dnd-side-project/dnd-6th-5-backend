@@ -1,5 +1,15 @@
 import { createConnection } from 'typeorm';
-import { Comment, Like, Notice, Policy, Post, Question, Token, User } from '../entity/index';
+import {
+    Comment,
+    Like,
+    Notice,
+    Policy,
+    Post,
+    Question,
+    Token,
+    User,
+    Report,
+} from '../entity/index';
 import dbOption from '../../ormconfig';
 
 const connectDb = async (): Promise<void> => {
@@ -17,6 +27,7 @@ const connectDb = async (): Promise<void> => {
             connection.getRepository(Question);
             connection.getRepository(Token);
             connection.getRepository(User);
+            connection.getRepository(Report);
             console.log('DB connected');
         })
         .catch((err) => console.log(err));

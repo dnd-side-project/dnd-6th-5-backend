@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { findOneUserComment } from '../repository/index';
 
-const getOneUserComments: RequestHandler = async (req, res) => {
+const getOneUserComments: RequestHandler = async (req, res, next) => {
     try {
         const userId: string = req.params.id;
 
@@ -12,13 +12,7 @@ const getOneUserComments: RequestHandler = async (req, res) => {
             data: { comment },
         });
     } catch (error: any) {
-        res.status(400).json({
-            success: false,
-            error: {
-                code: error.name,
-                message: error.message,
-            },
-        });
+        next(error);
     }
 };
 

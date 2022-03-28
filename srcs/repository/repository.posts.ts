@@ -1,6 +1,6 @@
 import { getConnection } from 'typeorm';
 import { tPost } from '../../@types/types';
-import { Post, Comment, User } from '../entity';
+import { Post, Comment, User, Report } from '../entity';
 import {
     AnnualIncome,
     Asset,
@@ -10,6 +10,7 @@ import {
     IsHouseOwner,
     MaritalStatus,
     MedianIncome,
+    ReportReason,
     WorkStatus,
 } from '../entity/common/Enums';
 
@@ -44,8 +45,10 @@ const findAllPosts: () => Promise<Post[]> = async () => {
             'DATE_FORMAT(CONVERT_TZ(updated_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
             'updatedAt'
         )
+        .addSelect('IF(post.created_at = post.updated_at, false, true)', 'isModified')
         .orderBy('updated_at', 'DESC')
         .getRawMany();
+
     return result;
 };
 
@@ -120,16 +123,18 @@ const findCommentsByPostId: (postId: string) => Promise<Comment[] | undefined> =
             'DATE_FORMAT(CONVERT_TZ(comment.updated_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
             'updatedAt'
         )
+        .addSelect('IF(comment.created_at = comment.updated_at, false, true)', 'isModified')
         .where('comment.post_id=:id', { id: postId })
         .getRawMany();
+
     return result;
 };
 
 const findAllPostsByUser: (id: string) => Promise<Post[]> = async (id) => {
     const userId = parseInt(id);
-    if (isNaN(userId)) throw Error('id is not number');
+    if (isNaN(userId)) throw Error('Please enter a numeric character for the id value.');
     const targetUser = await User.findOne({ id: userId });
-    if (targetUser === undefined) throw Error(`This user_id does not exist.`);
+    if (targetUser === undefined) throw Error(`This is a user id that does not exist.`);
 
     const result = await User.createQueryBuilder('U')
         .select(['id as user_id', 'post_id', 'nickname', 'P.category', 'title', 'content', 'C.cnt'])
@@ -153,14 +158,8 @@ const findAllPostsByUser: (id: string) => Promise<Post[]> = async (id) => {
             'P.post_id = C.p_id'
         )
         .where('U.id = :id', { id: userId })
-        .addSelect(
-            'DATE_FORMAT(CONVERT_TZ(P.created_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
-            'createdAt'
-        )
-        .addSelect(
-            'DATE_FORMAT(CONVERT_TZ(P.updated_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
-            'updatedAt'
-        )
+        .addSelect('DATE_FORMAT(P.created_at, "%Y/%m/%d")', 'createdAt')
+        .addSelect('DATE_FORMAT(P.updated_at, "%Y/%m/%d")', 'updatedAt')
         .getRawMany();
 
     return result;
@@ -258,6 +257,28 @@ const updateOnePostById: (id: string, post: tPost) => Promise<tPost | undefined>
     return targetPost;
 };
 
+const reportOnePost: (userId: number, postId: string, reason: string) => Promise<void> = async (
+    userId,
+    postId,
+    reason
+) => {
+    const user = await User.findOneOrFail({ id: userId });
+    const post = await Post.findOneOrFail({ id: parseInt(postId) });
+
+    let count;
+    const tempCnt = await Report.findAndCount({ post: post });
+
+    if (tempCnt[1] == 0) count = 1;
+    else count = tempCnt[1] + 1;
+
+    await getConnection()
+        .createQueryBuilder()
+        .insert()
+        .into(Report)
+        .values({ user: user, post: post, count: count, reason: reason as ReportReason })
+        .execute();
+};
+
 export {
     findAllPosts,
     findOnePostById,
@@ -266,4 +287,5 @@ export {
     createPost,
     findPostsByKeyword,
     updateOnePostById,
+    reportOnePost,
 };
