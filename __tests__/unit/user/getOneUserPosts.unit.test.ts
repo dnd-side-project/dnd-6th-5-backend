@@ -31,7 +31,7 @@ beforeEach(async () => {
 });
 
 // 먼저 함수의 존재 유무부터 test합니다.
-describe('getOneUser Controller Create', () => {
+describe('getOneUserPosts Controller Create', () => {
     beforeEach(async () => {
         req.params.id = '24';
         await mockFindOneUser.mockClear();
