@@ -22,6 +22,8 @@ const router = Router();
     Set your router, but must check order of router
 */
 
+router.use(middleware.originLogger);
+
 router.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 router.get(
     '/login/naver',
