@@ -16,4 +16,29 @@ const setUserFilter: (user: tUser, data: any) => Promise<tUser> = async (user, d
     return newUser;
 };
 
-export default setUserFilter;
+const toResObj: (user: any) => Promise<any> = async (user: any) => {
+    const result = {
+        id: user.id,
+        nickname: user.nickname,
+        age: user.age,
+        workStatus: user.workStatus,
+        companyScale: user.companyScale,
+        medianIncome: user.medianIncome,
+        annualIncome: user.annualIncome,
+        asset: user.asset,
+        hasHouse: user.hasHouse,
+        isHouseOwner: user.isHouseOwner,
+        maritalStatus: user.maritalStatus,
+        email: user.email,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+        token: {
+            id: user.token.id,
+            refreshToken: user.token.refreshToken,
+            createdAt: user.token.createdAt,
+        },
+    };
+    return result;
+};
+
+export { setUserFilter, toResObj };
