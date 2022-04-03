@@ -1,33 +1,8 @@
 import { RequestHandler } from 'express';
-import { getNaverAccessTokenInfo, updateNaverAccessToken } from '../lib/index';
+import { getNaverAccessTokenInfo, updateNaverAccessToken, toResObj } from '../lib/index';
 import { createUser, createToken, findOneUserByEmail, updateTokenById } from '../repository/index';
 import { tUser, tToken } from '../../@types/types';
 import { User } from '../entity/index';
-
-const toResObj: any = async (user: any) => {
-    const result = {
-        id: user.id,
-        nickname: user.nickname,
-        age: user.age,
-        workStatus: user.workStatus,
-        companyScale: user.companyScale,
-        medianIncome: user.medianIncome,
-        annualIncome: user.annualIncome,
-        asset: user.asset,
-        hasHouse: user.hasHouse,
-        isHouseOwner: user.isHouseOwner,
-        maritalStatus: user.maritalStatus,
-        email: user.email,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-        token: {
-            id: user.token.id,
-            refreshToken: user.token.refreshToken,
-            createdAt: user.token.createdAt,
-        },
-    };
-    return result;
-};
 
 const signinNaver: RequestHandler = async (req, res) => {
     try {
