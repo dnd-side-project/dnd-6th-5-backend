@@ -9,5 +9,5 @@ export {
     logoutNaver,
 } from './auth.lib';
 export { convertDate, validatorAge } from './date.lib';
-export { default as setUserFilter } from './setObj.lib';
+export { setUserFilter, toResObj } from './setObj.lib';
 export { default as convertForFilterData } from './filter.lib';
