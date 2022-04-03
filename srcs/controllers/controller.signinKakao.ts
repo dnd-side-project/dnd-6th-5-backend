@@ -1,5 +1,10 @@
 import { RequestHandler } from 'express';
-import { getKaKaoAccessTokenInfo, getKaKaoUserInfo, updateKaKaoAccessToken } from '../lib/index';
+import {
+    getKaKaoAccessTokenInfo,
+    getKaKaoUserInfo,
+    updateKaKaoAccessToken,
+    toResObj,
+} from '../lib/index';
 import { createUser, createToken, findOneUserByEmail, updateTokenById } from '../repository/index';
 import { tUser, tToken } from '../../@types/types.d';
 import { User } from '../entity';
@@ -52,6 +57,8 @@ const signinKakao: RequestHandler = async (req, res) => {
             await updateTokenById(dbUser.token.id, refreshToken);
             newUser = dbUser;
         }
+
+        newUser = await toResObj(newUser);
         // user 데이터를 반환합니다.
         return res
             .status(200)
