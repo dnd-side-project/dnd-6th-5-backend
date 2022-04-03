@@ -11,7 +11,6 @@ const { combine, timestamp, printf } = winston.format;
 
 // Define log format
 const logFormat = printf((info) => {
-    console.log(info);
     return `${info.timestamp} ${info.level}: ${info.message}`;
 });
 
