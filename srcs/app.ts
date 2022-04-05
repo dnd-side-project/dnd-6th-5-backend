@@ -4,7 +4,6 @@ import router from './routes';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
-import cors from 'cors';
 import { connectDB } from './config/index';
 import { stream } from './config/index';
 
@@ -19,7 +18,6 @@ const createServer: any = async () => {
     app.use(express.urlencoded({ extended: false }));
     app.use(cookieParser());
     app.use(session({ resave: false, saveUninitialized: false, secret: 'asfsa' }));
-    // app.use(cors({ origin: 'https://www.spoonfeed.kr' }));
     app.use(morgan(morganFormat, { stream }));
     app.use(router);
 
