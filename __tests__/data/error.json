@@ -34,5 +34,12 @@
             "code": "Error",
             "message": "Invalid Category"
         }
+    },
+    "existPolicy":{
+        "success": false,
+        "error": {
+            "code": "Error", 
+            "message": "No matching policy in db"
+        }
     }
 }
