@@ -19,11 +19,12 @@ const createServer: any = async () => {
     app.use(express.urlencoded({ extended: false }));
     app.use(cookieParser());
     app.use(session({ resave: false, saveUninitialized: false, secret: 'asfsa' }));
-    app.use(cors({ origin: null }));
     app.use(
         cors({
             origin: process.env.CLIENT_HOST,
             methods: process.env.CORS_METHODS,
+            preflightContinue: false,
+            credentials: true,
         })
     );
     app.use(morgan(morganFormat, { stream }));
