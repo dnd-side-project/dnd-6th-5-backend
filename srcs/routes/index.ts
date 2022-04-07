@@ -217,6 +217,16 @@ router.post(
 );
 router.get('/notice', controller.getNotice);
 
+router.post(
+    '/comments/:id/report',
+    [
+        body('userId').exists({ checkFalsy: true }),
+        body('reason').isIn(Object.values(ReportReason)),
+        middleware.validator,
+    ],
+    controller.commentReport
+);
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 router.use((error, req, res, next) => {
     res.status(400).json({

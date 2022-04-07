@@ -27,6 +27,11 @@ export {
     updateOnePostById,
     reportOnePost,
 } from './repository.posts';
-export { findOneUserComment, createComment, updateOneCommentById } from './repository.comment';
+export {
+    findOneUserComment,
+    createComment,
+    updateOneCommentById,
+    reportOneComment,
+} from './repository.comment';
 export { createQuestion } from './repository.question';
 export { findAllNotice } from './repository.notice';
