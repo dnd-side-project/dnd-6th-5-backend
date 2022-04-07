@@ -8,14 +8,27 @@ import {
     ManyToOne,
 } from 'typeorm';
 import { User } from './User';
+import { Comment } from './Comment';
 import { Post } from './Post';
 import { ReportReason } from './common/Enums';
 
 @Entity()
 export class Report extends BaseEntity {
-    @ManyToOne(() => Post, (post) => post.report, { primary: true, onDelete: 'CASCADE' })
+    @ManyToOne(() => Post, (post) => post.report, {
+        primary: true,
+        nullable: true,
+        onDelete: 'CASCADE',
+    })
     @JoinColumn({ name: 'post_id' })
     post!: Post;
+
+    @ManyToOne(() => Comment, (comment) => comment.report, {
+        primary: true,
+        nullable: true,
+        onDelete: 'CASCADE',
+    })
+    @JoinColumn({ name: 'comment_id' })
+    comment!: Comment;
 
     @ManyToOne(() => User, (user) => user.report, { primary: true, onDelete: 'CASCADE' })
     @JoinColumn({ name: 'user_id' })
