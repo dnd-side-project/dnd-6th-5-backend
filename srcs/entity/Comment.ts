@@ -7,8 +7,10 @@ import {
     UpdateDateColumn,
     JoinColumn,
     ManyToOne,
+    OneToMany,
 } from 'typeorm';
 import { Post } from './Post';
+import Report from './Report';
 import { User } from './User';
 
 @Entity()
@@ -40,6 +42,9 @@ export class Comment extends BaseEntity {
     @ManyToOne(() => Post, (post) => post.comment, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'post_id' })
     post!: Post;
+
+    @OneToMany(() => Report, (report) => report.comment)
+    report!: Report[];
 }
 
 export default Comment;
