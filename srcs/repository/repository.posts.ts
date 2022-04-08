@@ -271,12 +271,19 @@ const reportOnePost: (userId: number, postId: string, reason: string) => Promise
     if (tempCnt[1] == 0) count = 1;
     else count = tempCnt[1] + 1;
 
-    await getConnection()
-        .createQueryBuilder()
-        .insert()
-        .into(Report)
-        .values({ user: user, post: post, count: count, reason: reason as ReportReason })
-        .execute();
+    const report = await Report.findOne({
+        post: post,
+        user: user,
+        reason: reason as ReportReason,
+    });
+    if (report) throw Error('해당 유저가 해당 글에 대해 같은 이유로 이미 신고했습니다.');
+    else
+        await getConnection()
+            .createQueryBuilder()
+            .insert()
+            .into(Report)
+            .values({ user: user, post: post, count: count, reason: reason as ReportReason })
+            .execute();
 };
 
 export {

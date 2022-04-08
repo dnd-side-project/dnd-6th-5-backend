@@ -1,5 +1,6 @@
 import { getConnection } from 'typeorm';
-import { Post, Comment, User } from '../entity/index';
+import { ReportReason } from '../entity/common/Enums';
+import { Post, Comment, User, Report } from '../entity/index';
 
 const findOneUserComment: (id: string) => Promise<Comment[]> = async (id) => {
     const userId = parseInt(id);
@@ -64,4 +65,38 @@ const updateOneCommentById: (
     return targetComment;
 };
 
-export { findOneUserComment, createComment, updateOneCommentById };
+const reportOneComment: (
+    userId: number,
+    commentId: string,
+    reason: string
+) => Promise<void> = async (userId, commentId, reason) => {
+    const user = await User.findOneOrFail({ id: userId });
+    const comment = await Comment.findOneOrFail({ id: parseInt(commentId) });
+
+    let count;
+    const tempCnt = await Report.findAndCount({ comment: comment });
+
+    if (tempCnt[1] == 0) count = 1;
+    else count = tempCnt[1] + 1;
+
+    const report = await Report.findOne({
+        comment: comment,
+        user: user,
+        reason: reason as ReportReason,
+    });
+    if (report) throw Error('해당 유저가 해당 글에 대해 같은 이유로 이미 신고했습니다.');
+    else
+        await getConnection()
+            .createQueryBuilder()
+            .insert()
+            .into(Report)
+            .values({
+                user: user,
+                comment: comment,
+                count: count,
+                reason: reason as ReportReason,
+            })
+            .execute();
+};
+
+export { findOneUserComment, createComment, updateOneCommentById, reportOneComment };

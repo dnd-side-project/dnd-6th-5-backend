@@ -6,18 +6,33 @@ import {
     UpdateDateColumn,
     JoinColumn,
     ManyToOne,
+    PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from './User';
+import { Comment } from './Comment';
 import { Post } from './Post';
 import { ReportReason } from './common/Enums';
 
 @Entity()
 export class Report extends BaseEntity {
-    @ManyToOne(() => Post, (post) => post.report, { primary: true, onDelete: 'CASCADE' })
+    @PrimaryGeneratedColumn()
+    id!: number;
+
+    @ManyToOne(() => Post, (post) => post.report, {
+        nullable: true,
+        onDelete: 'SET NULL',
+    })
     @JoinColumn({ name: 'post_id' })
     post!: Post;
 
-    @ManyToOne(() => User, (user) => user.report, { primary: true, onDelete: 'CASCADE' })
+    @ManyToOne(() => Comment, (comment) => comment.report, {
+        nullable: true,
+        onDelete: 'SET NULL',
+    })
+    @JoinColumn({ name: 'comment_id' })
+    comment!: Comment;
+
+    @ManyToOne(() => User, (user) => user.report, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'user_id' })
     user!: User;
 
