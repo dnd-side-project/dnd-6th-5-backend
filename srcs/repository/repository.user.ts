@@ -1,4 +1,4 @@
-import { User } from '../entity/index';
+import { Block, User } from '../entity/index';
 import { tUser } from '../../@types/types.d';
 import { getConnection } from 'typeorm';
 
@@ -84,6 +84,45 @@ const deleteUserById: (id: number) => Promise<boolean> = async (id) => {
     return true;
 };
 
+const blockUserById: (userId: number, blockedId: number) => Promise<void> = async (
+    userId,
+    blockedId
+) => {
+    const user = await User.findOneOrFail({ id: userId });
+    const blocked = await User.findOneOrFail({ id: blockedId });
+
+    const data = await Block.findOne({ user: user, blocked: blocked });
+
+    // 데이터가 존재한다면
+    if (data) {
+        // block_check 값에 따라 update
+        if (data.block_check === false) {
+            Block.createQueryBuilder()
+                .update()
+                .set({
+                    block_check: true,
+                })
+                .where('block.user_id = :userId', { userId: userId })
+                .andWhere('block.blocked_id = :blockedId', { blockedId: blockedId })
+                .execute();
+        } else {
+            Block.createQueryBuilder()
+                .update()
+                .set({
+                    block_check: false,
+                })
+                .where('block.user_id = :userId', { userId: userId })
+                .andWhere('block.blocked_id = :blockedId', { blockedId: blockedId })
+                .execute();
+        }
+    } else {
+        // 존재하지 않는다면 차단 데이터 추가, block_check 는 true 로
+        await getConnection()
+            .getRepository(Block)
+            .save({ user: user, blocked: blocked, block_check: true });
+    }
+};
+
 export {
     createUser,
     findOneUserByEmail,
@@ -92,4 +131,5 @@ export {
     findOneUserByNickname,
     updateOneUserFilterById,
     deleteUserById,
+    blockUserById,
 };

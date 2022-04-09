@@ -26,7 +26,7 @@ export class Block extends BaseEntity {
         nullable: false,
         onDelete: 'CASCADE',
     })
-    @JoinColumn({ name: 'blocked' })
+    @JoinColumn({ name: 'blocked_id' })
     blocked!: User;
 }
 

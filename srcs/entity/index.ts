@@ -7,3 +7,4 @@ export { default as Question } from './Question';
 export { default as Token } from './Token';
 export { default as User } from './User';
 export { default as Report } from './Report';
+export { default as Block } from './Block';

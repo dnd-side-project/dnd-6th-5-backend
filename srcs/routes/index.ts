@@ -122,6 +122,15 @@ router.get('/user/:id', controller.getOneUser);
 router.get('/user/:id/post', controller.getOneUserPosts);
 router.get('/user/:id/comment', controller.getOneUserComments);
 router.get('/user/:id/like/policy', controller.getOneUserLikePolicy);
+router.post(
+    '/user/block',
+    [
+        body('userId').exists({ checkFalsy: true }),
+        body('blockedId').exists({ checkFalsy: true }),
+        middleware.validator,
+    ],
+    controller.blockUser
+);
 
 router.post(
     '/posts',
