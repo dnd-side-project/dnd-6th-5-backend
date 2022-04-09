@@ -21,7 +21,7 @@ const createServer: any = async () => {
     app.use(session({ resave: false, saveUninitialized: false, secret: 'asfsa' }));
     app.use(
         cors({
-            origin: process.env.CLIENT_HOST,
+            origin: process.env.HOST,
             methods: process.env.CORS_METHODS,
             preflightContinue: false,
             credentials: true,
