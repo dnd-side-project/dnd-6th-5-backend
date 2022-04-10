@@ -36,3 +36,4 @@ export {
 } from './repository.comment';
 export { createQuestion } from './repository.question';
 export { findAllNotice } from './repository.notice';
+export { findOneUserBlock } from './repository.block';
