@@ -109,7 +109,14 @@ const findOnePostById: (id: string) => Promise<Post | undefined> = async (id) =>
     return result;
 };
 
-const findCommentsByPostId: (postId: string) => Promise<Comment[] | undefined> = async (postId) => {
+const findCommentsByPostId: (
+    postId: string,
+    userId: string
+) => Promise<Comment[] | undefined> = async (postId, userId) => {
+    let blocked_user: any[] | string = await findOneUserBlock(userId);
+    blocked_user = blocked_user.map((e) => e.blocked_id);
+    if (!blocked_user) blocked_user = '';
+
     const result = await Comment.createQueryBuilder('comment')
         .select(['id', 'content', 'commenter'])
         .leftJoin(
@@ -131,6 +138,7 @@ const findCommentsByPostId: (postId: string) => Promise<Comment[] | undefined> =
         )
         .addSelect('IF(comment.created_at = comment.updated_at, false, true)', 'isModified')
         .where('comment.post_id=:id', { id: postId })
+        .andWhere('comment.user_id not in (:userId)', { userId: blocked_user })
         .getRawMany();
 
     return result;
