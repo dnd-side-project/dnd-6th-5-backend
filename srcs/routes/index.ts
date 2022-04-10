@@ -144,7 +144,7 @@ router.post(
     ],
     controller.postCommunityPost
 );
-router.get('/posts/:id', controller.getPostDetail);
+router.get('/user/:userId/posts/:id', controller.getPostDetail);
 router.patch('/posts/:id', controller.patchCommunityPost);
 router.delete('/posts/:id', controller.deletePost);
 router.post('/posts/:id/comment', controller.postComment);

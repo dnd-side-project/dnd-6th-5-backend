@@ -3,9 +3,10 @@ import { findOnePostById, findCommentsByPostId } from '../repository/index';
 
 const getPostDetail: RequestHandler = async (req, res) => {
     const id: string = req.params.id;
+    const userId: string = req.params.userId;
     try {
         const post = await findOnePostById(id);
-        const comment = await findCommentsByPostId(id);
+        const comment = await findCommentsByPostId(id, userId);
         if (post) {
             return res.status(200).json({
                 success: true,
