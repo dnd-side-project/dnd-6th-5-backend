@@ -85,7 +85,7 @@ router.get('/', controller.getHome);
 router.get('/policy', controller.getPolicyList);
 
 router.get('/user/:userId/posts', controller.getCommunityList);
-router.get('/posts/search', controller.searchCommunity);
+router.get('/user/:userId/posts/search', controller.searchCommunity);
 
 // 인증 미들 웨어
 // router.use(middleware.isAuth);
