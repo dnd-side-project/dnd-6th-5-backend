@@ -84,7 +84,7 @@ router.get('/user/check-duplicate', controller.checkNicknameDuplicate);
 router.get('/', controller.getHome);
 router.get('/policy', controller.getPolicyList);
 
-router.get('/posts', controller.getCommunityList);
+router.get('/user/:userId/posts', controller.getCommunityList);
 router.get('/posts/search', controller.searchCommunity);
 
 // 인증 미들 웨어
