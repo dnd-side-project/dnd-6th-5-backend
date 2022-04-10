@@ -40,28 +40,22 @@
 /**
  * @swagger
  * paths:
- *  /posts/{pk}:
+ *  /user/{userId}/posts/{pk}:
  *      get:
  *          description: get one post detail
  *          tags: [Posts]
  *          parameters:
- *              - in: header
- *                name: access_token
- *                type: string
- *                required: true
- *                description: 로그인하면서 발급받은 access_token
- *              - in: header
- *                name: platform
- *                type: string
- *                required: true
- *                description: 로그인하면서 발급받은 platform값
  *              - in: path
  *                name: pk
  *                type: number
  *                required: true
+ *              - in: path
+ *                name: userId
+ *                type: number
+ *                required: true
  *          responses:
  *              200:
- *                  description: 특정 post의 정보를 성공적으로 조회하였을 경우 다음 결과가 반환됩니다.
+ *                  description: 특정 post의 정보를 성공적으로 조회하였을 경우 다음 결과가 반환됩니다. 유저가 차단한 댓글은 조회되지 않습니다.
  *                  content:
  *                      application/json:
  *                          schema:
