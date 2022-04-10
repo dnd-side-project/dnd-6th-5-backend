@@ -16,8 +16,9 @@ import {
 } from '../entity/common/Enums';
 
 const findAllPosts: (userId: string) => Promise<Post[]> = async (userId) => {
-    let blocked_user = await findOneUserBlock(userId);
+    let blocked_user: any[] | string = await findOneUserBlock(userId);
     blocked_user = blocked_user.map((e) => e.blocked_id);
+    if (!blocked_user) blocked_user = '';
 
     const result = await Post.createQueryBuilder('post')
         .select(['id', 'author', 'title', 'category', 'content', 'commentCount'])
@@ -195,8 +196,9 @@ const findPostsByKeyword: (query: string, userId: string) => Promise<Post[] | un
     query,
     userId
 ) => {
-    let blocked_user = await findOneUserBlock(userId);
+    let blocked_user: any[] | string = await findOneUserBlock(userId);
     blocked_user = blocked_user.map((e) => e.blocked_id);
+    if (!blocked_user) blocked_user = '';
 
     const result = await await Post.createQueryBuilder('post')
         .select(['id', 'author', 'title', 'category', 'content', 'commentCount'])
@@ -219,7 +221,6 @@ const findPostsByKeyword: (query: string, userId: string) => Promise<Post[] | un
             'U',
             'post.user_id = U.user_id'
         )
-        .where('post.user_id not in (:id)', { id: blocked_user })
         .addSelect('IFNULL(commentCount, 0)', 'commentCount')
         .addSelect(
             'DATE_FORMAT(CONVERT_TZ(created_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
@@ -230,6 +231,7 @@ const findPostsByKeyword: (query: string, userId: string) => Promise<Post[] | un
             'updatedAt'
         )
         .where('title LIKE :query', { query: `%${query}%` })
+        .andWhere('post.user_id not in (:id)', { id: blocked_user })
         .orWhere('content LIKE :query', { query: `%${query}%` })
         .orderBy('updated_at', 'DESC')
         .getRawMany();
