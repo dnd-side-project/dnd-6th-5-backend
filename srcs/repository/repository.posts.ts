@@ -1,6 +1,7 @@
 import { getConnection } from 'typeorm';
 import { tPost } from '../../@types/types';
 import { Post, Comment, User, Report } from '../entity';
+import { findOneUserBlock } from './index';
 import {
     AnnualIncome,
     Asset,
@@ -14,7 +15,10 @@ import {
     WorkStatus,
 } from '../entity/common/Enums';
 
-const findAllPosts: () => Promise<Post[]> = async () => {
+const findAllPosts: (userId: string) => Promise<Post[]> = async (userId) => {
+    let blocked_user = await findOneUserBlock(userId);
+    blocked_user = blocked_user.map((e) => e.blocked_id);
+
     const result = await Post.createQueryBuilder('post')
         .select(['id', 'author', 'title', 'category', 'content', 'commentCount'])
         .leftJoin(
@@ -36,6 +40,7 @@ const findAllPosts: () => Promise<Post[]> = async () => {
             'U',
             'post.user_id = U.user_id'
         )
+        .where('post.user_id not in (:id)', { id: blocked_user })
         .addSelect('IFNULL(commentCount, 0)', 'commentCount')
         .addSelect(
             'DATE_FORMAT(CONVERT_TZ(created_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
