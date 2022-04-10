@@ -8,10 +8,15 @@
 /**
  * @swagger
  * paths:
- *  /posts:
+ *  /user/{userId}/posts:
  *      get:
- *          description: get all posts
+ *          description: params.userId를 가진 유저가 차단하지 않은 유저의 모든 게시글 조회
  *          tags: [Posts]
+ *          parameters:
+ *              - in: path
+ *                name: userId
+ *                type: number
+ *                required: true
  *          responses:
  *              200:
  *                  description: 커뮤니티 리스트를 성공적으로 조회하였을 경우 다음 결과가 반환됩니다.
