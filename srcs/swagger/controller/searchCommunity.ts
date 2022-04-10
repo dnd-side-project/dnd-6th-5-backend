@@ -1,14 +1,18 @@
 /**
  * @swagger
  * paths:
- *  /posts/search:
+ *  /user/{userId}/posts/search:
  *      get:
- *          description: 커뮤니티 검색
+ *          description: 검색하는 유저가 차단한 게시글을 제외한 커뮤니티 검색
  *          tags: [Posts]
  *          parameters:
  *              - in: query
  *                name: query
  *                description: 검색 키워드 query
+ *                type: string
+ *              - in: path
+ *                name: userId
+ *                description: 검색하는 user의 id값
  *                type: string
  *          responses:
  *              200:

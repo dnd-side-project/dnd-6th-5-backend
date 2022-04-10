@@ -3,7 +3,8 @@ import { findAllPosts } from '../repository/index';
 
 const getCommunityList: RequestHandler = async (req, res) => {
     try {
-        const post = await findAllPosts();
+        const userId: string = req.params.userId;
+        const post = await findAllPosts(userId);
         return res.status(200).json({
             success: true,
             data: { post },

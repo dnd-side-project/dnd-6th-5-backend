@@ -84,8 +84,8 @@ router.get('/user/check-duplicate', controller.checkNicknameDuplicate);
 router.get('/', controller.getHome);
 router.get('/policy', controller.getPolicyList);
 
-router.get('/posts', controller.getCommunityList);
-router.get('/posts/search', controller.searchCommunity);
+router.get('/user/:userId/posts', controller.getCommunityList);
+router.get('/user/:userId/posts/search', controller.searchCommunity);
 
 // 인증 미들 웨어
 // router.use(middleware.isAuth);
@@ -144,7 +144,7 @@ router.post(
     ],
     controller.postCommunityPost
 );
-router.get('/posts/:id', controller.getPostDetail);
+router.get('/user/:userId/posts/:id', controller.getPostDetail);
 router.patch('/posts/:id', controller.patchCommunityPost);
 router.delete('/posts/:id', controller.deletePost);
 router.post('/posts/:id/comment', controller.postComment);
