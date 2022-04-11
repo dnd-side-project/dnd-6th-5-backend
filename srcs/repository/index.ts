@@ -6,6 +6,7 @@ export {
     findOneUserByNickname,
     updateOneUserFilterById,
     deleteUserById,
+    blockUserById,
 } from './repository.user';
 export { createToken, findOneToken, updateToken, updateTokenById } from './repository.token';
 export {
@@ -35,3 +36,4 @@ export {
 } from './repository.comment';
 export { createQuestion } from './repository.question';
 export { findAllNotice } from './repository.notice';
+export { findOneUserBlock } from './repository.block';

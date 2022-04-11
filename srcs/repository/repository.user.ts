@@ -1,4 +1,4 @@
-import { User } from '../entity/index';
+import { Block, User } from '../entity/index';
 import { tUser } from '../../@types/types.d';
 import { getConnection } from 'typeorm';
 
@@ -84,6 +84,26 @@ const deleteUserById: (id: number) => Promise<boolean> = async (id) => {
     return true;
 };
 
+const blockUserById: (userId: string, blockedId: string) => Promise<void> = async (
+    userId,
+    blockedId
+) => {
+    const user = await User.findOneOrFail({ id: parseInt(userId) });
+    const blocked = await User.findOneOrFail({ id: parseInt(blockedId) });
+
+    const data = await Block.findOne({ user: user, blocked: blocked });
+
+    // 데이터가 존재한다면
+    if (data) {
+        throw Error('이미 차단한 유저입니다.');
+    } else {
+        // 존재하지 않는다면 차단 데이터 추가, block_check 는 true 로
+        await getConnection()
+            .getRepository(Block)
+            .save({ user: user, blocked: blocked, block_check: true });
+    }
+};
+
 export {
     createUser,
     findOneUserByEmail,
@@ -92,4 +112,5 @@ export {
     findOneUserByNickname,
     updateOneUserFilterById,
     deleteUserById,
+    blockUserById,
 };

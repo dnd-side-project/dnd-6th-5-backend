@@ -1,14 +1,15 @@
 import { RequestHandler } from 'express';
-import { findPostsByKeyword } from '../repository/index';
+import { blockUserById } from '../repository/index';
 
-const searchCommunity: RequestHandler = async (req, res) => {
-    const query: string = req.query.query as string;
+const blockUser: RequestHandler = async (req, res) => {
     const userId: string = req.params.userId;
+    const blockedId: string = req.params.blockedId;
+
     try {
-        const post = await findPostsByKeyword(query, userId);
+        await blockUserById(userId, blockedId);
         return res.status(200).json({
             success: true,
-            data: { post },
+            data: { message: '유저 차단 완료' },
         });
     } catch (error: any) {
         res.status(400).json({
@@ -21,4 +22,4 @@ const searchCommunity: RequestHandler = async (req, res) => {
     }
 };
 
-export default searchCommunity;
+export default blockUser;
