@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { findOneUserByEmail, updateToken } from '../repository/index';
-import { getNaverAccessTokenInfo, logoutNaver } from '../lib/index';
+import { getNaverAccessTokenInfo } from '../lib/index';
 import { tUser } from '../../@types/types';
 
 const signoutNaver: RequestHandler = async (req, res, next) => {
@@ -22,13 +22,13 @@ const signoutNaver: RequestHandler = async (req, res, next) => {
         }
 
         const email = tokenInfo.data.response.email as string;
-        const logoutResponse = await logoutNaver(accessToken);
-        if (logoutResponse.status !== 200) {
-            return res.status(401).json({
-                success: false,
-                error: logoutResponse.data,
-            });
-        }
+        // const logoutResponse = await logoutNaver(accessToken);
+        // if (logoutResponse.status !== 200) {
+        //     return res.status(401).json({
+        //         success: false,
+        //         error: logoutResponse.data,
+        //     });
+        // }
         const userObj: tUser = {
             email,
         };
