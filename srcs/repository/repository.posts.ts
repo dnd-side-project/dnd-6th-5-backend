@@ -18,7 +18,7 @@ import {
 const findAllPosts: (userId: string) => Promise<Post[]> = async (userId) => {
     let blocked_user: any[] | string = await findOneUserBlock(userId);
     blocked_user = blocked_user.map((e) => e.blocked_id);
-    if (!blocked_user) blocked_user = '';
+    if (blocked_user.length === 0) blocked_user = '';
 
     const result = await Post.createQueryBuilder('post')
         .select(['id', 'author', 'title', 'category', 'content', 'commentCount'])
@@ -115,7 +115,7 @@ const findCommentsByPostId: (
 ) => Promise<Comment[] | undefined> = async (postId, userId) => {
     let blocked_user: any[] | string = await findOneUserBlock(userId);
     blocked_user = blocked_user.map((e) => e.blocked_id);
-    if (!blocked_user) blocked_user = '';
+    if (blocked_user.length === 0) blocked_user = '';
 
     const result = await Comment.createQueryBuilder('comment')
         .select(['id', 'content', 'commenter'])
@@ -206,7 +206,7 @@ const findPostsByKeyword: (query: string, userId: string) => Promise<Post[] | un
 ) => {
     let blocked_user: any[] | string = await findOneUserBlock(userId);
     blocked_user = blocked_user.map((e) => e.blocked_id);
-    if (!blocked_user) blocked_user = '';
+    if (blocked_user.length === 0) blocked_user = '';
 
     const result = await await Post.createQueryBuilder('post')
         .select(['id', 'author', 'title', 'category', 'content', 'commentCount'])

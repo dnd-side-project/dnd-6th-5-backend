@@ -52,6 +52,9 @@ const signinNaver: RequestHandler = async (req, res) => {
             await updateTokenById(dbUser.token.id, refreshToken);
             newUser = dbUser;
         }
+        userObj.email = newUser.email;
+        newUser = (await findOneUserByEmail(userObj)) as User;
+
         // user 데이터를 반환합니다.
         newUser = await toResObj(newUser);
         return res
