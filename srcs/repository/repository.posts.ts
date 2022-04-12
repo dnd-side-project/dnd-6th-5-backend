@@ -19,7 +19,6 @@ const findAllPosts: (userId: string) => Promise<Post[]> = async (userId) => {
     let blocked_user: any[] | string = await findOneUserBlock(userId);
     blocked_user = blocked_user.map((e) => e.blocked_id);
     if (blocked_user.length === 0) blocked_user = '';
-    console.log(blocked_user);
 
     const result = await Post.createQueryBuilder('post')
         .select(['id', 'author', 'title', 'category', 'content', 'commentCount'])
