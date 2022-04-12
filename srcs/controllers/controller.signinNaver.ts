@@ -25,7 +25,7 @@ const signinNaver: RequestHandler = async (req, res) => {
             email,
         };
         const dbUser = await findOneUserByEmail(userObj);
-        let refreshToken: string = req.headers.refresh_token as string;
+        const refreshToken: string = req.headers.refresh_token as string;
         let newUser: User;
 
         // 새로 가입한 user
@@ -43,7 +43,7 @@ const signinNaver: RequestHandler = async (req, res) => {
         } else {
             const updatedToken = await updateNaverAccessToken(refreshToken);
             accessToken = updatedToken.data.access_token;
-            refreshToken = updatedToken.data.refresh_token;
+
             if (updatedToken.status !== 200)
                 return res.status(401).json({
                     success: false,

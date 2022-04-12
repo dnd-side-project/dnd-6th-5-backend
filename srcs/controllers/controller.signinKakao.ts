@@ -11,7 +11,7 @@ import { User } from '../entity';
 
 const signinKakao: RequestHandler = async (req, res) => {
     try {
-        const accessToken = req.headers.access_token;
+        let accessToken = req.headers.access_token;
         // getTokenInfo - 토큰 검증 api를 호출하는 함수
         const tokenInfo = await getKaKaoAccessTokenInfo(accessToken);
 
@@ -31,7 +31,7 @@ const signinKakao: RequestHandler = async (req, res) => {
             email: userInfo.data.kakao_account.email,
         };
         const dbUser = await findOneUserByEmail(userObj);
-        const refreshToken: string = req.headers.refresh_token as string;
+        let refreshToken: string = req.headers.refresh_token as string;
         let newUser: User;
 
         // 새로 가입한 user
@@ -48,6 +48,11 @@ const signinKakao: RequestHandler = async (req, res) => {
             newUser.token = newToken;
         } else {
             const updatedToken = await updateKaKaoAccessToken(refreshToken);
+            accessToken = updatedToken.data.access_token;
+
+            if (updatedToken.data.refresh_token) refreshToken = updatedToken.data.refresh_token;
+            else refreshToken = req.headers.refresh_token as string;
+
             if (updatedToken.status !== 200)
                 return res.status(401).json({
                     success: false,
