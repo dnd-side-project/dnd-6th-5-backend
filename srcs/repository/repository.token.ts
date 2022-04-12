@@ -12,7 +12,7 @@ const createToken: (token: tToken) => Promise<Token> = async (token) => {
 };
 
 const findOneToken: (token: string) => Promise<Token | undefined> = async (token) => {
-    const targetToken = Token.findOne({ refreshToken: token });
+    const targetToken = await Token.findOne({ refreshToken: token });
     return targetToken;
 };
 
@@ -20,7 +20,7 @@ const updateToken: (
     ogRefresh_token: string,
     newRefreshToken: string | null
 ) => Promise<UpdateResult> = async (ogRefresh_token, newRefreshToken) => {
-    const updatedToken = Token.createQueryBuilder()
+    const updatedToken = await Token.createQueryBuilder()
         .update()
         .set({
             refreshToken: newRefreshToken as string,
@@ -34,7 +34,7 @@ const updateTokenById: (id: number, newRefreshToken: string) => Promise<UpdateRe
     id,
     newRefreshToken
 ) => {
-    const updatedToken = Token.createQueryBuilder()
+    const updatedToken = await Token.createQueryBuilder()
         .update()
         .set({
             refreshToken: newRefreshToken,
