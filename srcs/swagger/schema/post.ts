@@ -40,6 +40,8 @@
  *                      type: string
  *                  author:
  *                      type: string
+ *                  authorId:
+ *                      type: number
  *                  age:
  *                      type: string
  *                  maritalStatus:

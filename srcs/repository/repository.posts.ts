@@ -65,6 +65,7 @@ const findOnePostById: (id: string) => Promise<Post | undefined> = async (id) =>
             'category',
             'post.content as content',
             'author',
+            'authorId',
             'DATE_FORMAT(age, "%Y-%m-%d") as age',
             'post.marital_status as maritalStatus',
             'work_status as workStatus',
@@ -91,9 +92,9 @@ const findOnePostById: (id: string) => Promise<Post | undefined> = async (id) =>
                 qb
                     .from(User, 'user')
                     .select('user.nickname', 'author')
-                    .addSelect('user.id', 'user_id'),
+                    .addSelect('user.id', 'authorId'),
             'U',
-            'post.user_id = U.user_id'
+            'post.user_id = U.authorId'
         )
         .addSelect('IFNULL(commentCount, 0)', 'commentCount')
         .addSelect(
@@ -118,15 +119,15 @@ const findCommentsByPostId: (
     if (blocked_user.length === 0) blocked_user = '';
 
     const result = await Comment.createQueryBuilder('comment')
-        .select(['id', 'content', 'commenter'])
+        .select(['id', 'content', 'commenter', 'commenterId'])
         .leftJoin(
             (qb) =>
                 qb
                     .from(User, 'user')
                     .select('user.nickname', 'commenter')
-                    .addSelect('user.id', 'user_id'),
+                    .addSelect('user.id', 'commenterId'),
             'U',
-            'comment.user_id = U.user_id'
+            'comment.user_id = U.commenterId'
         )
         .addSelect(
             'DATE_FORMAT(CONVERT_TZ(comment.created_at, "UTC", "Asia/Seoul"), "%Y/%m/%d")',
