@@ -11,6 +11,8 @@
  *                      type: string
  *                  commenter:
  *                      type: string
+ *                  commenterId:
+ *                      type: number
  *                  createdAt:
  *                      type: string
  *                  updatedAt:
